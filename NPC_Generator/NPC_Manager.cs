@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NPC_Generator.NPC_Classes;
 using UnityEngine;
 
@@ -97,15 +99,20 @@ namespace NPC_Generator
             PrefabParent.transform.SetParent(Root.transform);
         }
 
+        private void OnDestroy()
+        {
+	        instance = null;
+	        DestroyImmediate(PrefabParent);
+        }
+
         internal void SpawnHuman()
         {
+	        if(PrefabParent.transform.childCount >0) return;
             var go = Instantiate(Game.instance.m_playerPrefab, PrefabParent.transform);
-            go.transform.position = new Vector3(0, 1000, 0);
             DestroyImmediate(go.GetComponent<PlayerController>());
             DestroyImmediate(go.GetComponent<Player>());
             DestroyImmediate(go.GetComponent<Talker>());
             DestroyImmediate(go.GetComponent<Skills>());
-            
             go.name = "Basic Human";
             var basicznet =
                 go.GetComponent<ZNetView>();
@@ -117,25 +124,36 @@ namespace NPC_Generator
                 go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
             go.AddComponent<Tameable>();
             MonsterAI.m_nview = basicznet;
-            go.name = "Basic Human";
+            go.name = "BasicHuman";
+            go.transform.name = "BasicHuman";
+            go.transform.position = Vector3.zero;
             BasicHuman = go;
-            ZNetScene.instance.m_prefabs.Add(BasicHuman);
+            BasicHuman.name = "BasicHuman";
         }
 
         internal void SpawnNPC()
         {
-            var go =Instantiate(BasicHuman);
+            var go =Instantiate(ZNetScene.instance.GetPrefab("BasicHuman"));
             go.transform.position = Player.m_localPlayer.transform.position;
             var hum = go.GetComponent<Humanoid>();
             hum.m_randomSets = new Humanoid.ItemSet[1] { GetSet("Troll") };
             var mai = go.GetComponent<MonsterAI>();
+            hum.m_faction = Character.Faction.SeaMonsters;
             mai.SetAlerted(true);
+            mai.m_alertedEffects.m_effectPrefabs = new EffectList.EffectData[0];
+            mai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
+            hum.m_health = 200;
+            hum.m_defaultItems = new GameObject[0];
+            hum.m_randomSets = new Humanoid.ItemSet[1] { GetSet("Troll") };
             hum.m_unarmedWeapon = null;
             hum.m_randomWeapon = RandomVis(Weapons);
             hum.m_randomShield = RandomVis(Shield);
-            hum.m_health = 100;
-            hum.m_faction = Character.Faction.PlainsMonsters;
+
+            mai.m_randomMoveInterval = 30;
+            mai.m_randomMoveRange = 3;
+            mai.m_moveMinAngle = 30;
             var npchum = go.AddComponent<NPC_Human>();
+            go.GetComponent<ZNetView>().m_persistent = true;
             allNPCs.Add(npchum);
         }
         
