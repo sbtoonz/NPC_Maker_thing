@@ -10,7 +10,8 @@ namespace NPC_Generator
     {
         [SerializeField] internal string m_npcName;
         [SerializeField] public List<NPC_Human> allNPCs = new List<NPC_Human>();
-        [SerializeField] public GameObject BasicHuman;
+        public static GameObject BasicHuman;
+        public static int BasicHumanHash;
         public static GameObject Root;
         public static GameObject PrefabParent;
         public static NpcManager instance;
@@ -99,41 +100,36 @@ namespace NPC_Generator
             PrefabParent.transform.SetParent(Root.transform);
         }
 
+        internal void Init()
+        {
+	        var go = BasicHuman;
+	        var MonsterAI = 
+		        go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
+	        MonsterAI.m_nview = BasicHuman.GetComponent<ZNetView>();
+	        MonsterAI.m_nview.ResetZDO();
+	        var test = MonsterAI.m_nview.GetZDO();
+	        if (test!= null)
+	        {
+		        test.m_prefab = go.GetHashCode();
+	        }
+	        var hum = go.GetComponent<Humanoid>();
+	        hum.m_faction = Character.Faction.SeaMonsters;
+	        hum.m_health = 200;
+	        hum.m_defaultItems = new GameObject[0];
+	        hum.m_randomSets = new Humanoid.ItemSet[1] { NpcManager.GetSet("Iron") };
+	        hum.m_unarmedWeapon = null;
+	        hum.m_randomWeapon = NpcManager.RandomVis(NpcManager.Weapons);
+	        hum.m_randomShield = NpcManager.RandomVis(NpcManager.Shield);
+        }
+
         private void OnDestroy()
         {
 	        instance = null;
 	        DestroyImmediate(PrefabParent);
         }
-
-        internal void SpawnHuman()
+        
+        internal void SpawnNPC(GameObject go)
         {
-	        if(PrefabParent.transform.childCount >0) return;
-            var go = Instantiate(Game.instance.m_playerPrefab, PrefabParent.transform);
-            DestroyImmediate(go.GetComponent<PlayerController>());
-            DestroyImmediate(go.GetComponent<Player>());
-            DestroyImmediate(go.GetComponent<Talker>());
-            DestroyImmediate(go.GetComponent<Skills>());
-            go.name = "Basic Human";
-            var basicznet =
-                go.GetComponent<ZNetView>();
-            var HumanoidAI = go.AddComponent<Humanoid>();
-            HumanoidAI.m_nview = basicznet;
-            basicznet.m_persistent = true;
-            HumanoidAI.CopyChildrenComponents<Humanoid, Player>(Game.instance.m_playerPrefab.GetComponent<Player>());
-            var MonsterAI = 
-                go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
-            go.AddComponent<Tameable>();
-            MonsterAI.m_nview = basicznet;
-            go.name = "BasicHuman";
-            go.transform.name = "BasicHuman";
-            go.transform.position = Vector3.zero;
-            BasicHuman = go;
-            BasicHuman.name = "BasicHuman";
-        }
-
-        internal void SpawnNPC()
-        {
-            var go =Instantiate(ZNetScene.instance.GetPrefab("BasicHuman"));
             go.transform.position = Player.m_localPlayer.transform.position;
             var hum = go.GetComponent<Humanoid>();
             hum.m_randomSets = new Humanoid.ItemSet[1] { GetSet("Troll") };

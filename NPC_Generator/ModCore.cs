@@ -31,10 +31,9 @@ namespace NPC_Generator
         [HarmonyPatch(typeof(ZNetScene), nameof(ZNetScene.Awake))]
         public static class ZNSAwakepatch
         {
-            public static void Postfix(ZNetScene __instance)
+            public static void Prefix(ZNetScene __instance)
             {
                 if (__instance.m_prefabs.Count <= 0) return;
-                if(NpcManager.PrefabParent.transform.childCount >0) return;
                 var go = Instantiate(Game.instance.m_playerPrefab, NpcManager.PrefabParent.transform);
                 DestroyImmediate(go.GetComponent<PlayerController>());
                 DestroyImmediate(go.GetComponent<Player>());
@@ -47,37 +46,35 @@ namespace NPC_Generator
                 HumanoidAI.m_nview = basicznet;
                 basicznet.m_persistent = true;
                 HumanoidAI.CopyChildrenComponents<Humanoid, Player>(Game.instance.m_playerPrefab.GetComponent<Player>());
-                var MonsterAI = 
-                    go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
-                go.AddComponent<Tameable>();
-                MonsterAI.m_nview = basicznet;
-                go.name = "BasicHuman";
+                 go.AddComponent<Tameable>();
+                 go.name = "BasicHuman";
                 go.transform.name = "BasicHuman";
                 go.transform.position = Vector3.zero;
-                RootGOHolder.GetComponent<NpcManager>().BasicHuman = go;
-                RootGOHolder.GetComponent<NpcManager>().BasicHuman.name = "BasicHuman";
+                go.AddComponent<NPC_Human>();
+                NpcManager.BasicHuman = go;
+                NpcManager.BasicHuman.name = "BasicHuman";
                 NetworkedNPC = go;
                 if(NetworkedNPC != null) __instance.m_prefabs.Add(NetworkedNPC);
-                if(NetworkedNPC != null) __instance.m_namedPrefabs.Add(NetworkedNPC.GetHashCode(), NetworkedNPC);
-            }
-        }
+             }
+            
 
-        [HarmonyPatch(typeof(Terminal), nameof(Terminal.InputText))]
-        public static class TerminalPatch
-        {
-            public static bool Prefix(Terminal __instance)
+            public static void Postfix(ZNetScene __instance)
             {
-                string phrase = __instance.m_input.text;
-                if (phrase.ToLower() == "gimmehumoon")
-                {
-                    NpcManager.instance.SpawnNPC();
-                    return false;
-                }
-
-                return true;
+                NpcManager.instance.Init();
             }
         }
-        
+
+        [HarmonyPatch(typeof(ZNetScene), nameof(ZNetScene.OnDestroy))]
+        public static class onZnetDestroy
+        {
+            public static void Postfix()
+            {
+                foreach (Transform VARIABLE in NpcManager.PrefabParent.transform)
+                {
+                    Destroy(VARIABLE.gameObject);
+                }
+            }
+        }
         public void OnDestroy()
         {
             harmony.UnpatchSelf();
