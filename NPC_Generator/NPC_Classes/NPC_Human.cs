@@ -12,9 +12,8 @@ namespace NPC_Generator.NPC_Classes
             mai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
             mai.m_nview = GetComponent<ZNetView>();
             
-            mai.m_nview.GetZDO().SetPrefab(NpcManager.BasicHuman.GetHashCode());
+            mai.m_nview.GetZDO().SetPrefab(NPC_Generator.NetworkedNPC.GetHashCode());
                 ZNetScene.instance.GetPrefabHash(ZNetScene.instance.GetPrefab("BasicHuman"));
-            
         }
     }
 }

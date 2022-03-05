@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using NPC_Generator.NPC_Classes;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace NPC_Generator
 {
-    public class NpcManager : MonoBehaviour
+    public class NpcManager 
     {
         [SerializeField] internal string m_npcName;
         [SerializeField] public List<NPC_Human> allNPCs = new List<NPC_Human>();
-        public static GameObject BasicHuman;
         public static int BasicHumanHash;
-        public static GameObject Root;
-        public static GameObject PrefabParent;
-        public static NpcManager instance;
         public static Dictionary<string, GameObject> HumanPreset = new Dictionary<string, GameObject>();
         public static Dictionary<string, string[]> ArmorSets = new Dictionary<string, string[]>
         {
@@ -91,68 +88,80 @@ namespace NPC_Generator
 			isFriend=true,
 			}
 		};
-        private void Awake()
-        {
-            Root = this.gameObject;
-            instance = this;
-            PrefabParent = new GameObject("NPCPrefabs");
-            PrefabParent.SetActive(false);
-            PrefabParent.transform.SetParent(Root.transform);
-        }
+		
 
-        internal void Init()
+        internal static void SetupNPC()
         {
-	        var go = BasicHuman;
-	        var MonsterAI = 
-		        go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
-	        MonsterAI.m_nview = BasicHuman.GetComponent<ZNetView>();
-	        MonsterAI.m_nview.ResetZDO();
-	        var test = MonsterAI.m_nview.GetZDO();
-	        if (test!= null)
-	        {
-		        test.m_prefab = go.GetHashCode();
-	        }
+	        var go = Object.Instantiate(Game.instance.m_playerPrefab, NPC_Generator.RootGOHolder.transform);
+	        Object.DestroyImmediate(go.GetComponent<PlayerController>());
+	        Object.DestroyImmediate(go.GetComponent<Player>());
+	        Object.DestroyImmediate(go.GetComponent<Talker>());
+	        Object.DestroyImmediate(go.GetComponent<Skills>());
+	        go.name = "Basic Human";
+	        var basicznet =
+		        go.GetComponent<ZNetView>();
+	        var HumanoidAI = go.AddComponent<Humanoid>();
+	        HumanoidAI.m_nview = basicznet;
+	        basicznet.m_persistent = true;
+	        HumanoidAI.CopyChildrenComponents<Humanoid, Player>(Game.instance.m_playerPrefab.GetComponent<Player>());
+	        go.AddComponent<Tameable>();
+	        go.name = "BasicHuman";
+	        go.transform.name = "BasicHuman";
+	        go.transform.position = Vector3.zero;
+	        go.AddComponent<NPC_Human>();
+	        NPC_Generator.NetworkedNPC = go;
+	        NPC_Generator.NetworkedNPC.name = "BasicHuman";
+        }
+        
+        internal static void Init()
+        {
+	        var go = NPC_Generator.NetworkedNPC;
+	        var MonsterAI =
+		        go.AddComponent<MonsterAI>();
+	        SetupMonsterAI(MonsterAI);
+	        MonsterAI.m_nview = go.GetComponent<ZNetView>();
+	        MonsterAI.m_nview.m_zdo = new ZDO();
 	        var hum = go.GetComponent<Humanoid>();
-	        hum.m_faction = Character.Faction.SeaMonsters;
+	        hum.m_faction = Character.Faction.PlainsMonsters;
 	        hum.m_health = 200;
 	        hum.m_defaultItems = new GameObject[0];
+	        NPC_Generator.NetworkedNPC = go;
+        }
+
+        internal static void ZNSStuff()
+        {
+	        var go = NPC_Generator.NetworkedNPC;
+	        var hum = go.GetComponent<Humanoid>();
 	        hum.m_randomSets = new Humanoid.ItemSet[1] { NpcManager.GetSet("Iron") };
 	        hum.m_unarmedWeapon = null;
 	        hum.m_randomWeapon = NpcManager.RandomVis(NpcManager.Weapons);
 	        hum.m_randomShield = NpcManager.RandomVis(NpcManager.Shield);
-        }
-
-        private void OnDestroy()
-        {
-	        instance = null;
-	        DestroyImmediate(PrefabParent);
+	        NPC_Generator.NetworkedNPC = go;
         }
         
-        internal void SpawnNPC(GameObject go)
-        {
-            go.transform.position = Player.m_localPlayer.transform.position;
-            var hum = go.GetComponent<Humanoid>();
-            hum.m_randomSets = new Humanoid.ItemSet[1] { GetSet("Troll") };
-            var mai = go.GetComponent<MonsterAI>();
-            hum.m_faction = Character.Faction.SeaMonsters;
-            mai.SetAlerted(true);
-            mai.m_alertedEffects.m_effectPrefabs = new EffectList.EffectData[0];
-            mai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
-            hum.m_health = 200;
-            hum.m_defaultItems = new GameObject[0];
-            hum.m_randomSets = new Humanoid.ItemSet[1] { GetSet("Troll") };
-            hum.m_unarmedWeapon = null;
-            hum.m_randomWeapon = RandomVis(Weapons);
-            hum.m_randomShield = RandomVis(Shield);
 
-            mai.m_randomMoveInterval = 30;
-            mai.m_randomMoveRange = 3;
-            mai.m_moveMinAngle = 30;
-            var npchum = go.AddComponent<NPC_Human>();
-            go.GetComponent<ZNetView>().m_persistent = true;
-            allNPCs.Add(npchum);
+    internal static void SetupMonsterAI(MonsterAI ai)
+        {
+	        ai.m_viewRange = 30;
+	        ai.m_viewAngle = 90;
+	        ai.m_hearRange = 9999;
+	        ai.m_alertedEffects.m_effectPrefabs = new EffectList.EffectData[0];
+	        ai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
+	        ai.m_pathAgentType = Pathfinding.AgentType.Humanoid;
+	        ai.m_smoothMovement = true;
+	        ai.m_jumpInterval = 20;
+	        ai.m_randomCircleInterval = 2;
+	        ai.m_randomMoveInterval = 30;
+	        ai.m_randomMoveRange = 3;
+	        ai.m_alertRange = 20;
+	        ai.m_fleeIfHurtWhenTargetCantBeReached = true;
+	        ai.m_fleeIfLowHealth = 0;
+	        ai.m_circulateWhileCharging = true;
+	        ai.m_enableHuntPlayer = true;
+	        ai.m_wakeupRange = 5;
+	        ai.m_wakeupEffects.m_effectPrefabs = new EffectList.EffectData[0];
         }
-        
+
         public static GameObject[] RandomVis(string[] list)
         {
             if (list.Length == 0)
