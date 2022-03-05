@@ -275,10 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModCore.cs" />
-    <Compile Include="NPC_Classes\NPC_Human.cs" />
-    <Compile Include="NPC_Manager.cs" />
     <Compile Include="NPC_Utilities.cs" />
-    <Compile Include="NPC_VisEquip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

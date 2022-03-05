@@ -10,7 +10,7 @@ namespace NPC_Generator
     public static class NPC_Utilities
     {
 	    #region HUMAN
-		public static T CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
+		public static T? CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
 		{
 			IEnumerable<FieldInfo> finfos = comp.GetType().GetFields(bindingFlags);
 			foreach (var finfo in finfos)
@@ -21,7 +21,7 @@ namespace NPC_Generator
 		}
 		private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField;
 
-		public static T GetCopyOf<T>(this Component comp, T other) where T : Component
+		public static T? GetCopyOf<T>(this Component comp, T other) where T : Component
 		{
 			Type type = comp.GetType();
 			if (type != other.GetType()) return null; // type mis-match
@@ -96,7 +96,7 @@ namespace NPC_Generator
 			return comp as T;
 		}
 
-		public static T AddComponentcc<T>(this GameObject go, T toAdd) where T : Component
+		public static T? AddComponentcc<T>(this GameObject go, T toAdd) where T : Component
 		{
 			return go.AddComponent(toAdd.GetType()).GetCopyOf(toAdd) as T;
 		}
