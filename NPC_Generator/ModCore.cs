@@ -25,9 +25,5 @@ namespace NPC_Generator
             DontDestroyOnLoad(RootGOHolder);
             RootGOHolder.SetActive(false);
         }
-        public void OnDestroy()
-        {
-            harmony.UnpatchSelf();
-        }
     }
 }

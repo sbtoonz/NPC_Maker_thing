@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace NPC_Generator
 {
@@ -21,6 +22,16 @@ namespace NPC_Generator
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPC);
                 
+            }
+        }
+
+        [HarmonyPatch(typeof(ObjectDB), nameof(ObjectDB.Awake))]
+        public static class ObjectDBPatch
+        {
+            public static void Postfix(ObjectDB __instance)
+            {
+                var go = ZNetScene.instance.GetPrefab("BasicHuman");
+                NPC_Human.SetupArmor(go);
             }
         }
     }
