@@ -122,6 +122,7 @@ namespace NPC_Generator
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor._skinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
+                    hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
