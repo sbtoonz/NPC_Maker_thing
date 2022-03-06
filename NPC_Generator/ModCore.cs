@@ -73,9 +73,11 @@ namespace NPC_Generator
                 {
                     if (Zscene?.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        Zscene?.m_prefabs.Remove(Zscene.GetPrefab(KP.Key));
+                        var prefab = Zscene.GetPrefab(KP.Key);
+                        Zscene?.m_prefabs.Remove(prefab);
                         var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key, KP.Value, Zscene!);
                         Zscene?.m_prefabs.Add(tempNPC);
+                        Zscene?.m_namedPrefabs.Remove(KP.Key.GetStableHashCode(), out prefab);
                         Zscene?.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
                     }
                     else
@@ -93,14 +95,20 @@ namespace NPC_Generator
                 {
                     if (ZNetScene.instance.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        ZNetScene.instance.m_prefabs.Remove(ZNetScene.instance.GetPrefab(KP.Key));
+                        var prefab = ZNetScene.instance.GetPrefab(KP.Key);
+                        ZNetScene.instance.m_prefabs.Remove(prefab);
                         var newNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
                         ZNetScene.instance.m_prefabs.Add(newNPC);
+                        ZNetScene.instance.m_namedPrefabs.Remove(newNPC.GetHashCode(), out prefab);
                         ZNetScene.instance.m_namedPrefabs.Add(newNPC.GetHashCode(), newNPC);
-                    };
-                    var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
-                    ZNetScene.instance.m_prefabs.Add(tempNPC);
-                    ZNetScene.instance.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                    }
+                    else
+                    {
+                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
+                        ZNetScene.instance.m_prefabs.Add(tempNPC);
+                        ZNetScene.instance.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                    }
+                   
                 }  
             }
            

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
+using HarmonyLib;
 using NPC_Generator.MonoScripts;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,17 +14,39 @@ namespace NPC_Generator
         private static List<GameObject> spawnedNPCs = new List<GameObject>();
         private static Humanoid.ItemSet[] CreateSetList(NPCYamlConfig npcYamlConfig, ZNetScene netScene)
         {
+            GameObject? helmet = null;
+            GameObject? chest = null;
+            GameObject? shoulder = null;
+            GameObject? leg = null;
+            GameObject[]? gameObjects = new GameObject[] { };
+            if (!npcYamlConfig.npcHelmetString.IsNullOrWhiteSpace())
+            {
+                helmet = netScene.GetPrefab(npcYamlConfig.npcHelmetString);
+                gameObjects.AddToArray(helmet);
+            }
+
+            if (!npcYamlConfig.npcChestString.IsNullOrWhiteSpace())
+            {
+                chest = netScene.GetPrefab(npcYamlConfig.npcChestString);
+                gameObjects.AddToArray(chest);
+            }
+
+            if (!npcYamlConfig.npcShoulder.IsNullOrWhiteSpace())
+            {
+                shoulder = netScene.GetPrefab(npcYamlConfig.npcShoulder);
+                gameObjects.AddToArray(shoulder);
+            }
+
+            if (!npcYamlConfig.npcLegString.IsNullOrWhiteSpace())
+            {
+                leg = netScene.GetPrefab(npcYamlConfig.npcLegString);
+                gameObjects.AddToArray(leg);
+            }
             var set = new Humanoid.ItemSet[1]
             {
                 new Humanoid.ItemSet
                 {
-                    m_items = new []
-                    {
-                        netScene.GetPrefab(npcYamlConfig.npcHelmetString),
-                        netScene.GetPrefab(npcYamlConfig.npcChestString), 
-                        netScene.GetPrefab(npcYamlConfig.npcShoulder),
-                        netScene.GetPrefab(npcYamlConfig.npcLegString)
-                    }
+                    m_items = gameObjects
                 }
             };
             return set;
@@ -39,7 +62,7 @@ namespace NPC_Generator
                     netScene.GetPrefab(config.npcWeapon)
                 }; 
             }
-            else
+            else if(config.npcWeapon.IsNullOrWhiteSpace())
             {
                 humanoid.m_randomWeapon = Array.Empty<GameObject>();
             }
@@ -51,7 +74,7 @@ namespace NPC_Generator
                     netScene.GetPrefab(config.npcShield)
                 };
             }
-            else
+            else if(config.npcShield.IsNullOrWhiteSpace())
             {
                 humanoid.m_randomShield = Array.Empty<GameObject>();
             }
@@ -97,6 +120,8 @@ namespace NPC_Generator
                         tempNPC.AddComponent<Tameable>();
                         tempNPC.AddComponent<TameHelper>();
                     }
+                    var hair =tempNPC.AddComponent<HairSetter>();
+                    hair.HairStyleName = config.npcHairStyle;
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -115,6 +140,8 @@ namespace NPC_Generator
                         tempNPC.AddComponent<Tameable>();
                         tempNPC.AddComponent<TameHelper>();
                     }
+                    var hair =tempNPC.AddComponent<HairSetter>();
+                    hair.HairStyleName = config.npcHairStyle;
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }

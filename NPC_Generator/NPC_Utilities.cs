@@ -152,8 +152,6 @@ namespace NPC_Generator
 		internal static void BuildFemaleHumanNpc()
         {
             var temp = Resources.FindObjectsOfTypeAll<GameObject>();
-            var temp2 = Resources.FindObjectsOfTypeAll<GameObject>();
-            Mesh? femalebody = null;
             GameObject? tempplayer = null;
             foreach (var o in temp)
             {
@@ -164,26 +162,14 @@ namespace NPC_Generator
                     break;
                 }
             }
-
-            foreach (var skinnedMeshRenderer in Resources.FindObjectsOfTypeAll<Mesh>())
-            {
-	            if (skinnedMeshRenderer.name == "bodyfem")
-	            {
-		            femalebody = skinnedMeshRenderer;
-		            
-	            }
-
-	            
-            }
-            var skinmesh= NetworkedNPCFemale.transform.Find("Visual/body").gameObject.GetComponent<SkinnedMeshRenderer>().sharedMesh;
-            skinmesh = femalebody;
+			var basicznet =
+				NetworkedNPCFemale.GetComponent<ZNetView>();
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<PlayerController>());
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Player>());
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Talker>());
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Skills>());
             NetworkedNPCFemale!.name = "BasicHumanFemale";
-            var basicznet =
-	            NetworkedNPCFemale.GetComponent<ZNetView>();
+            NetworkedNPCFemale.AddComponent<FemaleAssigner>();
             basicznet.enabled = true;
             NetworkedNPCFemale.GetComponent<ZSyncAnimation>().enabled = true;
             NetworkedNPCFemale.GetComponent<ZSyncTransform>().enabled = true;

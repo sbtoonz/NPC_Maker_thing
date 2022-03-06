@@ -56,6 +56,9 @@ namespace NPC_Generator
         
         [YamlMember(Alias = "Tamable", ApplyNamingConventions = false)]
         public bool npcTameable { get; set; }
+        
+        [YamlMember(Alias = "Hair Style", ApplyNamingConventions = false)]
+        public string npcHairStyle { get; set; }
     }
 
 

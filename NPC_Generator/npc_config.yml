@@ -10,6 +10,7 @@ TestNPCGuy:
   HuntPlayer: true
   Scale: 1.0
   Tamable: false
+  Hair Style: Hair2
   
 TestNPCGirl:
   Sex: Female
@@ -23,3 +24,4 @@ TestNPCGirl:
   HuntPlayer: true
   Scale: 1.0
   Tamable: false
+  Hair Style: Hair1

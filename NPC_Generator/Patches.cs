@@ -12,7 +12,6 @@ namespace NPC_Generator
         {
             public static void Prefix(ZNetScene __instance)
             {
-                
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
