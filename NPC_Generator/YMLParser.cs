@@ -24,6 +24,9 @@ namespace NPC_Generator
 
     public struct NPCYamlConfig
     {
+        [YamlMember(Alias = "Sex", ApplyNamingConventions = false)]
+        public string npcSex { get; set; }
+        
         [YamlMember(Alias = "Helmet Prefab Name", ApplyNamingConventions = false)]
         public string npcHelmetString { get; set; }
         
@@ -50,6 +53,9 @@ namespace NPC_Generator
 
         [YamlMember(Alias = "Scale", ApplyNamingConventions = false)]
         public float npcScale { get; set; }
+        
+        [YamlMember(Alias = "Tamable", ApplyNamingConventions = false)]
+        public bool npcTameable { get; set; }
     }
 
 

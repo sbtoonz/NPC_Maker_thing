@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
+using NPC_Generator.MonoScripts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -9,83 +10,7 @@ namespace NPC_Generator
 {
     public static class NPC_Human
     {
-        private static List<ItemDrop> m_ChestGear = new List<ItemDrop>();
-        private static  List<ItemDrop> m_Helmet = new List<ItemDrop>();
-        private static List<ItemDrop> m_Shoulder = new List<ItemDrop>();
-        private static List<ItemDrop> m_weapons = new List<ItemDrop>();
-        private static List<ItemDrop> m_pants = new List<ItemDrop>();
-        private static  List<ItemDrop> m_Shields = new List<ItemDrop>();
-        private static Humanoid? _humanoid;
         private static List<GameObject> spawnedNPCs = new List<GameObject>();
-        internal static void SetupArmor(GameObject go)
-        {
-            _humanoid = go.GetComponent<Humanoid>();
-            if(ObjectDB.instance.GetItemPrefab("Wood")==null) return;
-            PopulateChestGear();
-            PopulateHelmets();
-            PopulateShoulder();
-            PopulateWeapons();
-            PopulatePants();
-            PopulateShield();
-            CreateSetLists();
-        }
-
-        private static void PopulateChestGear()
-        {
-            m_ChestGear = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Chest, "Armor");
-        }
-        private static void PopulateHelmets()
-        {
-            m_Helmet = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Helmet, "Helmet");
-        }
-        private static void PopulateShoulder()
-        {
-            m_Shoulder = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Shoulder, "Cape");
-        }
-        private static void PopulateWeapons()
-        {
-            m_weapons = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.OneHandedWeapon, "Axe");
-            m_weapons.AddRange(ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.TwoHandedWeapon, "Battleaxe"));
-        }
-        private static void PopulatePants()
-        {
-            m_pants = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Legs, "Armor");
-        }
-        private static void PopulateShield()
-        {
-            m_Shields = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Shield, "Shield");
-        }
-        private static void CreateSetLists()
-        {
-            _humanoid!.m_defaultItems = new GameObject[0];
-            string helmet = m_Helmet[Random.Range(0, m_Helmet.Count)].name;
-            string chest = m_ChestGear[Random.Range(0, m_ChestGear.Count)].name;
-            string shoulder = m_Shoulder[Random.Range(0, m_Shoulder.Count)].name;
-            string pants = m_pants[Random.Range(0, m_pants.Count)].name;
-            _humanoid.m_randomSets = new Humanoid.ItemSet[1]
-            {
-                new Humanoid.ItemSet
-                {
-                    m_items = new []
-                    {
-                        ZNetScene.instance.GetPrefab(helmet),
-                        ZNetScene.instance.GetPrefab(chest), 
-                        ZNetScene.instance.GetPrefab(shoulder),
-                        ZNetScene.instance.GetPrefab(pants)
-                    }
-                }
-            };
-            _humanoid.m_randomWeapon = new []
-            {
-                ZNetScene.instance.GetPrefab(m_weapons[Random.Range(0, m_weapons.Count)].name)
-            };
-            _humanoid.m_randomShield = new[]
-            {
-                ZNetScene.instance.GetPrefab(m_Shields[Random.Range(0, m_Shields.Count)].name)
-            };
-            ;
-        }
-
         private static Humanoid.ItemSet[] CreateSetList(NPCYamlConfig npcYamlConfig, ZNetScene netScene)
         {
             var set = new Humanoid.ItemSet[1]
@@ -153,16 +78,49 @@ namespace NPC_Generator
                 spawnedNPCs.Remove(temp);
                 Object.Destroy(temp);
             }
-            var go = Object.Instantiate(NPC_Generator.NetworkedNPC, NPC_Generator.RootGOHolder!.transform);
-            go!.name = npcName.Replace(" ", String.Empty);
-            SetupVisuals(go.GetComponent<Humanoid>(), config, scene);
-            var mai = go.GetComponent<MonsterAI>();
-            mai.m_enableHuntPlayer = config.npcHuntPlayer;
-            mai.m_huntPlayer = config.npcHuntPlayer;
-            go.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
-            go.GetComponent<ZNetView>().m_syncInitialScale = true;
-            spawnedNPCs.Add(go);
-            return go;
+
+            GameObject tempNPC = null;
+            switch (config.npcSex.ToLower())
+            {
+                case "male":
+                {
+                    tempNPC = Object.Instantiate(NPC_Generator.NetworkedNPCMale, NPC_Generator.RootGOHolder!.transform);
+                    tempNPC!.name = npcName.Replace(" ", String.Empty);
+                    SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
+                    var mai = tempNPC.GetComponent<MonsterAI>();
+                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
+                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
+                    tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
+                    if (config.npcTameable)
+                    {
+                        tempNPC.AddComponent<Tameable>();
+                        tempNPC.AddComponent<TameHelper>();
+                    }
+                    spawnedNPCs.Add(tempNPC);
+                    return tempNPC;
+                }
+                case "female":
+                {
+                    tempNPC = Object.Instantiate(NPC_Generator.NetworkedNPCFemale, NPC_Generator.RootGOHolder!.transform);
+                    tempNPC!.name = npcName.Replace(" ", String.Empty);
+                    SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
+                    var mai = tempNPC.GetComponent<MonsterAI>();
+                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
+                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
+                    tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
+                    if (config.npcTameable)
+                    {
+                        tempNPC.AddComponent<Tameable>();
+                        tempNPC.AddComponent<TameHelper>();
+                    }
+                    spawnedNPCs.Add(tempNPC);
+                    return tempNPC;
+                }
+                default:
+                    return tempNPC;
+            }
         }
         
     }

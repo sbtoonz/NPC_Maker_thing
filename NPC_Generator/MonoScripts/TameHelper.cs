@@ -18,9 +18,9 @@ namespace NPC_Generator.MonoScripts
         private void TameChecker()
         {
             if(Player.m_localPlayer == null) return;
-            if (_humanoid.IsTamed())
+            if (_humanoid!.IsTamed())
             {
-                _monsterAI.m_targetCreature = null;
+                _monsterAI!.m_targetCreature = null;
                 _monsterAI.SetAlerted(false);
                 _monsterAI.m_targetStatic = null;
                 _monsterAI.SetFollowTarget(null);

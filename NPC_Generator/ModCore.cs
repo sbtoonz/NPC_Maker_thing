@@ -18,7 +18,8 @@ namespace NPC_Generator
         private const string ModGUID = "com.odinplus.NPC_Maker";
         private static Harmony harmony = null!;
         internal static GameObject? RootGOHolder;
-        internal static GameObject? NetworkedNPC;
+        internal static GameObject? NetworkedNPCMale;
+        internal static GameObject? NetworkedNPCFemale;
         internal static ConfigEntry<bool>? _serverConfigLocked;
         private static ConfigSync configSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
         internal static readonly string Paths = BepInEx.Paths.ConfigPath;

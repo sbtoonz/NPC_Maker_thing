@@ -14,7 +14,8 @@ namespace NPC_Generator
             {
                 
                 if(__instance.m_prefabs.Count <= 0) return;
-                __instance.m_prefabs.Add(NPC_Generator.NetworkedNPC);
+                __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
+                __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
                 
             }
         }
@@ -25,11 +26,9 @@ namespace NPC_Generator
         {
             public static void Postfix(ObjectDB __instance)
             {
-                NPC_Utilities.BuildHumanNPC();
+                NPC_Utilities.BuildMaleHumanNpc();
+                NPC_Utilities.BuildFemaleHumanNpc();
                 File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
-                if(__instance.m_items.Count<=0 || __instance.GetItemPrefab("Wood") == null) return;
-                var go = ZNetScene.instance.GetPrefab("BasicHuman");
-                NPC_Human.SetupArmor(go);
             }
         }
     }
