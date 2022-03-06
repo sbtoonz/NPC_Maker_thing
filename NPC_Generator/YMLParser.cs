@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -7,6 +6,11 @@ namespace NPC_Generator
 {
     public class YMLParser
     {
+        /// <summary>
+        /// Serializer for YML data
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static string Serializers(Dictionary<string, NPCYamlConfig> data)
         {
             var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
@@ -14,6 +18,11 @@ namespace NPC_Generator
             return yml;
         }
 
+        /// <summary>
+        /// Deserializer for YML data
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static Dictionary<string, NPCYamlConfig> ReadSerializedData(string s)
         {
             var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -23,6 +32,9 @@ namespace NPC_Generator
         }
     }
 
+    /// <summary>
+    /// This is the Struct template used to base all NPC configuration through
+    /// </summary>
     public struct NPCYamlConfig
     {
         [YamlMember(Alias = "Sex", ApplyNamingConventions = false)]

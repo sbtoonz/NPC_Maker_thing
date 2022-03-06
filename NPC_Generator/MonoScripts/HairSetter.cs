@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NPC_Generator.MonoScripts
 {
@@ -22,7 +21,7 @@ namespace NPC_Generator.MonoScripts
             if (Player.m_localPlayer == null) return;
             _hu!.SetHair(HairStyleName);
             _hu.SetupEquipment();
-            _visEquipment.SetHairColor(new Vector3(hairColor.r, hairColor.g, hairColor.b));
+            _visEquipment!.SetHairColor(new Vector3(hairColor.r, hairColor.g, hairColor.b));
             _visEquipment.SetHairItem(HairStyleName);
             _visEquipment.SetHairEquiped(HairStyleName.GetStableHashCode());
             CancelInvoke(nameof(SetHairStyle));

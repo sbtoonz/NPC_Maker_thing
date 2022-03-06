@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using NPC_Generator.NPC_Utilities;
 using ServerSync;
 using UnityEngine;
 
 namespace NPC_Generator
 {
+    
     [BepInPlugin(ModGUID, ModName, ModVersion)]
     public class NPC_Generator : BaseUnityPlugin
     {
@@ -73,7 +74,7 @@ namespace NPC_Generator
                 {
                     if (Zscene?.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        var prefab = Zscene.GetPrefab(KP.Key);
+                        var prefab = Zscene?.GetPrefab(KP.Key);
                         Zscene?.m_prefabs.Remove(prefab);
                         var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key, KP.Value, Zscene!);
                         Zscene?.m_prefabs.Add(tempNPC);

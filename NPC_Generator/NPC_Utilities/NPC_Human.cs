@@ -5,11 +5,18 @@ using NPC_Generator.MonoScripts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace NPC_Generator
+namespace NPC_Generator.NPC_Utilities
 {
     public static class NPC_Human
     {
         private static List<GameObject> spawnedNPCs = new List<GameObject>();
+        
+        /// <summary>
+        /// Generates the ItemSet array for the Humanoid component
+        /// </summary>
+        /// <param name="npcYamlConfig"></param>
+        /// <param name="netScene"></param>
+        /// <returns></returns>
         private static Humanoid.ItemSet[] CreateSetList(NPCYamlConfig npcYamlConfig, ZNetScene netScene)
         {
             GameObject? helmet = null;
@@ -50,6 +57,12 @@ namespace NPC_Generator
             return set;
         }
 
+        /// <summary>
+        /// Sets up the visual equipment lists for the NPC using the YML
+        /// </summary>
+        /// <param name="humanoid"></param>
+        /// <param name="config"></param>
+        /// <param name="netScene"></param>
         private static void SetupVisuals(Humanoid humanoid, NPCYamlConfig config, ZNetScene netScene)
         {
             humanoid.m_randomSets = CreateSetList(config, netScene);
@@ -91,6 +104,13 @@ namespace NPC_Generator
             };
         }
 
+        /// <summary>
+        /// Called to return an NPC based on the Yml config entry
+        /// </summary>
+        /// <param name="npcName"></param>
+        /// <param name="config"></param>
+        /// <param name="scene"></param>
+        /// <returns></returns>
         internal static GameObject ReturnNamedNpc(string npcName, NPCYamlConfig config, ZNetScene scene)
         {
             if (spawnedNPCs.Contains(scene.GetPrefab(npcName)))
@@ -100,7 +120,7 @@ namespace NPC_Generator
                 Object.Destroy(temp);
             }
 
-            GameObject tempNPC = null;
+            GameObject? tempNPC = null;
             switch (config.npcSex.ToLower())
             {
                 case "male":
@@ -120,7 +140,7 @@ namespace NPC_Generator
                     } 
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
-                    skincolor._skinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
+                    skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     spawnedNPCs.Add(tempNPC);
@@ -143,14 +163,14 @@ namespace NPC_Generator
                     }
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
-                    skincolor._skinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
+                    skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
                 default:
-                    return tempNPC;
+                    return tempNPC!;
             }
         }
         
