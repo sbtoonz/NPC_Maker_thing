@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
-using HarmonyLib;
 using NPC_Generator.MonoScripts;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace NPC_Generator
 {
@@ -18,35 +16,35 @@ namespace NPC_Generator
             GameObject? chest = null;
             GameObject? shoulder = null;
             GameObject? leg = null;
-            GameObject[]? gameObjects = new GameObject[] { };
+            List<GameObject> gameObjects = new List<GameObject>();
             if (!npcYamlConfig.npcHelmetString.IsNullOrWhiteSpace())
             {
                 helmet = netScene.GetPrefab(npcYamlConfig.npcHelmetString);
-                gameObjects.AddToArray(helmet);
+                gameObjects.Add(helmet);
             }
 
             if (!npcYamlConfig.npcChestString.IsNullOrWhiteSpace())
             {
                 chest = netScene.GetPrefab(npcYamlConfig.npcChestString);
-                gameObjects.AddToArray(chest);
+                gameObjects.Add(chest);
             }
 
             if (!npcYamlConfig.npcShoulder.IsNullOrWhiteSpace())
             {
                 shoulder = netScene.GetPrefab(npcYamlConfig.npcShoulder);
-                gameObjects.AddToArray(shoulder);
+                gameObjects.Add(shoulder);
             }
 
             if (!npcYamlConfig.npcLegString.IsNullOrWhiteSpace())
             {
                 leg = netScene.GetPrefab(npcYamlConfig.npcLegString);
-                gameObjects.AddToArray(leg);
+                gameObjects.Add(leg);
             }
             var set = new Humanoid.ItemSet[1]
             {
                 new Humanoid.ItemSet
                 {
-                    m_items = gameObjects
+                    m_items = gameObjects.ToArray()
                 }
             };
             return set;
@@ -119,9 +117,12 @@ namespace NPC_Generator
                     {
                         tempNPC.AddComponent<Tameable>();
                         tempNPC.AddComponent<TameHelper>();
-                    }
+                    } 
                     var hair =tempNPC.AddComponent<HairSetter>();
+                    var skincolor = tempNPC.AddComponent<SkinColorHelper>();
+                    skincolor._skinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
+                    hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -141,7 +142,10 @@ namespace NPC_Generator
                         tempNPC.AddComponent<TameHelper>();
                     }
                     var hair =tempNPC.AddComponent<HairSetter>();
+                    var skincolor = tempNPC.AddComponent<SkinColorHelper>();
+                    skincolor._skinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
+                    hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }

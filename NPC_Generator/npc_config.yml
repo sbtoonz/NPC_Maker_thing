@@ -11,6 +11,12 @@ TestNPCGuy:
   Scale: 1.0
   Tamable: false
   Hair Style: Hair2
+  Skin Color R: 102
+  Skin Color G: 0
+  Skin Color B: 10
+  Hair Color R: 12
+  Hair Color G: 100
+  Hair Color B: 200
   
 TestNPCGirl:
   Sex: Female
@@ -25,3 +31,9 @@ TestNPCGirl:
   Scale: 1.0
   Tamable: false
   Hair Style: Hair1
+  Skin Color R: 102
+  Skin Color G: 0
+  Skin Color B: 10
+  Hair Color R: 255
+  Hair Color G: 102
+  Hair Color B: 190

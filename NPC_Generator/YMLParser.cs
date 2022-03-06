@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -59,6 +60,30 @@ namespace NPC_Generator
         
         [YamlMember(Alias = "Hair Style", ApplyNamingConventions = false)]
         public string npcHairStyle { get; set; }
+        
+        [YamlMember(Alias = "Skin Color R", ApplyNamingConventions = false)]
+        
+        public float npcSkinColorR { get; set; }
+        
+        [YamlMember(Alias = "Skin Color G", ApplyNamingConventions = false)]
+        
+        public float npcSkinColorG { get; set; }
+        
+        [YamlMember(Alias = "Skin Color B", ApplyNamingConventions = false)]
+        
+        public float npcSkinColorB { get; set; }
+        
+        [YamlMember(Alias = "Hair Color R", ApplyNamingConventions = false)]
+        
+        public float npcHairColorR { get; set; }
+        
+        [YamlMember(Alias = "Hair Color G", ApplyNamingConventions = false)]
+        
+        public float npcHairColorG { get; set; }
+        
+        [YamlMember(Alias = "Hair Color B", ApplyNamingConventions = false)]
+        
+        public float npcHairColorB { get; set; }
     }
 
 
