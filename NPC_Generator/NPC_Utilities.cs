@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NPC_Generator.MonoScripts;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -137,6 +138,7 @@ namespace NPC_Generator
             NetworkedNPC.name = "BasicHuman";
             NetworkedNPC.transform.name = "BasicHuman";
             NetworkedNPC.transform.position = Vector3.zero;
+            NetworkedNPC.AddComponent<TameHelper>();
             //go.AddComponent<NPC_Human>();
             var MonsterAI =
                 NetworkedNPC.AddComponent<MonsterAI>();

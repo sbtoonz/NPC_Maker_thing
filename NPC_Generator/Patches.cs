@@ -20,6 +20,7 @@ namespace NPC_Generator
         }
 
         [HarmonyPatch(typeof(ObjectDB), nameof(ObjectDB.Awake))]
+        [HarmonyPriority(Priority.Last)]
         public static class ObjectDBPatch
         {
             public static void Postfix(ObjectDB __instance)

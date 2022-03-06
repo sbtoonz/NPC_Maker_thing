@@ -13,8 +13,8 @@ namespace NPC_Generator
     [BepInPlugin(ModGUID, ModName, ModVersion)]
     public class NPC_Generator : BaseUnityPlugin
     {
-        private const string ModName = "NPC_Maker";
-        private const string ModVersion = "1.0";
+        internal const string ModName = "NPC_Maker";
+        internal const string ModVersion = "0.0.1";
         private const string ModGUID = "com.odinplus.NPC_Maker";
         private static Harmony harmony = null!;
         internal static GameObject? RootGOHolder;
@@ -56,22 +56,6 @@ namespace NPC_Generator
             SetupWatcher();
             
         }
-        public static int GetStableHashCode(string str)
-        {
-            int num = 5381;
-            int num2 = num;
-            for (int i = 0; i < str.Length && str[i] != 0; i += 2)
-            {
-                num = ((num << 5) + num) ^ str[i];
-                if (i == str.Length - 1 || str[i + 1] == '\0')
-                {
-                    break;
-                }
-                num2 = ((num2 << 5) + num2) ^ str[i + 1];
-            }
-            return num + num2 * 1566083941;
-        }
-
         private static void OnValueChangedNPConfig()
         {
             if (ZNetScene.instance == null)
@@ -86,18 +70,18 @@ namespace NPC_Generator
                 }
                 foreach (var KP in NpcConfig.Value)
                 {
-                    if (Zscene.m_prefabs.Find(x => x.name == KP.Value.npcNameString))
+                    if (Zscene?.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        Zscene.m_prefabs.Remove(Zscene.GetPrefab(KP.Key));
-                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, Zscene!);
-                        Zscene.m_prefabs.Add(tempNPC);
-                        Zscene.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                        Zscene?.m_prefabs.Remove(Zscene.GetPrefab(KP.Key));
+                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key, KP.Value, Zscene!);
+                        Zscene?.m_prefabs.Add(tempNPC);
+                        Zscene?.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
                     }
                     else
                     {
-                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, Zscene!);
-                        Zscene.m_prefabs.Add(tempNPC);
-                        Zscene.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, Zscene!);
+                        Zscene?.m_prefabs.Add(tempNPC);
+                        Zscene?.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
                     }
                     
                 }  
@@ -106,14 +90,14 @@ namespace NPC_Generator
             {
                 foreach (var KP in NpcConfig.Value)
                 {
-                    if (ZNetScene.instance.m_prefabs.Find(x => x.name == KP.Value.npcNameString))
+                    if (ZNetScene.instance.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        ZNetScene.instance.m_prefabs.Remove(ZNetScene.instance.GetPrefab(KP.Value.npcNameString));
-                        var newNPC = NPC_Human.ReturnNamedNpc(KP.Value, ZNetScene.instance);
+                        ZNetScene.instance.m_prefabs.Remove(ZNetScene.instance.GetPrefab(KP.Key));
+                        var newNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
                         ZNetScene.instance.m_prefabs.Add(newNPC);
                         ZNetScene.instance.m_namedPrefabs.Add(newNPC.GetHashCode(), newNPC);
                     };
-                    var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, ZNetScene.instance);
+                    var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
                     ZNetScene.instance.m_prefabs.Add(tempNPC);
                     ZNetScene.instance.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
                 }  

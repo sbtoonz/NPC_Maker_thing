@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
-using HarmonyLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -16,8 +15,8 @@ namespace NPC_Generator
         private static List<ItemDrop> m_weapons = new List<ItemDrop>();
         private static List<ItemDrop> m_pants = new List<ItemDrop>();
         private static  List<ItemDrop> m_Shields = new List<ItemDrop>();
-        private static Humanoid? _humanoid; 
-        
+        private static Humanoid? _humanoid;
+        private static List<GameObject> spawnedNPCs = new List<GameObject>();
         internal static void SetupArmor(GameObject go)
         {
             _humanoid = go.GetComponent<Humanoid>();
@@ -131,14 +130,38 @@ namespace NPC_Generator
             {
                 humanoid.m_randomShield = Array.Empty<GameObject>();
             }
-            
+
+            humanoid.m_faction = config.npcFaction switch
+            {
+                "Player" => Character.Faction.Players,
+                "AnimalsVeg" => Character.Faction.AnimalsVeg,
+                "ForestMonsters" => Character.Faction.ForestMonsters,
+                "Undead" => Character.Faction.Undead,
+                "Demon" => Character.Faction.Demon,
+                "MountainMonsters" => Character.Faction.MountainMonsters,
+                "SeaMonsers" => Character.Faction.SeaMonsters,
+                "PlainsMonsters" => Character.Faction.PlainsMonsters,
+                _ => humanoid.m_faction
+            };
         }
 
-        internal static GameObject ReturnNamedNpc(NPCYamlConfig config, ZNetScene scene)
+        internal static GameObject ReturnNamedNpc(string npcName, NPCYamlConfig config, ZNetScene scene)
         {
+            if (spawnedNPCs.Contains(scene.GetPrefab(npcName)))
+            {
+                var temp = spawnedNPCs.Find(x => x.name == npcName);
+                spawnedNPCs.Remove(temp);
+                Object.Destroy(temp);
+            }
             var go = Object.Instantiate(NPC_Generator.NetworkedNPC, NPC_Generator.RootGOHolder!.transform);
-            go!.name = config.npcNameString;
+            go!.name = npcName.Replace(" ", String.Empty);
             SetupVisuals(go.GetComponent<Humanoid>(), config, scene);
+            var mai = go.GetComponent<MonsterAI>();
+            mai.m_enableHuntPlayer = config.npcHuntPlayer;
+            mai.m_huntPlayer = config.npcHuntPlayer;
+            go.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
+            go.GetComponent<ZNetView>().m_syncInitialScale = true;
+            spawnedNPCs.Add(go);
             return go;
         }
         
