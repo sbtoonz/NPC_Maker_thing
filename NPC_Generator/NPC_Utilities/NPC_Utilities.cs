@@ -4,12 +4,10 @@ using System.Linq;
 using System.Reflection;
 using NPC_Generator.MonoScripts;
 using UnityEngine;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using static NPC_Generator.NPC_Generator;
 using Object = UnityEngine.Object;
 
-namespace NPC_Generator
+namespace NPC_Generator.NPC_Utilities
 {
 	public static class NPC_Utilities
     {
@@ -107,6 +105,9 @@ namespace NPC_Generator
 
 		#region NPCMethods
 
+		/// <summary>
+		/// Called to build human male NPC base prefab that all other male NPC's are cloned from
+		/// </summary>
 		internal static void BuildMaleHumanNpc()
         {
             var temp = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -149,6 +150,9 @@ namespace NPC_Generator
             hum.m_eye = NetworkedNPCMale.transform.Find("EyePos");
         }
 		
+		/// <summary>
+		/// Called to initialize the base human female prefab that will be used to build NPC's upon
+		/// </summary>
 		internal static void BuildFemaleHumanNpc()
         {
             var temp = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -163,7 +167,7 @@ namespace NPC_Generator
                 }
             }
 			var basicznet =
-				NetworkedNPCFemale.GetComponent<ZNetView>();
+				NetworkedNPCFemale!.GetComponent<ZNetView>();
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<PlayerController>());
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Player>());
             Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Talker>());
@@ -191,6 +195,11 @@ namespace NPC_Generator
             hum.m_defaultItems = new GameObject[0];
             hum.m_eye = NetworkedNPCFemale.transform.Find("EyePos");
         }
+		
+		/// <summary>
+		/// Configure's base MonsterAI
+		/// </summary>
+		/// <param name="ai"></param>
         private static void SetupMonsterAI(MonsterAI ai)
         {
             ai.m_viewRange = 30;

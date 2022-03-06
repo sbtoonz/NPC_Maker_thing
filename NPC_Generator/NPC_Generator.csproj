@@ -288,15 +288,15 @@
     <Compile Include="MonoScripts\HairSetter.cs" />
     <Compile Include="MonoScripts\SkinColorHelper.cs" />
     <Compile Include="MonoScripts\TameHelper.cs" />
-    <Compile Include="NPC_Human.cs" />
-    <Compile Include="NPC_Utilities.cs" />
+    <Compile Include="NPC_Utilities\NPC_Human.cs" />
+    <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="Properties\App.config" />
+    <None Include="Properties\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ILRepack.targets" />

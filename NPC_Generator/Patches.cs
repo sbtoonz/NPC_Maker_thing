@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using HarmonyLib;
-using UnityEngine;
 
 namespace NPC_Generator
 {
@@ -25,8 +24,8 @@ namespace NPC_Generator
         {
             public static void Postfix(ObjectDB __instance)
             {
-                NPC_Utilities.BuildMaleHumanNpc();
-                NPC_Utilities.BuildFemaleHumanNpc();
+                NPC_Utilities.NPC_Utilities.BuildMaleHumanNpc();
+                NPC_Utilities.NPC_Utilities.BuildFemaleHumanNpc();
                 File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
