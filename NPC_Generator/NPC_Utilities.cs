@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 using static NPC_Generator.NPC_Generator;
 using Object = UnityEngine.Object;
 
 namespace NPC_Generator
 {
-    
-    public static class NPC_Utilities
+	public static class NPC_Utilities
     {
 	    #region HelperFuncs
 		public static T? CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
