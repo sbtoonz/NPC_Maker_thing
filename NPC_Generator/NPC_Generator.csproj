@@ -284,6 +284,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModCore.cs" />
+    <Compile Include="MonoScripts\FemaleAssigner.cs" />
+    <Compile Include="MonoScripts\HairSetter.cs" />
+    <Compile Include="MonoScripts\TameHelper.cs" />
     <Compile Include="NPC_Human.cs" />
     <Compile Include="NPC_Utilities.cs" />
     <Compile Include="Patches.cs" />

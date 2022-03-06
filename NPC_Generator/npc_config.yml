@@ -1,8 +1,27 @@
-NoSpaceTest:
-  NPC Prefab Name: TestNPCGuy
+TestNPCGuy:
+  Sex: Male
   Helmet Prefab Name: HelmetYule
   Chest Armor Prefab Name: ArmorFenringChest
   Legs Armor Prefab Name: ArmorFenringLegs
   Shoulder Armor Prefab Name: CapeTrollHide
   Weapon Prefab Name: FistFenrirClaw
   Shield Prefab Name: ShieldBoneTower
+  Faction: Players
+  HuntPlayer: true
+  Scale: 1.0
+  Tamable: false
+  Hair Style: Hair2
+  
+TestNPCGirl:
+  Sex: Female
+  Helmet Prefab Name: HelmetYule
+  Chest Armor Prefab Name: ArmorFenringChest
+  Legs Armor Prefab Name: ArmorFenringLegs
+  Shoulder Armor Prefab Name: CapeTrollHide
+  Weapon Prefab Name: FistFenrirClaw
+  Shield Prefab Name: ShieldBoneTower
+  Faction: Players
+  HuntPlayer: true
+  Scale: 1.0
+  Tamable: false
+  Hair Style: Hair1

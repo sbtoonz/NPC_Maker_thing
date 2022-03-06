@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NPC_Generator.MonoScripts;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -106,7 +107,7 @@ namespace NPC_Generator
 
 		#region NPCMethods
 
-		internal static void BuildHumanNPC()
+		internal static void BuildMaleHumanNpc()
         {
             var temp = Resources.FindObjectsOfTypeAll<GameObject>();
             GameObject? tempplayer = null;
@@ -114,40 +115,81 @@ namespace NPC_Generator
             {
                 if (o.GetComponent<Player>() != null)
                 { 
-	                NetworkedNPC = Object.Instantiate(o, RootGOHolder?.transform!);
+	                NetworkedNPCMale = Object.Instantiate(o, RootGOHolder?.transform!);
                     tempplayer = o;
                     break;
                 }
             }
-            Object.DestroyImmediate(NetworkedNPC?.GetComponent<PlayerController>());
-            Object.DestroyImmediate(NetworkedNPC?.GetComponent<Player>());
-            Object.DestroyImmediate(NetworkedNPC?.GetComponent<Talker>());
-            Object.DestroyImmediate(NetworkedNPC?.GetComponent<Skills>());
-            NetworkedNPC!.name = "Basic Human";
+            Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<PlayerController>());
+            Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<Player>());
+            Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<Talker>());
+            Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<Skills>());
+            NetworkedNPCMale!.name = "BasicHumanMale";
             var basicznet =
-	            NetworkedNPC.GetComponent<ZNetView>();
+	            NetworkedNPCMale.GetComponent<ZNetView>();
             basicznet.enabled = true;
-            NetworkedNPC.GetComponent<ZSyncAnimation>().enabled = true;
-            NetworkedNPC.GetComponent<ZSyncTransform>().enabled = true;
-            var HumanoidAI = NetworkedNPC.AddComponent<Humanoid>();
+            NetworkedNPCMale.GetComponent<ZSyncAnimation>().enabled = true;
+            NetworkedNPCMale.GetComponent<ZSyncTransform>().enabled = true;
+            var HumanoidAI = NetworkedNPCMale.AddComponent<Humanoid>();
             HumanoidAI.m_nview = basicznet;
             basicznet.m_persistent = true;
             HumanoidAI.CopyChildrenComponents<Humanoid, Player>(tempplayer!.GetComponent<Player>());
-            NetworkedNPC.AddComponent<Tameable>();
-            NetworkedNPC.name = "BasicHuman";
-            NetworkedNPC.transform.name = "BasicHuman";
-            NetworkedNPC.transform.position = Vector3.zero;
-            //go.AddComponent<NPC_Human>();
+            NetworkedNPCMale.name = "BasicHumanMale";
+            NetworkedNPCMale.transform.name = "BasicHumanMale";
+            NetworkedNPCMale.transform.position = Vector3.zero;
             var MonsterAI =
-                NetworkedNPC.AddComponent<MonsterAI>();
+	            NetworkedNPCMale.AddComponent<MonsterAI>();
             SetupMonsterAI(MonsterAI);
-            MonsterAI.m_nview = NetworkedNPC.GetComponent<ZNetView>();
+            MonsterAI.m_nview = NetworkedNPCMale.GetComponent<ZNetView>();
             MonsterAI.m_nview.m_zdo = new ZDO();
-            var hum = NetworkedNPC.GetComponent<Humanoid>();
+            var hum = NetworkedNPCMale.GetComponent<Humanoid>();
             hum.m_faction = Character.Faction.PlainsMonsters;
             hum.m_health = 200;
             hum.m_defaultItems = new GameObject[0];
-            hum.m_eye = NetworkedNPC.transform.Find("EyePos");
+            hum.m_eye = NetworkedNPCMale.transform.Find("EyePos");
+        }
+		
+		internal static void BuildFemaleHumanNpc()
+        {
+            var temp = Resources.FindObjectsOfTypeAll<GameObject>();
+            GameObject? tempplayer = null;
+            foreach (var o in temp)
+            {
+                if (o.GetComponent<Player>() != null)
+                { 
+	                NetworkedNPCFemale = Object.Instantiate(o, RootGOHolder?.transform!);
+                    tempplayer = o;
+                    break;
+                }
+            }
+			var basicznet =
+				NetworkedNPCFemale.GetComponent<ZNetView>();
+            Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<PlayerController>());
+            Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Player>());
+            Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Talker>());
+            Object.DestroyImmediate(NetworkedNPCFemale?.GetComponent<Skills>());
+            NetworkedNPCFemale!.name = "BasicHumanFemale";
+            NetworkedNPCFemale.AddComponent<FemaleAssigner>();
+            basicznet.enabled = true;
+            NetworkedNPCFemale.GetComponent<ZSyncAnimation>().enabled = true;
+            NetworkedNPCFemale.GetComponent<ZSyncTransform>().enabled = true;
+            var HumanoidAI = NetworkedNPCFemale.AddComponent<Humanoid>();
+            HumanoidAI.m_nview = basicznet;
+            basicznet.m_persistent = true;
+            HumanoidAI.CopyChildrenComponents<Humanoid, Player>(tempplayer!.GetComponent<Player>());
+            NetworkedNPCFemale.name = "BasicHumanFemale";
+            NetworkedNPCFemale.transform.name = "BasicHumanFemale";
+            NetworkedNPCFemale.transform.position = Vector3.zero;
+            var MonsterAI =
+	            NetworkedNPCFemale.AddComponent<MonsterAI>();
+            SetupMonsterAI(MonsterAI);
+            MonsterAI.m_nview = NetworkedNPCFemale.GetComponent<ZNetView>();
+            MonsterAI.m_nview.m_zdo = new ZDO();
+            var hum = NetworkedNPCFemale.GetComponent<Humanoid>();
+            hum.m_faction = Character.Faction.PlainsMonsters;
+            hum.m_health = 200;
+            hum.m_defaultItems = new GameObject[0];
+            hum.m_eye = NetworkedNPCFemale.transform.Find("EyePos");
         }
         private static void SetupMonsterAI(MonsterAI ai)
         {
