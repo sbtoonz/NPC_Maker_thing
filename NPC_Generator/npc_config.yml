@@ -1,3 +1,8 @@
 NoSpaceTest:
-  PrefabName: BillyJoel
-  HelmetPrefabName: HelmetYule
+  NPC Prefab Name: TestNPCGuy
+  Helmet Prefab Name: HelmetYule
+  Chest Armor Prefab Name: ArmorFenringChest
+  Legs Armor Prefab Name: ArmorFenringLegs
+  Shoulder Armor Prefab Name: CapeTrollHide
+  Weapon Prefab Name: FistFenrirClaw
+  Shield Prefab Name: ShieldBoneTower
