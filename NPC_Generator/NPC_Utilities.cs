@@ -10,23 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace NPC_Generator
 {
-	public static class YMLParser
-	{
-		public static string Serializers(Dictionary<string, NPCYamlConfig> data)
-		{
-			var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
-			var yml = serializer.Serialize(data);
-			return yml;
-		}
-		public static Dictionary<string, NPCYamlConfig> ReadSerializedData(string s)
-		{
-			var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance)
-				.Build();
-			var tmp = deserializer.Deserialize<Dictionary<string, NPCYamlConfig>>(s);
-			return tmp;
-		}
-	}
-    public static class NPC_Utilities
+	public static class NPC_Utilities
     {
 	    #region HelperFuncs
 		public static T? CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
@@ -188,14 +172,5 @@ namespace NPC_Generator
         }
 
 		#endregion
-    }
-
-    public struct NPCYamlConfig
-    {
-	    [YamlMember(Alias = "NPC Prefab Name", ApplyNamingConventions = false)]
-	    public string npcNameString { get; set; }
-	    
-	    [YamlMember(Alias = "NPC Chest Armor Prefab")]
-	    public string npcChestString { get; set; }
     }
 }

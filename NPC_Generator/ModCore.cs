@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
+using ServerSync;
 using UnityEngine;
 
 namespace NPC_Generator
@@ -15,7 +19,24 @@ namespace NPC_Generator
         private static Harmony harmony = null!;
         internal static GameObject? RootGOHolder;
         internal static GameObject? NetworkedNPC;
-        
+        internal static ConfigEntry<bool>? _serverConfigLocked;
+        private static ConfigSync configSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
+        internal static readonly string Paths = BepInEx.Paths.ConfigPath;
+        public static readonly CustomSyncedValue<Dictionary<string, NPCYamlConfig>> NpcConfig = 
+            new(configSync, "npc config", new Dictionary<string, NPCYamlConfig>());
+        private static Dictionary<string, NPCYamlConfig> entry_ { get; set; } = null!;
+        ConfigEntry<T> config<T>(string group, string configName, T value, ConfigDescription description, bool synchronizedSetting = true)
+        {
+            ConfigEntry<T> configEntry = Config.Bind(group, configName, value, description);
+
+            SyncedConfigEntry<T> syncedConfigEntry = configSync.AddConfigEntry(configEntry);
+            syncedConfigEntry.SynchronizedConfig = synchronizedSetting;
+
+            return configEntry;
+        }
+
+        ConfigEntry<T> config<T>(string group, string configName, T value, string description, bool synchronizedSetting = true) => config(group, configName, value, new ConfigDescription(description), synchronizedSetting);
+
         public void Awake()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -24,6 +45,107 @@ namespace NPC_Generator
             RootGOHolder = new GameObject("NPC");
             DontDestroyOnLoad(RootGOHolder);
             RootGOHolder.SetActive(false);
+            _serverConfigLocked = config("General", "Lock Configuration", false, "Lock Configuration");
+            configSync.AddLockingConfigEntry(_serverConfigLocked);
+            if (!File.Exists(Paths + "/npc_config.yml"))
+            {
+                File.Create(Paths + "/npc_config.yml").Close();
+            }
+            ReadYamlConfigFile(null!, null!);
+            NpcConfig.ValueChanged += OnValueChangedNPConfig;
+            SetupWatcher();
+            
+        }
+        public static int GetStableHashCode(string str)
+        {
+            int num = 5381;
+            int num2 = num;
+            for (int i = 0; i < str.Length && str[i] != 0; i += 2)
+            {
+                num = ((num << 5) + num) ^ str[i];
+                if (i == str.Length - 1 || str[i + 1] == '\0')
+                {
+                    break;
+                }
+                num2 = ((num2 << 5) + num2) ^ str[i + 1];
+            }
+            return num + num2 * 1566083941;
+        }
+
+        private static void OnValueChangedNPConfig()
+        {
+            if (ZNetScene.instance == null)
+            {
+                ZNetScene? Zscene = null;
+                foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+                {
+                    if (gameObject.name == "_GameMain")
+                    {
+                        Zscene = gameObject.GetComponent<ZNetScene>();
+                    }
+                }
+                foreach (var KP in NpcConfig.Value)
+                {
+                    if (Zscene.m_prefabs.Find(x => x.name == KP.Value.npcNameString))
+                    {
+                        Zscene.m_prefabs.Remove(Zscene.GetPrefab(KP.Key));
+                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, Zscene!);
+                        Zscene.m_prefabs.Add(tempNPC);
+                        Zscene.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                    }
+                    else
+                    {
+                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, Zscene!);
+                        Zscene.m_prefabs.Add(tempNPC);
+                        Zscene.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                    }
+                    
+                }  
+            }
+            else
+            {
+                foreach (var KP in NpcConfig.Value)
+                {
+                    if (ZNetScene.instance.m_prefabs.Find(x => x.name == KP.Value.npcNameString))
+                    {
+                        ZNetScene.instance.m_prefabs.Remove(ZNetScene.instance.GetPrefab(KP.Value.npcNameString));
+                        var newNPC = NPC_Human.ReturnNamedNpc(KP.Value, ZNetScene.instance);
+                        ZNetScene.instance.m_prefabs.Add(newNPC);
+                        ZNetScene.instance.m_namedPrefabs.Add(newNPC.GetHashCode(), newNPC);
+                    };
+                    var tempNPC = NPC_Human.ReturnNamedNpc(KP.Value, ZNetScene.instance);
+                    ZNetScene.instance.m_prefabs.Add(tempNPC);
+                    ZNetScene.instance.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                }  
+            }
+           
+            
+        }
+        private void SetupWatcher()
+        {
+            FileSystemWatcher watcher = new(Paths, "npc_config.yml");
+            watcher.Changed += ReadYamlConfigFile;
+            watcher.Created += ReadYamlConfigFile;
+            watcher.Renamed += ReadYamlConfigFile;
+            watcher.IncludeSubdirectories = true;
+            watcher.SynchronizingObject = ThreadingHelper.SynchronizingObject;
+            watcher.EnableRaisingEvents = true;
+        }
+        private void ReadYamlConfigFile(object sender, FileSystemEventArgs e)
+        {
+            try
+            {
+                var file = File.OpenText(NPC_Generator.Paths + "/npc_config.yml");
+                entry_ = YMLParser.ReadSerializedData(file.ReadToEnd());
+                file.Close();
+                NpcConfig.AssignLocalValue(entry_);
+            }
+            catch
+            {
+                Debug.LogError("There was an issue loading your npc_config.yml");
+                Debug.LogError($"Please check your config entries for spelling and format!");
+            }
+            
         }
     }
 }

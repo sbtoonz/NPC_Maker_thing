@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using BepInEx;
+using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace NPC_Generator
@@ -81,6 +85,61 @@ namespace NPC_Generator
                 ZNetScene.instance.GetPrefab(m_Shields[Random.Range(0, m_Shields.Count)].name)
             };
             ;
+        }
+
+        private static Humanoid.ItemSet[] CreateSetList(NPCYamlConfig npcYamlConfig, ZNetScene netScene)
+        {
+            var set = new Humanoid.ItemSet[1]
+            {
+                new Humanoid.ItemSet
+                {
+                    m_items = new []
+                    {
+                        netScene.GetPrefab(npcYamlConfig.npcHelmetString),
+                        netScene.GetPrefab(npcYamlConfig.npcChestString), 
+                        netScene.GetPrefab(npcYamlConfig.npcShoulder),
+                        netScene.GetPrefab(npcYamlConfig.npcLegString)
+                    }
+                }
+            };
+            return set;
+        }
+
+        private static void SetupVisuals(Humanoid humanoid, NPCYamlConfig config, ZNetScene netScene)
+        {
+            humanoid.m_randomSets = CreateSetList(config, netScene);
+            if (!config.npcWeapon.IsNullOrWhiteSpace())
+            {
+                humanoid.m_randomWeapon = new []
+                {
+                    netScene.GetPrefab(config.npcWeapon)
+                }; 
+            }
+            else
+            {
+                humanoid.m_randomWeapon = Array.Empty<GameObject>();
+            }
+
+            if (!config.npcShield.IsNullOrWhiteSpace())
+            {
+                humanoid.m_randomShield = new[]
+                {
+                    netScene.GetPrefab(config.npcShield)
+                };
+            }
+            else
+            {
+                humanoid.m_randomShield = Array.Empty<GameObject>();
+            }
+            
+        }
+
+        internal static GameObject ReturnNamedNpc(NPCYamlConfig config, ZNetScene scene)
+        {
+            var go = Object.Instantiate(NPC_Generator.NetworkedNPC, NPC_Generator.RootGOHolder!.transform);
+            go!.name = config.npcNameString;
+            SetupVisuals(go.GetComponent<Humanoid>(), config, scene);
+            return go;
         }
         
     }
