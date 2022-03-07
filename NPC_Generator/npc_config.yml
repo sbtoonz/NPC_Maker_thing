@@ -1,5 +1,6 @@
 TestNPCGuy:
   Sex: Male
+  Health: 200
   Helmet Prefab Name: HelmetYule
   Chest Armor Prefab Name: ArmorFenringChest
   Legs Armor Prefab Name: ArmorFenringLegs
@@ -17,9 +18,21 @@ TestNPCGuy:
   Hair Color R: 12
   Hair Color G: 100
   Hair Color B: 200
+  Damage Resists:
+    Blunt: Very
+    Slash: None
+    Pierce: Ignore
+    Chop: Resistant
+    Pickaxe: Very Resistant
+    Fire: Immune
+    Frost: Normal
+    Lightning: Normal
+    Poison: Normal
+    Spirit: Immune
   
 TestNPCGirl:
   Sex: Female
+  Health: 200
   Helmet Prefab Name: HelmetYule
   Chest Armor Prefab Name: ArmorFenringChest
   Legs Armor Prefab Name: ArmorFenringLegs
@@ -37,3 +50,14 @@ TestNPCGirl:
   Hair Color R: 255
   Hair Color G: 102
   Hair Color B: 190
+  Damage Resists:
+    Blunt: Very
+    Slash: None
+    Pierce: Ignore
+    Chop: Resistant
+    Pickaxe: Very Resistant
+    Fire: Immune
+    Frost: Normal
+    Lightning: Normal
+    Poison: Normal
+    Spirit: Immune

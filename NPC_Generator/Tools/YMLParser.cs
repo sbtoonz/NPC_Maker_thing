@@ -2,7 +2,7 @@
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace NPC_Generator
+namespace NPC_Generator.Tools
 {
     public class YMLParser
     {
@@ -40,6 +40,9 @@ namespace NPC_Generator
         [YamlMember(Alias = "Sex", ApplyNamingConventions = false)]
         public string npcSex { get; set; }
         
+        [YamlMember(Alias = "Health", ApplyNamingConventions = false)]
+        public int mHealth { get; set; }
+        
         [YamlMember(Alias = "Helmet Prefab Name", ApplyNamingConventions = false)]
         public string npcHelmetString { get; set; }
         
@@ -74,28 +77,59 @@ namespace NPC_Generator
         public string npcHairStyle { get; set; }
         
         [YamlMember(Alias = "Skin Color R", ApplyNamingConventions = false)]
-        
         public float npcSkinColorR { get; set; }
         
         [YamlMember(Alias = "Skin Color G", ApplyNamingConventions = false)]
-        
         public float npcSkinColorG { get; set; }
         
         [YamlMember(Alias = "Skin Color B", ApplyNamingConventions = false)]
-        
         public float npcSkinColorB { get; set; }
         
         [YamlMember(Alias = "Hair Color R", ApplyNamingConventions = false)]
-        
         public float npcHairColorR { get; set; }
         
         [YamlMember(Alias = "Hair Color G", ApplyNamingConventions = false)]
-        
         public float npcHairColorG { get; set; }
         
         [YamlMember(Alias = "Hair Color B", ApplyNamingConventions = false)]
-        
         public float npcHairColorB { get; set; }
+
+        [YamlMember(Alias = "Damage Resists", ApplyNamingConventions = false)]
+        public DamageResists DamageResists { get; set; }
+
+    }
+
+    public struct DamageResists
+    {
+        [YamlMember(Alias = "Blunt", ApplyNamingConventions = false)]
+        public string mBlunt { get; set; }
+
+        [YamlMember(Alias = "Slash", ApplyNamingConventions = false)]
+        public string mSlash { get; set;}
+        
+        [YamlMember(Alias = "Pierce", ApplyNamingConventions = false)]
+        public string mPierce { get; set; }
+        
+        [YamlMember(Alias = "Chop", ApplyNamingConventions = false)]
+        public string mChop { get; set; }
+        
+        [YamlMember(Alias = "Pickaxe", ApplyNamingConventions = false)]
+        public string mPickaxe { get; set; }
+        
+        [YamlMember(Alias = "Fire", ApplyNamingConventions = false)]
+        public string mFire { get; set; }
+        
+        [YamlMember(Alias = "Frost", ApplyNamingConventions = false)]
+        public string mFrost { get; set; }
+        
+        [YamlMember(Alias = "Lightning", ApplyNamingConventions = false)]
+        public string mLightning { get; set; }
+        
+        [YamlMember(Alias = "Poison", ApplyNamingConventions = false)]
+        public string mPoison { get; set; }
+        
+        [YamlMember(Alias = "Spirit", ApplyNamingConventions = false)]
+        public string mSpirit { get; set; }
     }
 
 

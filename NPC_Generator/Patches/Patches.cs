@@ -2,7 +2,7 @@
 using System.IO;
 using HarmonyLib;
 
-namespace NPC_Generator
+namespace NPC_Generator.Patches
 {
     public class Patches
     {
