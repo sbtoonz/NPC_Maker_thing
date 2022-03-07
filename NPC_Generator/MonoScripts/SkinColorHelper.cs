@@ -5,7 +5,7 @@ namespace NPC_Generator.MonoScripts
     public class SkinColorHelper : MonoBehaviour
     {
         private VisEquipment? _visEquipment;
-        internal Color SkinColor;
+        [SerializeField]internal Color SkinColor;
         private void Awake()
         {
             _visEquipment = GetComponent<VisEquipment>();
@@ -15,7 +15,7 @@ namespace NPC_Generator.MonoScripts
         private void SetSkinColor()
         {
             if (Player.m_localPlayer == null) return;
-            _visEquipment!.SetSkinColor(new Vector3(SkinColor.r, SkinColor.g, SkinColor.b));
+            _visEquipment!.SetSkinColor(new Vector3(SkinColor.r * 1.1f, SkinColor.g* 1.1f, SkinColor.b* 1.1f));
             CancelInvoke(nameof(SetSkinColor));
         }
     }

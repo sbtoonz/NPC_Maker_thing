@@ -108,6 +108,9 @@ namespace NPC_Generator.Tools
         
         [YamlMember(Alias = "Monster AI Config", ApplyNamingConventions = false)]
         public MonsterAIConfig monsterAiConfig { get; set; }
+        
+        [YamlMember(Alias = "Drop Config", ApplyNamingConventions = false)]
+        public DropConfig DropConfig { get; set; }
 
     }
 
@@ -198,6 +201,30 @@ namespace NPC_Generator.Tools
         public bool npcHuntPlayer { get; set; }
         
 
+    }
+
+    public struct DropConfig
+    {
+        [YamlMember(Alias = "DropTable", ApplyNamingConventions = false)]
+        public Dictionary<string, DropItem> DropItems { get; set; }
+    }
+
+    public struct DropItem
+    {
+        [YamlMember(Alias = "Drop Chance", ApplyNamingConventions = false)]
+        public float m_chance { get; set; }
+        
+        [YamlMember(Alias = "One Per Player", ApplyNamingConventions = false)]
+        public bool m_onePer { get; set; }
+        
+        [YamlMember(Alias = "Amount Max Chance", ApplyNamingConventions = false)]
+        public int m_ammountMax { get; set; }
+        
+        [YamlMember(Alias = "Amount Min Chance", ApplyNamingConventions = false)]
+        public int m_ammountMin { get; set; }
+        
+        [YamlMember(Alias = "Multiply for multiple Players", ApplyNamingConventions = false)]
+        public bool m_Multply { get; set; }
     }
 
 }

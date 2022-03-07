@@ -149,6 +149,7 @@ namespace NPC_Generator.NPC_Utilities
             hum.m_health = 200;
             hum.m_defaultItems = new GameObject[0];
             hum.m_eye = NetworkedNPCMale.transform.Find("EyePos");
+            hum.m_deathEffects = tempplayer.GetComponent<Player>().m_deathEffects;
         }
 		
 		/// <summary>
@@ -195,6 +196,7 @@ namespace NPC_Generator.NPC_Utilities
             hum.m_health = 200;
             hum.m_defaultItems = new GameObject[0];
             hum.m_eye = NetworkedNPCFemale.transform.Find("EyePos");
+            hum.m_deathEffects = tempplayer.GetComponent<Player>().m_deathEffects;
         }
 		
 		/// <summary>
@@ -223,6 +225,11 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_wakeupEffects.m_effectPrefabs = new EffectList.EffectData[0];
         }
 		
+		/// <summary>
+		/// Setup Monster AI from config
+		/// </summary>
+		/// <param name="ai"></param>
+		/// <param name="monsterAIConfig"></param>
         internal static void SetupMonsterAI(MonsterAI ai, MonsterAIConfig monsterAIConfig)
         {
             ai.m_viewRange = monsterAIConfig.mViewRange;
