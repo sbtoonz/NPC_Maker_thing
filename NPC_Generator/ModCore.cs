@@ -101,8 +101,8 @@ namespace NPC_Generator
                         ZNetScene.instance.m_prefabs.Remove(prefab);
                         var newNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, ZNetScene.instance);
                         ZNetScene.instance.m_prefabs.Add(newNPC);
-                        ZNetScene.instance.m_namedPrefabs.Remove(newNPC.GetHashCode(), out prefab);
-                        ZNetScene.instance.m_namedPrefabs.Add(newNPC.GetHashCode(), newNPC);
+                        ZNetScene.instance.m_namedPrefabs.Remove(KP.Key.GetStableHashCode(), out prefab);
+                        ZNetScene.instance.m_namedPrefabs.Add(newNPC.name.GetStableHashCode(), newNPC);
                     }
                     else
                     {

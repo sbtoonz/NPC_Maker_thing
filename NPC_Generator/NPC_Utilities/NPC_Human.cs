@@ -137,6 +137,8 @@ namespace NPC_Generator.NPC_Utilities
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
                     NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
+                    var drop = tempNPC.AddComponent<CharacterDrop>();
+                    drop.m_drops = createCharDrop(config);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)
@@ -159,18 +161,22 @@ namespace NPC_Generator.NPC_Utilities
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
                     NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
+                    var drop = tempNPC.AddComponent<CharacterDrop>();
+                    drop.m_drops = createCharDrop(config);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)
                     {
                         tempNPC.AddComponent<Tameable>();
                         tempNPC.AddComponent<TameHelper>();
+                        
                     }
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
+                    Character character = tempNPC.GetComponent<Character>();
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -178,7 +184,6 @@ namespace NPC_Generator.NPC_Utilities
                     return tempNPC!;
             }
         }
-
 
         internal static void SetDamageMod(Humanoid humanoid, NPCYamlConfig config)
         {
@@ -212,6 +217,39 @@ namespace NPC_Generator.NPC_Utilities
             };
 
             return modifier;
+        }
+
+        internal static List<CharacterDrop.Drop> createCharDrop(NPCYamlConfig config)
+        {
+            List<CharacterDrop.Drop> m_drops = new List<CharacterDrop.Drop>();
+            foreach (var KP in config.DropConfig.DropItems)
+            {
+                var drop = returnSingleDrop(KP.Key, KP.Value.m_chance, KP.Value.m_onePer,
+                    KP.Value.m_ammountMin,
+                    KP.Value.m_ammountMax,
+                    KP.Value.m_Multply,
+                    ObjectDB.instance);
+                m_drops.Add(drop);
+            }
+            return m_drops;
+        }
+
+        internal static CharacterDrop.Drop returnSingleDrop(string DropName,
+            float dropChance, 
+            bool onePerPlayer,
+            int amtMin,
+            int amtMax,
+            bool multiply,
+            ObjectDB objectDB)
+        {
+            CharacterDrop.Drop newdrop = new CharacterDrop.Drop();
+            newdrop.m_prefab = objectDB.GetItemPrefab(DropName);
+            newdrop.m_chance = dropChance;
+            newdrop.m_amountMax = amtMax;
+            newdrop.m_amountMin = amtMin;
+            newdrop.m_onePerPlayer = onePerPlayer;
+            newdrop.m_levelMultiplier = multiply;
+            return newdrop;
         }
         
     }

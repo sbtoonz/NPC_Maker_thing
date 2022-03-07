@@ -7,8 +7,7 @@ TestNPCGuy:
   Shoulder Armor Prefab Name: CapeTrollHide
   Weapon Prefab Name: FistFenrirClaw
   Shield Prefab Name: ShieldBoneTower
-  Faction: Players
-  HuntPlayer: true
+  Faction: Plains
   Scale: 1.0
   Tamable: false
   Hair Style: Hair2
@@ -17,7 +16,7 @@ TestNPCGuy:
   Skin Color B: 10
   Hair Color R: 12
   Hair Color G: 100
-  Hair Color B: 200
+  Hair Color B: 20
   Tolerate Water: true
   Tolerate Fire: true
   Tolerate Smoke: true
@@ -34,22 +33,30 @@ TestNPCGuy:
     Poison: Normal
     Spirit: Immune
   Monster AI Config:
-    View Range: 20
+    View Range: 30
     View Angle: 90
     Hear Range: 9999
-    Alert Range: 100
+    Alert Range: 1000
     Flee if hurt cant be reached: false
     Flee if not alerted: false
     Flee low health: 0
     Circulate while Charging: true
     Attack player objects: true
-    Intercept Time Max: 20
-    Intercept Time Min: 5
+    Intercept Time Max: 5
+    Intercept Time Min: 1
     Chase Distance: 25
-    Attack Interval: 5
+    Attack Interval: 0
     Circualate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
+  Drop Config:
+    DropTable:
+      Wood:
+        Drop Chance: 1
+        One Per Player: false
+        Amount Max Chance: 4
+        Amount Min Chance: 1
+        Multiply for multiple Players: false
   
 TestNPCGirl:
   Sex: Female
@@ -60,8 +67,7 @@ TestNPCGirl:
   Shoulder Armor Prefab Name: CapeTrollHide
   Weapon Prefab Name: FistFenrirClaw
   Shield Prefab Name: ShieldBoneTower
-  Faction: Players
-  HuntPlayer: true
+  Faction: Player
   Scale: 1.0
   Tamable: false
   Hair Style: Hair1
@@ -103,3 +109,11 @@ TestNPCGirl:
     Circualate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
+  Drop Config:
+    DropTable:
+      Wood:
+        Drop Chance: 1
+        One Per Player: false
+        Amount Max Chance: 4
+        Amount Min Chance: 1
+        Multiply for multiple Players: false
