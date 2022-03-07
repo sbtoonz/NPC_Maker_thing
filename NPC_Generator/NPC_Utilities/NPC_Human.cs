@@ -105,6 +105,10 @@ namespace NPC_Generator.NPC_Utilities
             };
             SetDamageMod(humanoid, config);
             humanoid.m_health = config.mHealth;
+            humanoid.m_tolerateFire = config.mTolerateFire;
+            humanoid.m_tolerateSmoke = config.mTolerateSmoke;
+            humanoid.m_tolerateWater = config.mTolerateWater;
+            humanoid.m_tolerateTar = config.mTolerateTar;
         }
 
         /// <summary>
@@ -132,8 +136,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
-                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)
@@ -155,8 +158,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
-                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)

@@ -18,6 +18,10 @@ TestNPCGuy:
   Hair Color R: 12
   Hair Color G: 100
   Hair Color B: 200
+  Tolerate Water: true
+  Tolerate Fire: true
+  Tolerate Smoke: true
+  Tolerate Tar: false
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -29,6 +33,23 @@ TestNPCGuy:
     Lightning: Normal
     Poison: Normal
     Spirit: Immune
+  Monster AI Config:
+    View Range: 20
+    View Angle: 90
+    Hear Range: 9999
+    Alert Range: 100
+    Flee if hurt cant be reached: false
+    Flee if not alerted: false
+    Flee low health: 0
+    Circulate while Charging: true
+    Attack player objects: true
+    Intercept Time Max: 20
+    Intercept Time Min: 5
+    Chase Distance: 25
+    Attack Interval: 5
+    Circualate Target Duration: 3
+    Circle Target Distance: 5
+    Hunt Player: true
   
 TestNPCGirl:
   Sex: Female
@@ -50,6 +71,10 @@ TestNPCGirl:
   Hair Color R: 255
   Hair Color G: 102
   Hair Color B: 190
+  Tolerate Water: true
+  Tolerate Fire: true
+  Tolerate Smoke: true
+  Tolerate Tar: false
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -61,3 +86,20 @@ TestNPCGirl:
     Lightning: Normal
     Poison: Normal
     Spirit: Immune
+  Monster AI Config:
+    View Range: 20
+    View Angle: 90
+    Hear Range: 9999
+    Alert Range: 100
+    Flee if hurt cant be reached: false
+    Flee if not alerted: false
+    Flee low health: 0
+    Circulate while Charging: true
+    Attack player objects: true
+    Intercept Time Max: 20
+    Intercept Time Min: 5
+    Chase Distance: 25
+    Attack Interval: 5
+    Circualate Target Duration: 3
+    Circle Target Distance: 5
+    Hunt Player: true

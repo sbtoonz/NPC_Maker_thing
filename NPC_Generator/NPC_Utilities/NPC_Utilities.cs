@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NPC_Generator.MonoScripts;
+using NPC_Generator.Tools;
 using UnityEngine;
 using static NPC_Generator.NPC_Generator;
 using Object = UnityEngine.Object;
@@ -220,6 +221,37 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_enableHuntPlayer = true;
             ai.m_wakeupRange = 5;
             ai.m_wakeupEffects.m_effectPrefabs = new EffectList.EffectData[0];
+        }
+		
+        internal static void SetupMonsterAI(MonsterAI ai, MonsterAIConfig monsterAIConfig)
+        {
+            ai.m_viewRange = monsterAIConfig.mViewRange;
+            ai.m_viewAngle = monsterAIConfig.mViewAngle;
+            ai.m_hearRange = monsterAIConfig.mHearRange;
+            ai.m_alertedEffects.m_effectPrefabs = new EffectList.EffectData[0];
+            ai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
+            ai.m_pathAgentType = Pathfinding.AgentType.Humanoid;
+            ai.m_smoothMovement = true;
+            ai.m_jumpInterval = 20;
+            ai.m_randomCircleInterval = monsterAIConfig.mCircleInteverval;
+            ai.m_circleTargetDistance = monsterAIConfig.mCircleDistance;
+            ai.m_circleTargetDuration = monsterAIConfig.mCircleDuration;
+            ai.m_circulateWhileCharging = monsterAIConfig.mCirculateCharge;
+            ai.m_randomMoveInterval = 30;
+            ai.m_randomMoveRange = 3;
+            ai.m_alertRange = monsterAIConfig.mAlertRange;
+            ai.m_fleeIfHurtWhenTargetCantBeReached = monsterAIConfig.mFleeifHurt;
+            ai.m_fleeIfLowHealth = monsterAIConfig.mFleeLowHealth;
+            ai.m_circulateWhileCharging = monsterAIConfig.mCirculateCharge;
+            ai.m_fleeIfNotAlerted = monsterAIConfig.mFleeNotAlert;
+            ai.m_enableHuntPlayer = monsterAIConfig.npcHuntPlayer;
+            ai.m_wakeupRange = 5;
+            ai.m_wakeupEffects.m_effectPrefabs = new EffectList.EffectData[0];
+            ai.m_interceptTimeMax = monsterAIConfig.mInterceptMax;
+            ai.m_interceptTimeMin = monsterAIConfig.mInterceptMin;
+            ai.m_attackPlayerObjects = monsterAIConfig.mAttackPlayerObj;
+            ai.m_maxChaseDistance = monsterAIConfig.mChaseDistance;
+            ai.m_minAttackInterval = monsterAIConfig.mAttackInterval;
         }
 
 		#endregion

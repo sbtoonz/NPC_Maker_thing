@@ -63,9 +63,6 @@ namespace NPC_Generator.Tools
         
         [YamlMember(Alias = "Faction", ApplyNamingConventions = false)]
         public string npcFaction { get; set; }
-        
-        [YamlMember(Alias = "HuntPlayer", ApplyNamingConventions = false)]
-        public bool npcHuntPlayer { get; set; }
 
         [YamlMember(Alias = "Scale", ApplyNamingConventions = false)]
         public float npcScale { get; set; }
@@ -93,9 +90,24 @@ namespace NPC_Generator.Tools
         
         [YamlMember(Alias = "Hair Color B", ApplyNamingConventions = false)]
         public float npcHairColorB { get; set; }
+        
+        [YamlMember(Alias = "Tolerate Water")]
+        public bool mTolerateWater { get; set; }
+        
+        [YamlMember(Alias = "Tolerate Fire", ApplyNamingConventions = false)]
+        public bool mTolerateFire { get; set; }
+        
+        [YamlMember(Alias = "Tolerate Smoke", ApplyNamingConventions = false)]
+        public bool mTolerateSmoke { get; set; }
+        
+        [YamlMember(Alias = "Tolerate Tar", ApplyNamingConventions = false)]
+        public bool mTolerateTar { get; set; }
 
         [YamlMember(Alias = "Damage Resists", ApplyNamingConventions = false)]
         public DamageResists DamageResists { get; set; }
+        
+        [YamlMember(Alias = "Monster AI Config", ApplyNamingConventions = false)]
+        public MonsterAIConfig monsterAiConfig { get; set; }
 
     }
 
@@ -132,5 +144,60 @@ namespace NPC_Generator.Tools
         public string mSpirit { get; set; }
     }
 
+    public struct MonsterAIConfig
+    {
+        [YamlMember(Alias = "View Range",ApplyNamingConventions = false)]
+        public int mViewRange { get; set; }
+        
+        [YamlMember(Alias = "View Angle",ApplyNamingConventions = false)]
+        public int mViewAngle { get; set; }
+        
+        [YamlMember(Alias = "Hear Range",ApplyNamingConventions = false)]
+        public int mHearRange { get; set; }
+        
+        [YamlMember(Alias = "Alert Range",ApplyNamingConventions = false)]
+        public int mAlertRange { get; set; }
+        
+        [YamlMember(Alias = "Flee if hurt cant be reached", ApplyNamingConventions = false)]
+        public bool mFleeifHurt { get; set; }
+        
+        [YamlMember(Alias = "Flee if not alerted", ApplyNamingConventions = false)]
+        public bool mFleeNotAlert { get; set; }
+        
+        [YamlMember(Alias = "Flee low health", ApplyNamingConventions = false)]
+        public int mFleeLowHealth { get; set; }
+        
+        [YamlMember(Alias = "Circulate while Charging", ApplyNamingConventions = false)]
+        public bool mCirculateCharge { get; set; }
+
+        [YamlMember(Alias = "Attack player objects", ApplyNamingConventions = false)]
+        public bool mAttackPlayerObj { get; set; }
+        
+        [YamlMember(Alias = "Intercept Time Max", ApplyNamingConventions = false)]
+        public int mInterceptMax { get; set; }
+        
+        [YamlMember(Alias = "Intercept Time Min", ApplyNamingConventions = false)]
+        public int mInterceptMin { get; set; }
+        
+        [YamlMember(Alias = "Chase Distance", ApplyNamingConventions = false)]
+        public int mChaseDistance { get; set; }
+        
+        [YamlMember(Alias = "Attack Interval", ApplyNamingConventions = false)]
+        public int mAttackInterval { get; set; }
+        
+        [YamlMember(Alias = "Circle Target Interval", ApplyNamingConventions = false)]
+        public int mCircleInteverval { get; set; }
+        
+        [YamlMember(Alias = "Circualate Target Duration", ApplyNamingConventions = false)]
+        public int mCircleDuration { get; set; }
+        
+        [YamlMember(Alias = "Circle Target Distance", ApplyNamingConventions = false)]
+        public int mCircleDistance { get; set; }
+        
+        [YamlMember(Alias = "Hunt Player", ApplyNamingConventions = false)]
+        public bool npcHuntPlayer { get; set; }
+        
+
+    }
 
 }
