@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BepInEx;
 using NPC_Generator.MonoScripts;
+using NPC_Generator.Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -102,6 +103,12 @@ namespace NPC_Generator.NPC_Utilities
                 "PlainsMonsters" => Character.Faction.PlainsMonsters,
                 _ => humanoid.m_faction
             };
+            SetDamageMod(humanoid, config);
+            humanoid.m_health = config.mHealth;
+            humanoid.m_tolerateFire = config.mTolerateFire;
+            humanoid.m_tolerateSmoke = config.mTolerateSmoke;
+            humanoid.m_tolerateWater = config.mTolerateWater;
+            humanoid.m_tolerateTar = config.mTolerateTar;
         }
 
         /// <summary>
@@ -129,8 +136,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
-                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)
@@ -152,8 +158,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    mai.m_enableHuntPlayer = config.npcHuntPlayer;
-                    mai.m_huntPlayer = config.npcHuntPlayer;
+                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
                     tempNPC.GetComponent<ZNetView>().m_syncInitialScale = true;
                     if (config.npcTameable)
@@ -172,6 +177,41 @@ namespace NPC_Generator.NPC_Utilities
                 default:
                     return tempNPC!;
             }
+        }
+
+
+        internal static void SetDamageMod(Humanoid humanoid, NPCYamlConfig config)
+        {
+            humanoid.m_damageModifiers = new HitData.DamageModifiers
+            {
+                m_blunt = InterpolateConfig(config.DamageResists.mBlunt),
+                m_slash = InterpolateConfig(config.DamageResists.mSlash),
+                m_pierce = InterpolateConfig(config.DamageResists.mPierce),
+                m_chop = InterpolateConfig(config.DamageResists.mChop),
+                m_pickaxe = InterpolateConfig(config.DamageResists.mPickaxe),
+                m_fire = InterpolateConfig(config.DamageResists.mFire),
+                m_frost = InterpolateConfig(config.DamageResists.mFrost),
+                m_lightning = InterpolateConfig(config.DamageResists.mLightning),
+                m_poison = InterpolateConfig(config.DamageResists.mPoison),
+                m_spirit = InterpolateConfig(config.DamageResists.mSpirit)
+            };
+        }
+
+        private static HitData.DamageModifier InterpolateConfig(string s)
+        {
+            HitData.DamageModifier modifier = s switch
+            {
+                "Normal" => HitData.DamageModifier.Normal,
+                "Resistant" => HitData.DamageModifier.Resistant,
+                "Weak" => HitData.DamageModifier.Weak,
+                "Immune" => HitData.DamageModifier.Immune,
+                "Ignore" => HitData.DamageModifier.Ignore,
+                "Very Resistant" => HitData.DamageModifier.VeryResistant,
+                "Very Weak" => HitData.DamageModifier.VeryWeak,
+                _ => new HitData.DamageModifier()
+            };
+
+            return modifier;
         }
         
     }

@@ -290,9 +290,9 @@
     <Compile Include="MonoScripts\TameHelper.cs" />
     <Compile Include="NPC_Utilities\NPC_Human.cs" />
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
-    <Compile Include="Patches.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YMLParser.cs" />
+    <Compile Include="Tools\YMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\App.config" />
@@ -302,6 +302,11 @@
     <Content Include="ILRepack.targets" />
     <Content Include="Libs\ServerSync.dll" />
     <Content Include="npc_config.yml" />
+    <Content Include="Thunderstore_Release\manifest.json" />
+    <Content Include="Thunderstore_Release\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Thunderstore_Release\plugins" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

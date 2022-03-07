@@ -5,6 +5,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using NPC_Generator.NPC_Utilities;
+using NPC_Generator.Tools;
 using ServerSync;
 using UnityEngine;
 
