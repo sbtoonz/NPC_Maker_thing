@@ -10,20 +10,21 @@ using Object = UnityEngine.Object;
 
 namespace NPC_Generator.NPC_Utilities
 {
-	public static class NPC_Utilities
+	public static class NpcUtilities
     {
 	    #region HelperFuncs
-		public static T? CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
+	    public static int seed = 0;
+	    private static T? CopyChildrenComponents<T, TU>(this Component comp, TU other) where T : Component
 		{
-			IEnumerable<FieldInfo> finfos = comp.GetType().GetFields(bindingFlags);
+			IEnumerable<FieldInfo> finfos = comp.GetType().GetFields(BindingFlags);
 			foreach (var finfo in finfos)
 			{
 				finfo.SetValue(comp, finfo.GetValue(other));
 			}
 			return comp as T;
 		}
-		private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField;
-		public static T? GetCopyOf<T>(this Component comp, T other) where T : Component
+		private const BindingFlags BindingFlags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.GetField;
+		private static T? GetCopyOf<T>(this Component comp, T other) where T : Component
 		{
 			Type type = comp.GetType();
 			if (type != other.GetType()) return null; // type mis-match
@@ -40,11 +41,11 @@ namespace NPC_Generator.NPC_Utilities
 				derived = derived.BaseType;
 			}
 
-			IEnumerable<PropertyInfo> pinfos = type.GetProperties(bindingFlags);
+			IEnumerable<PropertyInfo> pinfos = type.GetProperties(BindingFlags);
 
 			foreach (Type derivedType in derivedTypes)
 			{
-				pinfos = pinfos.Concat(derivedType.GetProperties(bindingFlags));
+				pinfos = pinfos.Concat(derivedType.GetProperties(BindingFlags));
 			}
 
 			pinfos = from property in pinfos
@@ -67,7 +68,7 @@ namespace NPC_Generator.NPC_Utilities
 				}
 			}
 
-			IEnumerable<FieldInfo> finfos = type.GetFields(bindingFlags);
+			IEnumerable<FieldInfo> finfos = type.GetFields(BindingFlags);
 
 			foreach (var finfo in finfos)
 			{
@@ -78,7 +79,7 @@ namespace NPC_Generator.NPC_Utilities
 					{
 						continue;
 					}
-					finfos = finfos.Concat(derivedType.GetFields(bindingFlags));
+					finfos = finfos.Concat(derivedType.GetFields(BindingFlags));
 				}
 			}
 
@@ -101,7 +102,26 @@ namespace NPC_Generator.NPC_Utilities
 		{
 			return go.AddComponent(toAdd.GetType()).GetCopyOf(toAdd) as T;
 		}
-
+		public static float RollDice(this float val)
+		{
+			seed += 1;
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000) + seed);
+			return val * UnityEngine.Random.value;
+		}
+		public static int RollDice(this int val)
+		{
+			seed += 1;
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000) + seed);
+			return Mathf.FloorToInt(UnityEngine.Random.Range(0, val - 0.0001f));
+		}
+		public static string GetRandomElement(this string[] array)
+		{
+			return array[array.Length.RollDice()];
+		}
+		public static ItemDrop.ItemData GetItemData(string name)
+		{
+			return ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData;
+		}
 		#endregion HelperFuncs
 
 		#region NPCMethods
@@ -244,8 +264,8 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_circleTargetDistance = monsterAIConfig.mCircleDistance;
             ai.m_circleTargetDuration = monsterAIConfig.mCircleDuration;
             ai.m_circulateWhileCharging = monsterAIConfig.mCirculateCharge;
-            ai.m_randomMoveInterval = 30;
-            ai.m_randomMoveRange = 3;
+            ai.m_randomMoveInterval = monsterAIConfig.npcRandomMoveInterval;
+            ai.m_randomMoveRange = monsterAIConfig.npcRandomMoveRange;
             ai.m_alertRange = monsterAIConfig.mAlertRange;
             ai.m_fleeIfHurtWhenTargetCantBeReached = monsterAIConfig.mFleeifHurt;
             ai.m_fleeIfLowHealth = monsterAIConfig.mFleeLowHealth;
@@ -259,6 +279,9 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_attackPlayerObjects = monsterAIConfig.mAttackPlayerObj;
             ai.m_maxChaseDistance = monsterAIConfig.mChaseDistance;
             ai.m_minAttackInterval = monsterAIConfig.mAttackInterval;
+            ai.m_avoidWater = monsterAIConfig.npcAvoidWater;
+            ai.m_avoidLand = monsterAIConfig.npcAvoidLand;
+            ai.m_avoidFire = monsterAIConfig.npcAvoidFire;
         }
 
 		#endregion

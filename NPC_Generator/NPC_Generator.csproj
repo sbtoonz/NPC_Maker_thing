@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NPC_Generator</RootNamespace>
     <AssemblyName>NPC_Generator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>9</LangVersion>
 	<Nullable>enable</Nullable>
@@ -286,8 +286,13 @@
     <Compile Include="ModCore.cs" />
     <Compile Include="MonoScripts\FemaleAssigner.cs" />
     <Compile Include="MonoScripts\HairSetter.cs" />
+    <Compile Include="MonoScripts\RandomVisuals.cs" />
     <Compile Include="MonoScripts\SkinColorHelper.cs" />
     <Compile Include="MonoScripts\TameHelper.cs" />
+    <Compile Include="MonoScripts\Villagers\VillagerBase.cs" />
+    <Compile Include="MonoScripts\Villagers\Villager_Builder.cs" />
+    <Compile Include="MonoScripts\Villagers\Villager_Farmer.cs" />
+    <Compile Include="MonoScripts\Villagers\Villager_Messenger.cs" />
     <Compile Include="NPC_Utilities\NPC_Human.cs" />
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
     <Compile Include="Patches\Patches.cs" />

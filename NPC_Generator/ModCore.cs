@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using HarmonyLib;
 using NPC_Generator.NPC_Utilities;
 using NPC_Generator.Tools;
@@ -23,6 +25,8 @@ namespace NPC_Generator
         internal static GameObject? NetworkedNPCMale;
         internal static GameObject? NetworkedNPCFemale;
         internal static ConfigEntry<bool>? _serverConfigLocked;
+        internal static ConfigEntry<DebugLevel> _DebugLevel;
+        internal static ManualLogSource npcLogger;
         private static ConfigSync configSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
         internal static readonly string Paths = BepInEx.Paths.ConfigPath;
         public static readonly CustomSyncedValue<Dictionary<string, NPCYamlConfig>> NpcConfig = 
@@ -40,8 +44,16 @@ namespace NPC_Generator
 
         ConfigEntry<T> config<T>(string group, string configName, T value, string description, bool synchronizedSetting = true) => config(group, configName, value, new ConfigDescription(description), synchronizedSetting);
 
+        public enum DebugLevel
+        {
+            None,
+            Some,
+            All
+        }
         public void Awake()
         {
+            npcLogger = this.Logger;
+            
             Assembly assembly = Assembly.GetExecutingAssembly();
             harmony = new(ModGUID);
             harmony.PatchAll(assembly);
@@ -49,6 +61,7 @@ namespace NPC_Generator
             DontDestroyOnLoad(RootGOHolder);
             RootGOHolder.SetActive(false);
             _serverConfigLocked = config("General", "Lock Configuration", false, "Lock Configuration");
+            _DebugLevel = config("General", "Log level", DebugLevel.All, "This is how much debug info the mod gives");
             configSync.AddLockingConfigEntry(_serverConfigLocked);
             if (!File.Exists(Paths + "/npc_config.yml"))
             {
@@ -58,6 +71,46 @@ namespace NPC_Generator
             NpcConfig.ValueChanged += OnValueChangedNPConfig;
             SetupWatcher();
             
+        }
+
+        internal static void DebugLog(DebugLevel level,string debugText)
+        {
+            switch (_DebugLevel.Value)
+            {
+                case DebugLevel.All:
+                    switch (level)
+                    {
+                        case DebugLevel.Some:
+                            npcLogger.Log(LogLevel.All, debugText);
+                            break;
+                        case DebugLevel.All:
+                            npcLogger.LogWarning(debugText);
+                            break;
+                        case DebugLevel.None:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case DebugLevel.None:
+                    break;
+                case DebugLevel.Some:
+                    switch (level)
+                    {
+                        case DebugLevel.Some:
+                            npcLogger.Log(LogLevel.All, debugText);
+                            break;
+                        case DebugLevel.All:
+                            break;
+                        case DebugLevel.None:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         private static void OnValueChangedNPConfig()
         {
@@ -135,10 +188,11 @@ namespace NPC_Generator
                 file.Close();
                 NpcConfig.AssignLocalValue(entry_);
             }
-            catch
+            catch(Exception exception)
             {
-                Debug.LogError("There was an issue loading your npc_config.yml");
-                Debug.LogError($"Please check your config entries for spelling and format!");
+                DebugLog(DebugLevel.Some,"There was an issue loading your npc_config.yml");
+                DebugLog(DebugLevel.Some,$"Please check your config entries for spelling and format!");
+                DebugLog(DebugLevel.All, exception.ToString());
             }
             
         }

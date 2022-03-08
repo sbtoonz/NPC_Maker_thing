@@ -1,4 +1,4 @@
-TestNPCGuy:
+TestNPCMale:
   Sex: Male
   Health: 200
   Helmet Prefab Name: HelmetYule
@@ -11,16 +11,17 @@ TestNPCGuy:
   Scale: 1.0
   Tamable: false
   Hair Style: Hair2
-  Skin Color R: 102
-  Skin Color G: 0
-  Skin Color B: 10
-  Hair Color R: 12
-  Hair Color G: 100
-  Hair Color B: 20
+  Skin Color R: 0.847
+  Skin Color G: 0.687
+  Skin Color B: 0.494
+  Hair Color R: 1
+  Hair Color G: 0.881
+  Hair Color B: 0.697
   Tolerate Water: true
   Tolerate Fire: true
   Tolerate Smoke: true
-  Tolerate Tar: false
+  Tolerate Tar: true
+  NPC In Game Name: Jimmy The Punisher
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -46,7 +47,7 @@ TestNPCGuy:
     Intercept Time Min: 1
     Chase Distance: 25
     Attack Interval: 0
-    Circualate Target Duration: 3
+    Circulate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
   Drop Config:
@@ -57,9 +58,14 @@ TestNPCGuy:
         Amount Max Chance: 4
         Amount Min Chance: 1
         Multiply for multiple Players: false
-  
-TestNPCGirl:
-  Sex: Female
+  Villager Config:
+    #Only one can be true, please choose accordingly
+    Is Basic Villager: false
+    Villager Builder: true
+    Villager Farmer: false
+
+TestNPCFemale:
+  Sex: female
   Health: 200
   Helmet Prefab Name: HelmetYule
   Chest Armor Prefab Name: ArmorFenringChest
@@ -67,20 +73,21 @@ TestNPCGirl:
   Shoulder Armor Prefab Name: CapeTrollHide
   Weapon Prefab Name: FistFenrirClaw
   Shield Prefab Name: ShieldBoneTower
-  Faction: Player
+  Faction: Plains
   Scale: 1.0
   Tamable: false
-  Hair Style: Hair1
-  Skin Color R: 102
-  Skin Color G: 0
-  Skin Color B: 10
-  Hair Color R: 255
-  Hair Color G: 102
-  Hair Color B: 190
+  Hair Style: Hair2
+  Skin Color R: 0.847
+  Skin Color G: 0.687
+  Skin Color B: 0.494
+  Hair Color R: 1
+  Hair Color G: 0.881
+  Hair Color B: 0.697
   Tolerate Water: true
   Tolerate Fire: true
   Tolerate Smoke: true
-  Tolerate Tar: false
+  Tolerate Tar: true
+  NPC In Game Name: Jane The Punisher
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -93,20 +100,20 @@ TestNPCGirl:
     Poison: Normal
     Spirit: Immune
   Monster AI Config:
-    View Range: 20
+    View Range: 30
     View Angle: 90
     Hear Range: 9999
-    Alert Range: 100
+    Alert Range: 1000
     Flee if hurt cant be reached: false
     Flee if not alerted: false
     Flee low health: 0
     Circulate while Charging: true
     Attack player objects: true
-    Intercept Time Max: 20
-    Intercept Time Min: 5
+    Intercept Time Max: 5
+    Intercept Time Min: 1
     Chase Distance: 25
-    Attack Interval: 5
-    Circualate Target Duration: 3
+    Attack Interval: 0
+    Circulate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
   Drop Config:
@@ -117,3 +124,9 @@ TestNPCGirl:
         Amount Max Chance: 4
         Amount Min Chance: 1
         Multiply for multiple Players: false
+  Villager Config:
+    #Only one can be true, please choose accordingly
+    Is Basic Villager: false
+    Villager Builder: false
+    Villager Farmer: true
+  

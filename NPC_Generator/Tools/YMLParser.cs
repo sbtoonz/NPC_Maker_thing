@@ -91,17 +91,21 @@ namespace NPC_Generator.Tools
         [YamlMember(Alias = "Hair Color B", ApplyNamingConventions = false)]
         public float npcHairColorB { get; set; }
         
-        [YamlMember(Alias = "Tolerate Water")]
-        public bool mTolerateWater { get; set; }
+         [YamlMember(Alias = "Tolerate Water", ApplyNamingConventions = false)]
+         public bool mTolerateWater { get; set; }
+         
+         [YamlMember(Alias = "Tolerate Fire", ApplyNamingConventions = false)]
+         public bool mTolerateFire { get; set; }
+         
+         [YamlMember(Alias = "Tolerate Smoke", ApplyNamingConventions = false)]
+         public bool mTolerateSmoke { get; set; }
+         
+         [YamlMember(Alias = "Tolerate Tar", ApplyNamingConventions = false)]
+         public bool mTolerateTar { get; set; }
+         
+         [YamlMember(Alias = "NPC In Game Name", ApplyNamingConventions = false)]
+         public string mNPCInGameName { get; set; }
         
-        [YamlMember(Alias = "Tolerate Fire", ApplyNamingConventions = false)]
-        public bool mTolerateFire { get; set; }
-        
-        [YamlMember(Alias = "Tolerate Smoke", ApplyNamingConventions = false)]
-        public bool mTolerateSmoke { get; set; }
-        
-        [YamlMember(Alias = "Tolerate Tar", ApplyNamingConventions = false)]
-        public bool mTolerateTar { get; set; }
 
         [YamlMember(Alias = "Damage Resists", ApplyNamingConventions = false)]
         public DamageResists DamageResists { get; set; }
@@ -111,6 +115,9 @@ namespace NPC_Generator.Tools
         
         [YamlMember(Alias = "Drop Config", ApplyNamingConventions = false)]
         public DropConfig DropConfig { get; set; }
+        
+        [YamlMember(Alias = "Villager Config", ApplyNamingConventions = false)]
+        public VillagerConfig villagerConfig { get; set; }
 
     }
 
@@ -191,7 +198,7 @@ namespace NPC_Generator.Tools
         [YamlMember(Alias = "Circle Target Interval", ApplyNamingConventions = false)]
         public int mCircleInteverval { get; set; }
         
-        [YamlMember(Alias = "Circualate Target Duration", ApplyNamingConventions = false)]
+        [YamlMember(Alias = "Circulate Target Duration", ApplyNamingConventions = false)]
         public int mCircleDuration { get; set; }
         
         [YamlMember(Alias = "Circle Target Distance", ApplyNamingConventions = false)]
@@ -200,6 +207,21 @@ namespace NPC_Generator.Tools
         [YamlMember(Alias = "Hunt Player", ApplyNamingConventions = false)]
         public bool npcHuntPlayer { get; set; }
         
+        [YamlMember(Alias = "Avoid Water", ApplyNamingConventions = false)]
+        public bool npcAvoidWater { get; set; }
+        
+        [YamlMember(Alias = "Avoid Land", ApplyNamingConventions = false)]
+        public bool npcAvoidLand { get; set; }
+        
+        [YamlMember(Alias = "Avoid Fire", ApplyNamingConventions = false)]
+        public bool npcAvoidFire { get; set; }
+
+        [YamlMember(Alias = "Random Move Interval", ApplyNamingConventions = false)]
+        public float npcRandomMoveInterval{ get; set; }
+
+        [YamlMember(Alias = "Random Move Range", ApplyNamingConventions = false)]
+        public float npcRandomMoveRange { get; set; }
+
 
     }
 
@@ -226,5 +248,19 @@ namespace NPC_Generator.Tools
         [YamlMember(Alias = "Multiply for multiple Players", ApplyNamingConventions = false)]
         public bool m_Multply { get; set; }
     }
+
+    public struct VillagerConfig
+    {
+        [YamlMember(Alias = "Is Basic Villager",ApplyNamingConventions = false)]
+        public bool mIsVillager { get; set; }
+        
+        [YamlMember(Alias = "Villager Builder", ApplyNamingConventions = false)]
+        public bool mVillagerBuilder { get; set; }
+        
+        [YamlMember(Alias = "Villager Farmer", ApplyNamingConventions = false)]
+        public bool mVillagerFarmer { get; set; }
+        
+    }
+    
 
 }
