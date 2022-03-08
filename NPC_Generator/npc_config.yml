@@ -50,6 +50,11 @@ TestNPCMale:
     Circulate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
+    Avoid Water: false
+    Avoid Land: false
+    Avoid Fire: false
+    Random Move Interval: 5.0
+    Random Move Range: 10.0
   Drop Config:
     DropTable:
       Wood:
@@ -116,6 +121,11 @@ TestNPCFemale:
     Circulate Target Duration: 3
     Circle Target Distance: 5
     Hunt Player: true
+    Avoid Water: false
+    Avoid Land: false
+    Avoid Fire: false
+    Random Move Interval: 5.0
+    Random Move Range: 10.0
   Drop Config:
     DropTable:
       Wood:
