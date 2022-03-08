@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BepInEx;
 using NPC_Generator.MonoScripts;
+using NPC_Generator.MonoScripts.Villagers;
 using NPC_Generator.Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -11,6 +12,7 @@ namespace NPC_Generator.NPC_Utilities
     public static class NPC_Human
     {
         private static List<GameObject> spawnedNPCs = new List<GameObject>();
+        internal static List<VillagerBase> spawnedVillagers = new List<VillagerBase>();
         
         /// <summary>
         /// Generates the ItemSet array for the Humanoid component
@@ -109,6 +111,7 @@ namespace NPC_Generator.NPC_Utilities
             humanoid.m_tolerateSmoke = config.mTolerateSmoke;
             humanoid.m_tolerateWater = config.mTolerateWater;
             humanoid.m_tolerateTar = config.mTolerateTar;
+            humanoid.m_name = config.mNPCInGameName;
         }
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
+                    NpcUtilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     var drop = tempNPC.AddComponent<CharacterDrop>();
                     drop.m_drops = createCharDrop(config);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
@@ -151,6 +154,36 @@ namespace NPC_Generator.NPC_Utilities
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
+                    if (config.villagerConfig.mIsVillager)
+                    {
+                        tempNPC.AddComponent<VillagerBase>();
+                    }
+                    if (config.villagerConfig.mVillagerBuilder)
+                    {
+                        Component baseVillagerBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.AddComponent<Villager_Builder>();
+                    }
+                    if (config.villagerConfig.mVillagerFarmer)
+                    {
+                        Component baseVillagerBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }  
+                        Component BuilderBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out BuilderBase);
+                        if (BuilderBase)
+                        {
+                            Object.Destroy(BuilderBase);
+                        }
+                        tempNPC.AddComponent<Villager_Farmer>();
+                    }
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -160,7 +193,7 @@ namespace NPC_Generator.NPC_Utilities
                     tempNPC!.name = npcName.Replace(" ", String.Empty);
                     SetupVisuals(tempNPC.GetComponent<Humanoid>(), config, scene);
                     var mai = tempNPC.GetComponent<MonsterAI>();
-                    NPC_Utilities.SetupMonsterAI(mai, config.monsterAiConfig);
+                    NpcUtilities.SetupMonsterAI(mai, config.monsterAiConfig);
                     var drop = tempNPC.AddComponent<CharacterDrop>();
                     drop.m_drops = createCharDrop(config);
                     tempNPC.transform.localScale = new Vector3(config.npcScale, config.npcScale, config.npcScale);
@@ -178,6 +211,36 @@ namespace NPC_Generator.NPC_Utilities
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     Character character = tempNPC.GetComponent<Character>();
                     spawnedNPCs.Add(tempNPC);
+                    if (config.villagerConfig.mIsVillager)
+                    {
+                        tempNPC.AddComponent<VillagerBase>();
+                    }
+                    if (config.villagerConfig.mVillagerBuilder)
+                    {
+                        Component baseVillagerBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.AddComponent<Villager_Builder>();
+                    }
+                    if (config.villagerConfig.mVillagerFarmer)
+                    {
+                        Component baseVillagerBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }  
+                        Component BuilderBase;
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out BuilderBase);
+                        if (BuilderBase)
+                        {
+                            Object.Destroy(BuilderBase);
+                        }
+                        tempNPC.AddComponent<Villager_Farmer>();
+                    }
                     return tempNPC;
                 }
                 default:

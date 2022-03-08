@@ -24,8 +24,8 @@ namespace NPC_Generator.Patches
         {
             public static void Postfix(ObjectDB __instance)
             {
-                NPC_Utilities.NPC_Utilities.BuildMaleHumanNpc();
-                NPC_Utilities.NPC_Utilities.BuildFemaleHumanNpc();
+                NPC_Utilities.NpcUtilities.BuildMaleHumanNpc();
+                NPC_Utilities.NpcUtilities.BuildFemaleHumanNpc();
                 File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
