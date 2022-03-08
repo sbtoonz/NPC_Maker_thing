@@ -7,7 +7,7 @@ namespace NPC_Generator.MonoScripts.Villagers
     public class Villager_Builder : VillagerBase
     {
         public string m_item = "";
-        public readonly string[] m_materials = new string[] { "Wood", "Stone" };
+        public readonly string[] m_materials = new string[] { "Wood", "Stone", "FineWood", "RoundLog" };
         internal bool QuestReady => IsQuestReady();
         public override void Awake()
         {

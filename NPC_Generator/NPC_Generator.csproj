@@ -289,10 +289,11 @@
     <Compile Include="MonoScripts\RandomVisuals.cs" />
     <Compile Include="MonoScripts\SkinColorHelper.cs" />
     <Compile Include="MonoScripts\TameHelper.cs" />
+    <Compile Include="MonoScripts\Villagers\MessengerTarget.cs" />
     <Compile Include="MonoScripts\Villagers\VillagerBase.cs" />
     <Compile Include="MonoScripts\Villagers\Villager_Builder.cs" />
     <Compile Include="MonoScripts\Villagers\Villager_Farmer.cs" />
-    <Compile Include="MonoScripts\Villagers\Villager_Messenger.cs" />
+    <Compile Include="MonoScripts\Villagers\VillagerMessenger.cs" />
     <Compile Include="NPC_Utilities\NPC_Human.cs" />
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
     <Compile Include="Patches\Patches.cs" />

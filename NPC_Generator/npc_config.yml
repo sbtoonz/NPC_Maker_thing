@@ -68,6 +68,7 @@ TestNPCMale:
     Is Basic Villager: false
     Villager Builder: true
     Villager Farmer: false
+    Villager Messenger: false
 
 TestNPCFemale:
   Sex: female
@@ -139,4 +140,5 @@ TestNPCFemale:
     Is Basic Villager: false
     Villager Builder: false
     Villager Farmer: true
+    Villager Messenger: false
   

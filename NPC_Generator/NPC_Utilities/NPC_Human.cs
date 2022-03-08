@@ -184,6 +184,26 @@ namespace NPC_Generator.NPC_Utilities
                         }
                         tempNPC.AddComponent<Villager_Farmer>();
                     }
+                    if (config.villagerConfig.mVillagerMessenger)
+                    {
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var BuilderBase);
+                        if (BuilderBase)
+                        {
+                            Object.Destroy(BuilderBase);
+                        }
+                        tempNPC.TryGetComponent(typeof(Villager_Farmer), out var FarmerBase);
+                        if (FarmerBase)
+                        {
+                            Object.Destroy(FarmerBase);
+                        }
+                        tempNPC.AddComponent<VillagerMessenger>();
+
+                    }
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -227,19 +247,37 @@ namespace NPC_Generator.NPC_Utilities
                     }
                     if (config.villagerConfig.mVillagerFarmer)
                     {
-                        Component baseVillagerBase;
-                        tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
                         if (baseVillagerBase)
                         {
                             Object.Destroy(baseVillagerBase);
-                        }  
-                        Component BuilderBase;
-                        tempNPC.TryGetComponent(typeof(VillagerBase), out BuilderBase);
+                        }
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var BuilderBase);
                         if (BuilderBase)
                         {
                             Object.Destroy(BuilderBase);
                         }
                         tempNPC.AddComponent<Villager_Farmer>();
+                    }
+                    if (config.villagerConfig.mVillagerMessenger)
+                    {
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var BuilderBase);
+                        if (BuilderBase)
+                        {
+                            Object.Destroy(BuilderBase);
+                        }
+                        tempNPC.TryGetComponent(typeof(Villager_Farmer), out var FarmerBase);
+                        if (FarmerBase)
+                        {
+                            Object.Destroy(FarmerBase);
+                        }
+                        tempNPC.AddComponent<VillagerMessenger>();
+
                     }
                     return tempNPC;
                 }

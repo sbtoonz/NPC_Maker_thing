@@ -260,6 +260,9 @@ namespace NPC_Generator.Tools
         [YamlMember(Alias = "Villager Farmer", ApplyNamingConventions = false)]
         public bool mVillagerFarmer { get; set; }
         
+        [YamlMember(Alias = "Villager Messenger", ApplyNamingConventions = false)]
+        public bool mVillagerMessenger { get; set; }
+        
     }
     
 
