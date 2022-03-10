@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NPC_Generator.Libs;
 using NPC_Generator.MonoScripts;
 using NPC_Generator.Tools;
 using UnityEngine;
@@ -139,8 +140,52 @@ namespace NPC_Generator.NPC_Utilities
                 { 
 	                NetworkedNPCMale = Object.Instantiate(o, RootGOHolder?.transform!);
                     tempplayer = o;
-                    break;
+                    if (!BadgerPlayerMeshMod)
+                    {
+	                    break;
+                    }
                 }
+                if (BadgerPlayerMeshMod)
+                {
+	                if (o.name == "Male")
+	                {
+		                if (o.transform.Find("Body") != null)
+		                {
+			               
+			                playerMale = o;
+			                continue; 
+		                }
+	                }
+                }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            foreach (var VARIABLE in Resources.FindObjectsOfTypeAll<Texture2D>())
+	            {
+		            if (VARIABLE.name == "noMetal")
+		            {
+			            noMetal = VARIABLE;
+		            }
+	            }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            var player = NetworkedNPCMale.GetComponent<Player>();
+	            DebugLog(DebugLevel.All,"Got instance");
+	            VisEquipment component = NetworkedNPCMale.GetComponent<VisEquipment>();
+	            DebugLog(DebugLevel.All,"got ve");
+	            maleSmr = playerMale.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
+	            DebugLog(DebugLevel.All,"got renderers");
+	            maleSkin = maleSmr.sharedMaterial.GetTexture("_MainTex");
+	            maleSkinBump = maleSmr.sharedMaterial.GetTexture("_BumpMap");
+	             DebugLog(DebugLevel.All,"Got materials");
+	            if (component != null)
+	            {
+		            component.m_models[0].m_mesh = maleSmr.sharedMesh;
+		            component.m_models[0].m_baseMaterial.SetTexture("_MainTex", maleSkin);
+		            component.m_models[0].m_baseMaterial.SetTexture("_SkinBumpMap", maleSkinBump);
+	            }
+	            UpdateBody.UpdateBodyModel(component);
             }
             Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<PlayerController>());
             Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<Player>());
@@ -185,8 +230,51 @@ namespace NPC_Generator.NPC_Utilities
                 { 
 	                NetworkedNPCFemale = Object.Instantiate(o, RootGOHolder?.transform!);
                     tempplayer = o;
-                    break;
+                    if (!BadgerPlayerMeshMod)
+                    {
+	                    break;
+                    }
                 }
+                if (BadgerPlayerMeshMod)
+                {
+	                if (o.name == "Female")
+	                {
+		                if(o.GetComponentInChildren<SkinnedMeshRenderer>() != null)
+		                {
+			                playerFemale = o;
+			                continue;
+		                }
+	                }
+                }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            foreach (var VARIABLE in Resources.FindObjectsOfTypeAll<Texture2D>())
+	            {
+		            if (VARIABLE.name == "noMetal")
+		            {
+			            noMetal = VARIABLE;
+		            }
+	            }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            var player = NetworkedNPCFemale.GetComponent<Player>();
+	            DebugLog(DebugLevel.All,"Got instance");
+	            VisEquipment component = NetworkedNPCFemale.GetComponent<VisEquipment>();
+	            DebugLog(DebugLevel.All,"got ve");
+	            femaleSmr = playerFemale.GetComponentInChildren<SkinnedMeshRenderer>();
+	            DebugLog(DebugLevel.All,"got renderers");
+	            femaleSkin = femaleSmr.sharedMaterial.GetTexture("_MainTex");
+	            femaleSkinBump = femaleSmr.sharedMaterial.GetTexture("_BumpMap");
+	            DebugLog(DebugLevel.All,"Got materials");
+	            if (component != null)
+	            {
+		            component.m_models[1].m_mesh = femaleSmr.sharedMesh;
+		            component.m_models[1].m_baseMaterial.SetTexture("_MainTex", femaleSkin);
+		            component.m_models[1].m_baseMaterial.SetTexture("_SkinBumpMap", femaleSkinBump);
+	            }
+	            UpdateBody.UpdateBodyModel(component);
             }
 			var basicznet =
 				NetworkedNPCFemale!.GetComponent<ZNetView>();

@@ -283,7 +283,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Libs\UpdateBody.cs" />
     <Compile Include="ModCore.cs" />
+    <Compile Include="MonoScripts\Commandable.cs" />
     <Compile Include="MonoScripts\FemaleAssigner.cs" />
     <Compile Include="MonoScripts\HairSetter.cs" />
     <Compile Include="MonoScripts\RandomVisuals.cs" />
@@ -295,6 +297,7 @@
     <Compile Include="MonoScripts\Villagers\Villager_Farmer.cs" />
     <Compile Include="MonoScripts\Villagers\VillagerMessenger.cs" />
     <Compile Include="NPC_Utilities\NPC_Human.cs" />
+    <Compile Include="NPC_Utilities\NPC_Names.cs" />
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
     <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

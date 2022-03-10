@@ -16,13 +16,15 @@ namespace NPC_Generator.MonoScripts.Villagers
             var femassign = GetComponent<FemaleAssigner>();
             Destroy(femassign);
             float y;
+            var messeneger = go.GetComponent<VillagerMessenger>();
+            Destroy(messeneger);
             go.AddComponent<RandomVisuals>();
             var target =go.AddComponent<MessengerTarget>();
             target.m_sendernview = m_nview;
             ZoneSystem.instance.FindFloor(pos,out y);
             pos = new Vector3(pos.x,y+2,pos.z);
             go.transform.localPosition = pos;
-            go.transform.SetParent(transform.parent.parent);
+            go.transform.SetParent(Game.instance.transform.parent);
             NPC_Generator.DebugLog(NPC_Generator.DebugLevel.All,"Place Quest Worker at " + pos);
             m_nview.GetZDO().Set("QuestActive", true);
         }
@@ -82,6 +84,20 @@ namespace NPC_Generator.MonoScripts.Villagers
         public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
         {
             return false;
+        }
+        
+        public override string GetHoverText()
+        {
+            if (!m_nview.GetZDO().GetBool("QuestActive"))
+            {
+                string s = Localization.instance.Localize("[$button_lshift]");
+                s += " and <color=yellow>[E]</color> to accept mission";
+                return s;
+            }
+            else
+            {
+                return m_name;
+            }
         }
     }
 }
