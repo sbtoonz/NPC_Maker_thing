@@ -1,8 +1,11 @@
-﻿using System;
+﻿#define BPM
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -27,8 +30,23 @@ namespace NPC_Generator
         internal static ConfigEntry<bool>? _serverConfigLocked;
         internal static ConfigEntry<DebugLevel> _DebugLevel;
         internal static ManualLogSource npcLogger;
+        internal static bool BadgerPlayerMeshMod;
+        //badgershit
+        public static Texture2D noMetal = null;
+        public static Texture maleSkin = null;
+        public static Texture maleSkinBump = null;
+        public static Texture femaleSkin = null;
+        public static Texture femaleSkinBump = null;
+        public static SkinnedMeshRenderer maleSmr = null;
+        public static SkinnedMeshRenderer femaleSmr = null;
+        public static GameObject playerMale = null;
+        public static GameObject playerFemale = null;
+        
+        
         private static ConfigSync configSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
+        
         internal static readonly string Paths = BepInEx.Paths.ConfigPath;
+        
         public static readonly CustomSyncedValue<Dictionary<string, NPCYamlConfig>> NpcConfig = 
             new(configSync, "npc config", new Dictionary<string, NPCYamlConfig>());
         private static Dictionary<string, NPCYamlConfig> entry_ { get; set; } = null!;
@@ -72,6 +90,23 @@ namespace NPC_Generator
             SetupWatcher();
             
         }
+
+        public void Start()
+        {
+            try
+            {
+                var equip = Chainloader.PluginInfos.First(p => p.Key == "Badgers.BetterPlayerMesh");
+                if (equip.Value.Instance != null)
+                {
+                    BadgerPlayerMeshMod = true;
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+        
 
         internal static void DebugLog(DebugLevel level,string debugText)
         {

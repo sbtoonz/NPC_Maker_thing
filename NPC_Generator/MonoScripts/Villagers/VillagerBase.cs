@@ -12,9 +12,19 @@ namespace NPC_Generator.MonoScripts.Villagers
         public Humanoid hum;
         public ZNetView m_nview;
         protected readonly float QuestCD = 1800;
-        
+        public VillagerFaction villagerFaction;
+
+        public enum VillagerFaction
+        {
+            Neutral,
+            RedTeam,
+            BlueTeam
+        }
+
+        [SerializeField] public float PlayerLikeability = 0;
         public virtual void Awake()
         {
+            villagerFaction = VillagerFaction.Neutral;
             m_talker = this.gameObject;
             m_ani = GetComponentInChildren<Animator>();
             m_nview = GetComponent<ZNetView>();
@@ -28,7 +38,7 @@ namespace NPC_Generator.MonoScripts.Villagers
             _monsterAI.UpdateTarget(null, 0, out bool test, out bool test2);
             _monsterAI.SetHuntPlayer(false);
             hum.m_faction = Character.Faction.Players;
-            hum.m_group = "";
+            hum.m_group = VillagerFaction.Neutral.ToString();
             _monsterAI.m_avoidFire = false;
             _monsterAI.m_avoidLand = false;
             _monsterAI.m_avoidWater = false;
@@ -69,7 +79,6 @@ namespace NPC_Generator.MonoScripts.Villagers
             {
                 return;
             }
-            text = Localization.instance.Localize(text);
             var tname = Localization.instance.Localize(m_name);
             Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, tname, text, false);
             m_ani.SetTrigger(emote);
@@ -77,7 +86,6 @@ namespace NPC_Generator.MonoScripts.Villagers
         
         public virtual void Say(string text)
         {
-            text=Localization.instance.Localize(text);
             var tname=Localization.instance.Localize(m_name);
             Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, tname, text, false);
         }

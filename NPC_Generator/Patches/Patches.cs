@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using HarmonyLib;
+using NPC_Generator.NPC_Utilities;
 
 namespace NPC_Generator.Patches
 {
@@ -14,7 +15,6 @@ namespace NPC_Generator.Patches
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
-                
             }
         }
 
@@ -24,9 +24,21 @@ namespace NPC_Generator.Patches
         {
             public static void Postfix(ObjectDB __instance)
             {
-                NPC_Utilities.NpcUtilities.BuildMaleHumanNpc();
-                NPC_Utilities.NpcUtilities.BuildFemaleHumanNpc();
+                NpcUtilities.BuildMaleHumanNpc();
+                NpcUtilities.BuildFemaleHumanNpc();
                 File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
+            }
+        }
+
+        [HarmonyPatch(typeof(Localize), nameof(Localize.Awake))]
+        public static class LocalizationPatch
+        {
+            public static void Prefix()
+            {
+                foreach (var KP in NPC_Names.EnglishNames)
+                {
+                    Localization.instance.AddWord(KP.Key, KP.Value);
+                }
             }
         }
     }
