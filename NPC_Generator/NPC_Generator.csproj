@@ -299,6 +299,7 @@
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />
     <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RPC\RPCs.cs" />
     <Compile Include="Tools\YMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
