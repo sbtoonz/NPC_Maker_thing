@@ -27,25 +27,25 @@ namespace NPC_Generator.NPC_Utilities
             GameObject? shoulder = null;
             GameObject? leg = null;
             List<GameObject> gameObjects = new List<GameObject>();
-            if (!npcYamlConfig.npcHelmetString.IsNullOrWhiteSpace())
+            if (npcYamlConfig.npcHelmetString.ToLower() != "none")
             {
                 helmet = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcHelmetString);
                 gameObjects.Add(helmet);
             }
 
-            if (!npcYamlConfig.npcChestString.IsNullOrWhiteSpace())
+            if (npcYamlConfig.npcChestString.ToLower() != "none")
             {
                 chest = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcChestString);
                 gameObjects.Add(chest);
             }
 
-            if (!npcYamlConfig.npcShoulder.IsNullOrWhiteSpace())
+            if (npcYamlConfig.npcShoulder.ToLower() != "none")
             {
                 shoulder = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcShoulder);
                 gameObjects.Add(shoulder);
             }
 
-            if (!npcYamlConfig.npcLegString.IsNullOrWhiteSpace())
+            if (npcYamlConfig.npcLegString.ToLower() != "none")
             {
                 leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString);
                 gameObjects.Add(leg);
@@ -69,26 +69,26 @@ namespace NPC_Generator.NPC_Utilities
         private static void SetupVisuals(Humanoid humanoid, NPCYamlConfig config, ZNetScene netScene)
         {
             humanoid.m_randomSets = CreateSetList(config, netScene);
-            if (!config.npcWeapon.IsNullOrWhiteSpace())
+            if (config.npcWeapon.ToLower() != "none")
             {
                 humanoid.m_randomWeapon = new []
                 {
                     ObjectDB.instance.GetItemPrefab(config.npcWeapon)
                 }; 
             }
-            else if(config.npcWeapon.IsNullOrWhiteSpace())
+            else
             {
                 humanoid.m_randomWeapon = Array.Empty<GameObject>();
             }
 
-            if (!config.npcShield.IsNullOrWhiteSpace())
+            if (config.npcShield.ToLower() != "none")
             {
                 humanoid.m_randomShield = new[]
                 {
                     ObjectDB.instance.GetItemPrefab(config.npcShield)
                 };
             }
-            else if(config.npcShield.IsNullOrWhiteSpace())
+            else
             {
                 humanoid.m_randomShield = Array.Empty<GameObject>();
             }

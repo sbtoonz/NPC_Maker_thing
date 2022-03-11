@@ -107,8 +107,6 @@ namespace NPC_Generator
             {
                 // ignored
             }
-            
-            Zscene = null;
             foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
             {
                 if (gameObject.name == "_GameMain")
@@ -121,6 +119,16 @@ namespace NPC_Generator
         public static ZNetScene Zscene { get; set; }
 
 
+        internal static void assignZnet()
+        {
+            foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                if (gameObject.name == "_GameMain")
+                {
+                    Zscene = gameObject.GetComponent<ZNetScene>();
+                }
+            }
+        }
         internal static void DebugLog(DebugLevel level,string debugText)
         {
             switch (_DebugLevel.Value)
@@ -164,7 +172,11 @@ namespace NPC_Generator
         {
             if (ZNetScene.instance == null)
             {
-                
+                if (Zscene == null)
+                {
+                    assignZnet();
+
+                }
                 foreach (var KP in NpcConfig.Value)
                 {
                     if (Zscene.m_prefabs.Find(x => x.name == KP.Key))
