@@ -136,3 +136,73 @@ Jane:
         Amount Max Chance: 4
         Amount Min Chance: 1
         Multiply for multiple Players: false
+        
+Jessica:
+  Sex: female
+  Health: 200
+  Helmet Prefab Name: None
+  Chest Armor Prefab Name: ArmorFenringChest
+  Legs Armor Prefab Name: ArmorFenringLegs
+  Shoulder Armor Prefab Name: CapeIronBackpackZ
+  Weapon Prefab Name: None
+  Shield Prefab Name: ShieldBoneTower
+  Faction: Plains
+  Scale: 1.0
+  Tamable: false
+  Hair Style: Hair2
+  Skin Color R: 0.847
+  Skin Color G: 0.687
+  Skin Color B: 0.494
+  Hair Color R: 1
+  Hair Color G: 0.881
+  Hair Color B: 0.697
+  Tolerate Water: true
+  Tolerate Fire: true
+  Tolerate Smoke: true
+  Tolerate Tar: true
+  NPC In Game Name: Jessica The Punisher
+  #Only one can be true, please choose accordingly
+  Is Basic Villager: false
+  Villager Builder: true
+  Villager Farmer: false
+  Villager Messenger: false
+  Damage Resists:
+    Blunt: Very
+    Slash: None
+    Pierce: Ignore
+    Chop: Resistant
+    Pickaxe: Very Resistant
+    Fire: Immune
+    Frost: Normal
+    Lightning: Normal
+    Poison: Normal
+    Spirit: Immune
+  Monster AI Config:
+    View Range: 30
+    View Angle: 90
+    Hear Range: 9999
+    Alert Range: 1000
+    Flee if hurt cant be reached: false
+    Flee if not alerted: false
+    Flee low health: 0
+    Circulate while Charging: true
+    Attack player objects: true
+    Intercept Time Max: 5
+    Intercept Time Min: 1
+    Chase Distance: 25
+    Attack Interval: 0
+    Circulate Target Duration: 3
+    Circle Target Distance: 5
+    Hunt Player: true
+    Avoid Water: false
+    Avoid Land: false
+    Avoid Fire: false
+    Random Move Interval: 5.0
+    Random Move Range: 10.0
+  DropTable:
+      Wood:
+        Drop Chance: 1
+        One Per Player: false
+        Amount Max Chance: 4
+        Amount Min Chance: 1
+        Multiply for multiple Players: false

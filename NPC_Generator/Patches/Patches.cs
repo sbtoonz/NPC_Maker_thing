@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using HarmonyLib;
+using JetBrains.Annotations;
 using NPC_Generator.NPC_Utilities;
 
 namespace NPC_Generator.Patches
@@ -15,18 +16,18 @@ namespace NPC_Generator.Patches
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
+                File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
 
         [HarmonyPatch(typeof(ObjectDB), nameof(ObjectDB.Awake))]
-        [HarmonyPriority(Priority.Last)]
+        [HarmonyAfter("org.bepinex.helpers.ItemManager")]
         public static class ObjectDBPatch
         {
             public static void Postfix(ObjectDB __instance)
             {
                 NpcUtilities.BuildMaleHumanNpc();
                 NpcUtilities.BuildFemaleHumanNpc();
-                File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
 

@@ -89,7 +89,9 @@ namespace NPC_Generator
             NpcConfig.ValueChanged += OnValueChangedNPConfig;
             SetupWatcher();
             
+
         }
+        public SyncedList SyncedListTest { get; set; }
 
         public void Start()
         {
@@ -105,9 +107,28 @@ namespace NPC_Generator
             {
                 // ignored
             }
-        }
-        
+            foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                if (gameObject.name == "_GameMain")
+                {
+                    Zscene = gameObject.GetComponent<ZNetScene>();
+                }
+            }
 
+        }
+        public static ZNetScene Zscene { get; set; }
+
+
+        internal static void assignZnet()
+        {
+            foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                if (gameObject.name == "_GameMain")
+                {
+                    Zscene = gameObject.GetComponent<ZNetScene>();
+                }
+            }
+        }
         internal static void DebugLog(DebugLevel level,string debugText)
         {
             switch (_DebugLevel.Value)
@@ -151,30 +172,27 @@ namespace NPC_Generator
         {
             if (ZNetScene.instance == null)
             {
-                ZNetScene? Zscene = null;
-                foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+                if (Zscene == null)
                 {
-                    if (gameObject.name == "_GameMain")
-                    {
-                        Zscene = gameObject.GetComponent<ZNetScene>();
-                    }
+                    assignZnet();
+
                 }
                 foreach (var KP in NpcConfig.Value)
                 {
-                    if (Zscene?.m_prefabs.Find(x => x.name == KP.Key))
+                    if (Zscene.m_prefabs.Find(x => x.name == KP.Key))
                     {
-                        var prefab = Zscene?.GetPrefab(KP.Key);
-                        Zscene?.m_prefabs.Remove(prefab);
+                        var prefab = Zscene.GetPrefab(KP.Key);
+                        Zscene.m_prefabs.Remove(prefab);
                         var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key, KP.Value, Zscene!);
-                        Zscene?.m_prefabs.Add(tempNPC);
-                        Zscene?.m_namedPrefabs.Remove(KP.Key.GetStableHashCode(), out prefab);
-                        Zscene?.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                        Zscene.m_prefabs.Add(tempNPC);
+                        Zscene.m_namedPrefabs.Remove(KP.Key.GetStableHashCode(), out prefab);
+                        Zscene.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
                     }
                     else
                     {
-                        var tempNPC = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, Zscene!);
-                        Zscene?.m_prefabs.Add(tempNPC);
-                        Zscene?.m_namedPrefabs.Add(tempNPC.name.GetStableHashCode(), tempNPC);
+                        var tempNpc = NPC_Human.ReturnNamedNpc(KP.Key,KP.Value, Zscene!);
+                        Zscene.m_prefabs.Add(tempNpc);
+                        Zscene.m_namedPrefabs.Add(tempNpc.name.GetStableHashCode(), tempNpc);
                     }
                     
                 }  
@@ -201,8 +219,6 @@ namespace NPC_Generator
                    
                 }  
             }
-           
-            
         }
         private void SetupWatcher()
         {
