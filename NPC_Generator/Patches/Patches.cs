@@ -19,14 +19,13 @@ namespace NPC_Generator.Patches
         }
 
         [HarmonyPatch(typeof(ObjectDB), nameof(ObjectDB.Awake))]
-        [HarmonyPriority(Priority.Last)]
+        [HarmonyAfter("org.bepinex.helpers.ItemManager")]
         public static class ObjectDBPatch
         {
             public static void Postfix(ObjectDB __instance)
             {
                 NpcUtilities.BuildMaleHumanNpc();
                 NpcUtilities.BuildFemaleHumanNpc();
-                File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
 

@@ -29,25 +29,25 @@ namespace NPC_Generator.NPC_Utilities
             List<GameObject> gameObjects = new List<GameObject>();
             if (!npcYamlConfig.npcHelmetString.IsNullOrWhiteSpace())
             {
-                helmet = netScene.GetPrefab(npcYamlConfig.npcHelmetString);
+                helmet = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcHelmetString);
                 gameObjects.Add(helmet);
             }
 
             if (!npcYamlConfig.npcChestString.IsNullOrWhiteSpace())
             {
-                chest = netScene.GetPrefab(npcYamlConfig.npcChestString);
+                chest = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcChestString);
                 gameObjects.Add(chest);
             }
 
             if (!npcYamlConfig.npcShoulder.IsNullOrWhiteSpace())
             {
-                shoulder = netScene.GetPrefab(npcYamlConfig.npcShoulder);
+                shoulder = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcShoulder);
                 gameObjects.Add(shoulder);
             }
 
             if (!npcYamlConfig.npcLegString.IsNullOrWhiteSpace())
             {
-                leg = netScene.GetPrefab(npcYamlConfig.npcLegString);
+                leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString);
                 gameObjects.Add(leg);
             }
             var set = new Humanoid.ItemSet[1]
@@ -73,7 +73,7 @@ namespace NPC_Generator.NPC_Utilities
             {
                 humanoid.m_randomWeapon = new []
                 {
-                    netScene.GetPrefab(config.npcWeapon)
+                    ObjectDB.instance.GetItemPrefab(config.npcWeapon)
                 }; 
             }
             else if(config.npcWeapon.IsNullOrWhiteSpace())
@@ -85,7 +85,7 @@ namespace NPC_Generator.NPC_Utilities
             {
                 humanoid.m_randomShield = new[]
                 {
-                    netScene.GetPrefab(config.npcShield)
+                    ObjectDB.instance.GetItemPrefab(config.npcShield)
                 };
             }
             else if(config.npcShield.IsNullOrWhiteSpace())
@@ -154,11 +154,11 @@ namespace NPC_Generator.NPC_Utilities
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
                     hair.HairStyleName = config.npcHairStyle;
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
-                    if (config.villagerConfig.mIsVillager)
+                    if (config.mIsVillager)
                     {
                         tempNPC.AddComponent<VillagerBase>();
                     }
-                    if (config.villagerConfig.mVillagerBuilder)
+                    if (config.mVillagerBuilder)
                     {
                         Component baseVillagerBase;
                         tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
@@ -168,7 +168,7 @@ namespace NPC_Generator.NPC_Utilities
                         }
                         tempNPC.AddComponent<Villager_Builder>();
                     }
-                    if (config.villagerConfig.mVillagerFarmer)
+                    if (config.mVillagerFarmer)
                     {
                         Component baseVillagerBase;
                         tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
@@ -184,7 +184,7 @@ namespace NPC_Generator.NPC_Utilities
                         }
                         tempNPC.AddComponent<Villager_Farmer>();
                     }
-                    if (config.villagerConfig.mVillagerMessenger)
+                    if (config.mVillagerMessenger)
                     {
                         tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
                         if (baseVillagerBase)
@@ -231,11 +231,11 @@ namespace NPC_Generator.NPC_Utilities
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     Character character = tempNPC.GetComponent<Character>();
                     spawnedNPCs.Add(tempNPC);
-                    if (config.villagerConfig.mIsVillager)
+                    if (config.mIsVillager)
                     {
                         tempNPC.AddComponent<VillagerBase>();
                     }
-                    if (config.villagerConfig.mVillagerBuilder)
+                    if (config.mVillagerBuilder)
                     {
                         Component baseVillagerBase;
                         tempNPC.TryGetComponent(typeof(VillagerBase), out baseVillagerBase);
@@ -245,7 +245,7 @@ namespace NPC_Generator.NPC_Utilities
                         }
                         tempNPC.AddComponent<Villager_Builder>();
                     }
-                    if (config.villagerConfig.mVillagerFarmer)
+                    if (config.mVillagerFarmer)
                     {
                         tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
                         if (baseVillagerBase)
@@ -259,7 +259,7 @@ namespace NPC_Generator.NPC_Utilities
                         }
                         tempNPC.AddComponent<Villager_Farmer>();
                     }
-                    if (config.villagerConfig.mVillagerMessenger)
+                    if (config.mVillagerMessenger)
                     {
                         tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
                         if (baseVillagerBase)
@@ -323,7 +323,7 @@ namespace NPC_Generator.NPC_Utilities
         internal static List<CharacterDrop.Drop> createCharDrop(NPCYamlConfig config)
         {
             List<CharacterDrop.Drop> m_drops = new List<CharacterDrop.Drop>();
-            foreach (var KP in config.DropConfig.DropItems)
+            foreach (var KP in config.DropItems)
             {
                 var drop = returnSingleDrop(KP.Key, KP.Value.m_chance, KP.Value.m_onePer,
                     KP.Value.m_ammountMin,
