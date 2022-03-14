@@ -8,6 +8,7 @@ using NPC_Generator.Tools;
 using UnityEngine;
 using static NPC_Generator.NPC_Generator;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace NPC_Generator.NPC_Utilities
 {
@@ -306,6 +307,97 @@ namespace NPC_Generator.NPC_Utilities
             hum.m_eye = NetworkedNPCFemale.transform.Find("EyePos");
             hum.m_deathEffects = tempplayer.GetComponent<Player>().m_deathEffects;
         }
+
+		internal static void BuildRaidNPC()
+		{
+			
+		var temp = Resources.FindObjectsOfTypeAll<GameObject>();
+            GameObject? tempplayer = null;
+            foreach (var o in temp)
+            {
+                if (o.GetComponent<Player>() != null)
+                { 
+	                NetworkRaider = Object.Instantiate(o, RootGOHolder?.transform!);
+                    tempplayer = o;
+                    if (!BadgerPlayerMeshMod)
+                    {
+	                    break;
+                    }
+                }
+                if (BadgerPlayerMeshMod)
+                {
+	                if (o.name == "Male")
+	                {
+		                if (o.transform.Find("Body") != null)
+		                {
+			               
+			                playerMale = o;
+			                continue; 
+		                }
+	                }
+                }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            foreach (var VARIABLE in Resources.FindObjectsOfTypeAll<Texture2D>())
+	            {
+		            if (VARIABLE.name == "noMetal")
+		            {
+			            noMetal = VARIABLE;
+		            }
+	            }
+            }
+            if (BadgerPlayerMeshMod)
+            {
+	            var player = NetworkRaider.GetComponent<Player>();
+	            DebugLog(DebugLevel.All,"Got instance");
+	            VisEquipment component = NetworkRaider.GetComponent<VisEquipment>();
+	            DebugLog(DebugLevel.All,"got ve");
+	            maleSmr = playerMale.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
+	            DebugLog(DebugLevel.All,"got renderers");
+	            maleSkin = maleSmr.sharedMaterial.GetTexture("_MainTex");
+	            maleSkinBump = maleSmr.sharedMaterial.GetTexture("_BumpMap");
+	             DebugLog(DebugLevel.All,"Got materials");
+	            if (component != null)
+	            {
+		            component.m_models[0].m_mesh = maleSmr.sharedMesh;
+		            component.m_models[0].m_baseMaterial.SetTexture("_MainTex", maleSkin);
+		            component.m_models[0].m_baseMaterial.SetTexture("_SkinBumpMap", maleSkinBump);
+	            }
+	            UpdateBody.UpdateBodyModel(component);
+            }
+            Object.DestroyImmediate(NetworkRaider?.GetComponent<PlayerController>());
+            Object.DestroyImmediate(NetworkRaider?.GetComponent<Player>());
+            Object.DestroyImmediate(NetworkRaider?.GetComponent<Talker>());
+            Object.DestroyImmediate(NetworkRaider?.GetComponent<Skills>());
+            NetworkRaider!.name = "VillageRaider";
+            var basicznet =
+	            NetworkedNPCMale.GetComponent<ZNetView>();
+            basicznet.enabled = true;
+            NetworkRaider.GetComponent<ZSyncAnimation>().enabled = true;
+            NetworkRaider.GetComponent<ZSyncTransform>().enabled = true;
+            var HumanoidAI = NetworkRaider.AddComponent<Humanoid>();
+            HumanoidAI.m_nview = basicznet;
+            basicznet.m_persistent = true;
+            HumanoidAI.CopyChildrenComponents<Humanoid, Player>(tempplayer!.GetComponent<Player>());
+            NetworkRaider.name = "VillageRaider";
+            NetworkRaider.transform.name = "VillageRaider";
+            NetworkRaider.transform.position = Vector3.zero;
+            var MonsterAI =
+	            NetworkRaider.AddComponent<MonsterAI>();
+            SetupMonsterAI(MonsterAI);
+            MonsterAI.m_nview = NetworkRaider.GetComponent<ZNetView>();
+            MonsterAI.m_nview.m_zdo = new ZDO();
+            var hum = NetworkRaider.GetComponent<Humanoid>();
+            hum.m_faction = Character.Faction.PlainsMonsters;
+            hum.m_health = 200;
+            hum.m_defaultItems = new GameObject[0];
+            hum.m_eye = NetworkRaider.transform.Find("EyePos");
+            hum.m_deathEffects = tempplayer.GetComponent<Player>().m_deathEffects;
+            NetworkRaider.AddComponent<RandomVisuals>();
+            NetworkRaider.AddComponent<RandomWeapon>();
+            NetworkRaider.AddComponent<CapsuleHelper>();
+		}
 		
 		/// <summary>
 		/// Configure's base MonsterAI

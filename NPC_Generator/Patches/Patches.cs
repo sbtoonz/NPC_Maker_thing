@@ -16,6 +16,7 @@ namespace NPC_Generator.Patches
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
+                __instance.m_prefabs.Add(NPC_Generator.NetworkRaider);
                 File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
             }
         }
@@ -28,6 +29,7 @@ namespace NPC_Generator.Patches
             {
                 NpcUtilities.BuildMaleHumanNpc();
                 NpcUtilities.BuildFemaleHumanNpc();
+                NpcUtilities.BuildRaidNPC();
             }
         }
 

@@ -103,6 +103,12 @@ namespace NPC_Generator.MonoScripts.Villagers
                     item.ChangeFaction(item.hum);
                 }
             }
+            if (character.IsMonsterFaction())
+            {
+                _monsterAI.SetTarget(character);
+                _monsterAI.SetAlerted(true);
+                _monsterAI.DoAttack(character, false);
+            }
         }
         public virtual void ChangeFaction(Humanoid m_hum)
         {
