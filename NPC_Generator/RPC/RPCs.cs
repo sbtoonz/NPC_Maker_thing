@@ -53,6 +53,7 @@ public class RPCs
 
     private static void RegisterRandEvent(long uid, Vector3 location)
     {
+        if (!ZNet.instance.IsServer()) return;
         ZLog.LogWarning(location.ToString());
         _event.m_active = true;
         _event.m_biome = Heightmap.Biome.Meadows;
