@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BepInEx;
 using NPC_Generator.MonoScripts;
 using NPC_Generator.MonoScripts.Villagers;
@@ -27,27 +28,27 @@ namespace NPC_Generator.NPC_Utilities
             GameObject? shoulder = null;
             GameObject? leg = null;
             List<GameObject> gameObjects = new List<GameObject>();
-            if (npcYamlConfig.npcHelmetString.ToLower() != "none")
+            if (npcYamlConfig.npcHelmetString.ToArray().GetRandomElement().ToLower() != "none")
             {
-                helmet = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcHelmetString);
+                helmet = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcHelmetString.ToArray().GetRandomElement());
                 gameObjects.Add(helmet);
             }
 
-            if (npcYamlConfig.npcChestString.ToLower() != "none")
+            if (npcYamlConfig.npcChestString.ToArray().GetRandomElement().ToLower() != "none")
             {
-                chest = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcChestString);
+                chest = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcChestString.ToArray().GetRandomElement());
                 gameObjects.Add(chest);
             }
 
-            if (npcYamlConfig.npcShoulder.ToLower() != "none")
+            if (npcYamlConfig.npcShoulder.ToArray().GetRandomElement().ToLower() != "none")
             {
-                shoulder = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcShoulder);
+                shoulder = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcShoulder.ToArray().GetRandomElement());
                 gameObjects.Add(shoulder);
             }
 
-            if (npcYamlConfig.npcLegString.ToLower() != "none")
+            if (npcYamlConfig.npcLegString.ToArray().GetRandomElement().ToLower() != "none")
             {
-                leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString);
+                leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString.ToArray().GetRandomElement());
                 gameObjects.Add(leg);
             }
             var set = new Humanoid.ItemSet[1]
@@ -69,24 +70,44 @@ namespace NPC_Generator.NPC_Utilities
         private static void SetupVisuals(Humanoid humanoid, NPCYamlConfig config, ZNetScene netScene)
         {
             humanoid.m_randomSets = CreateSetList(config, netScene);
-            if (config.npcWeapon.ToLower() != "none")
+            if (config.npcWeapon.ToArray().GetRandomElement().ToLower() != "none")
             {
-                humanoid.m_randomWeapon = new []
+                humanoid.m_randomWeapon = new GameObject[] { };
+                if(config.npcWeapon.Count > 1)
                 {
-                    ObjectDB.instance.GetItemPrefab(config.npcWeapon)
-                }; 
+                    var weaponlist =humanoid.m_randomWeapon.ToList();
+                    weaponlist.AddRange(config.npcWeapon.Select(st => ObjectDB.instance.GetItemPrefab(st)));
+                    humanoid.m_randomWeapon = weaponlist.ToArray();
+                }
+                else
+                {
+                    humanoid.m_randomWeapon = new[]
+                    {
+                        ObjectDB.instance.GetItemPrefab(config.npcWeapon.ToArray().GetRandomElement())
+                    };
+                }
             }
             else
             {
                 humanoid.m_randomWeapon = Array.Empty<GameObject>();
             }
 
-            if (config.npcShield.ToLower() != "none")
+            if (config.npcShield.ToArray().GetRandomElement().ToLower() != "none")
             {
-                humanoid.m_randomShield = new[]
+                humanoid.m_randomShield = new GameObject[] { };
+                if (config.npcShield.Count > 1)
                 {
-                    ObjectDB.instance.GetItemPrefab(config.npcShield)
-                };
+                    var shieldlist = humanoid.m_randomShield.ToList();
+                    shieldlist.AddRange(config.npcShield.Select(st => ObjectDB.instance.GetItemPrefab(st)));
+                    humanoid.m_randomShield = shieldlist.ToArray();
+                }
+                else
+                {
+                    humanoid.m_randomShield = new[]
+                    {
+                        ObjectDB.instance.GetItemPrefab(config.npcShield.ToArray().GetRandomElement())
+                    };
+                }
             }
             else
             {
@@ -152,7 +173,7 @@ namespace NPC_Generator.NPC_Utilities
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
-                    hair.HairStyleName = config.npcHairStyle;
+                    hair.HairStyleName = config.npcHairStyle.ToArray().GetRandomElement();
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     if (config.mIsVillager)
                     {
@@ -204,6 +225,24 @@ namespace NPC_Generator.NPC_Utilities
                         tempNPC.AddComponent<VillagerMessenger>();
 
                     }
+                    if (config.mVillagerRaidMaster)
+                    {
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.AddComponent<VillagerRandEvent>();
+                    }
+                    if (config.mVillagerSkillMaster)
+                    {
+                        tempNPC.TryGetComponent(typeof(VillagerBase), out var baseVillagerBase);
+                        if (baseVillagerBase)
+                        {
+                            Object.Destroy(baseVillagerBase);
+                        }
+                        tempNPC.AddComponent<VillageSkillMaster>();
+                    }
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
                 }
@@ -227,7 +266,7 @@ namespace NPC_Generator.NPC_Utilities
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
-                    hair.HairStyleName = config.npcHairStyle;
+                    hair.HairStyleName = config.npcHairStyle.ToArray().GetRandomElement();
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     Character character = tempNPC.GetComponent<Character>();
                     spawnedNPCs.Add(tempNPC);

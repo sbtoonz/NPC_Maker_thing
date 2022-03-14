@@ -44,22 +44,22 @@ public struct NPCYamlConfig
     public int mHealth { get; set; }
 
     [YamlMember(Alias = "Helmet Prefab Name", ApplyNamingConventions = false)]
-    public string npcHelmetString { get; set; }
+    public List<string> npcHelmetString { get; set; }
 
     [YamlMember(Alias = "Chest Armor Prefab Name", ApplyNamingConventions = false)]
-    public string npcChestString { get; set; }
+    public List<string> npcChestString { get; set; }
 
     [YamlMember(Alias = "Legs Armor Prefab Name", ApplyNamingConventions = false)]
-    public string npcLegString { get; set; }
+    public List<string> npcLegString { get; set; }
 
     [YamlMember(Alias = "Shoulder Armor Prefab Name", ApplyNamingConventions = false)]
-    public string npcShoulder { get; set; }
+    public List<string> npcShoulder { get; set; }
 
     [YamlMember(Alias = "Weapon Prefab Name", ApplyNamingConventions = false)]
-    public string npcWeapon { get; set; }
+    public List<string> npcWeapon { get; set; }
 
     [YamlMember(Alias = "Shield Prefab Name", ApplyNamingConventions = false)]
-    public string npcShield { get; set; }
+    public List<string> npcShield { get; set; }
 
     [YamlMember(Alias = "Faction", ApplyNamingConventions = false)]
     public string npcFaction { get; set; }
@@ -71,7 +71,7 @@ public struct NPCYamlConfig
     public bool npcTameable { get; set; }
 
     [YamlMember(Alias = "Hair Style", ApplyNamingConventions = false)]
-    public string npcHairStyle { get; set; }
+    public List<string> npcHairStyle { get; set; }
 
     [YamlMember(Alias = "Skin Color R", ApplyNamingConventions = false)]
     public float npcSkinColorR { get; set; }
@@ -118,7 +118,16 @@ public struct NPCYamlConfig
 
     [YamlMember(Alias = "Villager Messenger", ApplyNamingConventions = false)]
     public bool mVillagerMessenger { get; set; }
+    
+    [YamlMember(Alias = "Villager RaidMaster", ApplyNamingConventions = false)]
+    public bool mVillagerRaidMaster { get; set; }
+    
+    [YamlMember(Alias = "Villager SkillMaster", ApplyNamingConventions = false)]
+    public bool mVillagerSkillMaster { get; set; }
 
+    [YamlMember(Alias = "SkillMaster Skills", ApplyNamingConventions = false)]
+    public SkillMaster SkillMastersskills { get; set; }
+    
     [YamlMember(Alias = "Damage Resists", ApplyNamingConventions = false)]
     public DamageResists DamageResists { get; set; }
 
@@ -127,6 +136,15 @@ public struct NPCYamlConfig
     
     [YamlMember(Alias = "DropTable", ApplyNamingConventions = false)]
     public Dictionary<string, DropItem> DropItems { get; set; }
+}
+
+public struct SkillMaster
+{
+    [YamlMember(Alias = "Skill Names", ApplyNamingConventions = false)]
+    public List<string> mSkillName { get; set; }
+    
+    [YamlMember(Alias = "Item Names", ApplyNamingConventions = false)]
+    public List<string> mItemName { get; set; }
 }
 
 public struct DamageResists

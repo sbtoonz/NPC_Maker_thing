@@ -283,17 +283,21 @@
   <ItemGroup>
     <Compile Include="Libs\UpdateBody.cs" />
     <Compile Include="ModCore.cs" />
+    <Compile Include="MonoScripts\CapsuleHelper.cs" />
     <Compile Include="MonoScripts\Commandable.cs" />
     <Compile Include="MonoScripts\FemaleAssigner.cs" />
     <Compile Include="MonoScripts\HairSetter.cs" />
     <Compile Include="MonoScripts\RandomVisuals.cs" />
+    <Compile Include="MonoScripts\RandomWeapon.cs" />
     <Compile Include="MonoScripts\SkinColorHelper.cs" />
     <Compile Include="MonoScripts\TameHelper.cs" />
     <Compile Include="MonoScripts\Villagers\MessengerTarget.cs" />
     <Compile Include="MonoScripts\Villagers\VillagerBase.cs" />
+    <Compile Include="MonoScripts\Villagers\VillagerRandEvent.cs" />
     <Compile Include="MonoScripts\Villagers\Villager_Builder.cs" />
     <Compile Include="MonoScripts\Villagers\Villager_Farmer.cs" />
     <Compile Include="MonoScripts\Villagers\VillagerMessenger.cs" />
+    <Compile Include="MonoScripts\Villagers\VillageSkillMaster.cs" />
     <Compile Include="NPC_Utilities\NPC_Human.cs" />
     <Compile Include="NPC_Utilities\NPC_Names.cs" />
     <Compile Include="NPC_Utilities\NPC_Utilities.cs" />

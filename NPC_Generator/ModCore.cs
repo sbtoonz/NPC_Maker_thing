@@ -27,6 +27,7 @@ namespace NPC_Generator
         internal static GameObject? RootGOHolder;
         internal static GameObject? NetworkedNPCMale;
         internal static GameObject? NetworkedNPCFemale;
+        internal static GameObject? NetworkRaider;
         internal static ConfigEntry<bool>? _serverConfigLocked;
         internal static ConfigEntry<DebugLevel> _DebugLevel;
         internal static ManualLogSource npcLogger;
