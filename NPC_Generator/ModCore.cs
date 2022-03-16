@@ -29,19 +29,19 @@ namespace NPC_Generator
         internal static GameObject? NetworkedNPCFemale;
         internal static GameObject? NetworkRaider;
         internal static ConfigEntry<bool>? _serverConfigLocked;
-        internal static ConfigEntry<DebugLevel> _DebugLevel;
-        internal static ManualLogSource npcLogger;
+        internal static ConfigEntry<DebugLevel>? _DebugLevel;
+        internal static ManualLogSource? npcLogger;
         internal static bool BadgerPlayerMeshMod;
         //badgershit
-        public static Texture2D noMetal = null;
-        public static Texture maleSkin = null;
-        public static Texture maleSkinBump = null;
-        public static Texture femaleSkin = null;
-        public static Texture femaleSkinBump = null;
-        public static SkinnedMeshRenderer maleSmr = null;
-        public static SkinnedMeshRenderer femaleSmr = null;
-        public static GameObject playerMale = null;
-        public static GameObject playerFemale = null;
+        public static Texture2D? noMetal = null;
+        public static Texture? maleSkin = null;
+        public static Texture? maleSkinBump = null;
+        public static Texture? femaleSkin = null;
+        public static Texture? femaleSkinBump = null;
+        public static SkinnedMeshRenderer? maleSmr = null;
+        public static SkinnedMeshRenderer? femaleSmr = null;
+        public static GameObject? playerMale = null;
+        public static GameObject? playerFemale = null;
         
         
         private static ConfigSync configSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion};
@@ -92,7 +92,7 @@ namespace NPC_Generator
             
 
         }
-        public SyncedList SyncedListTest { get; set; }
+        public SyncedList? SyncedListTest { get; set; }
 
         public void Start()
         {
@@ -117,7 +117,7 @@ namespace NPC_Generator
             }
 
         }
-        public static ZNetScene Zscene { get; set; }
+        public static ZNetScene? Zscene { get; set; }
 
 
         internal static void assignZnet()
@@ -132,16 +132,16 @@ namespace NPC_Generator
         }
         internal static void DebugLog(DebugLevel level,string debugText)
         {
-            switch (_DebugLevel.Value)
+            switch (_DebugLevel?.Value)
             {
                 case DebugLevel.All:
                     switch (level)
                     {
                         case DebugLevel.Some:
-                            npcLogger.Log(LogLevel.All, debugText);
+                            npcLogger?.Log(LogLevel.All, debugText);
                             break;
                         case DebugLevel.All:
-                            npcLogger.LogWarning(debugText);
+                            npcLogger?.LogWarning(debugText);
                             break;
                         case DebugLevel.None:
                             break;
@@ -155,7 +155,7 @@ namespace NPC_Generator
                     switch (level)
                     {
                         case DebugLevel.Some:
-                            npcLogger.Log(LogLevel.All, debugText);
+                            npcLogger?.Log(LogLevel.All, debugText);
                             break;
                         case DebugLevel.All:
                             break;
@@ -180,7 +180,7 @@ namespace NPC_Generator
                 }
                 foreach (var KP in NpcConfig.Value)
                 {
-                    if (Zscene.m_prefabs.Find(x => x.name == KP.Key))
+                    if (Zscene!.m_prefabs.Find(x => x.name == KP.Key))
                     {
                         var prefab = Zscene.GetPrefab(KP.Key);
                         Zscene.m_prefabs.Remove(prefab);

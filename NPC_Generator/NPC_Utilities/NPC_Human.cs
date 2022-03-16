@@ -118,7 +118,7 @@ namespace NPC_Generator.NPC_Utilities
             }
             humanoid.m_randomSets = setlist.ToArray();
             
-            if (config.npcWeapon.ToArray().GetRandomElement().ToLower() != "none")
+            if (config.npcWeapon!.ToArray().GetRandomElement().ToLower() != "none")
             {
                 humanoid.m_randomWeapon = new GameObject[] { };
                 if(config.npcWeapon.Count > 1)
@@ -140,7 +140,7 @@ namespace NPC_Generator.NPC_Utilities
                 humanoid.m_randomWeapon = Array.Empty<GameObject>();
             }
 
-            if (config.npcShield.ToArray().GetRandomElement().ToLower() != "none")
+            if (config.npcShield!.ToArray().GetRandomElement().ToLower() != "none")
             {
                 humanoid.m_randomShield = new GameObject[] { };
                 if (config.npcShield.Count > 1)
@@ -200,7 +200,7 @@ namespace NPC_Generator.NPC_Utilities
             }
 
             GameObject? tempNPC = null;
-            switch (config.npcSex.ToLower())
+            switch (config.npcSex?.ToLower())
             {
                 case "male":
                 {
@@ -221,7 +221,7 @@ namespace NPC_Generator.NPC_Utilities
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
-                    hair.HairStyleName = config.npcHairStyle.ToArray().GetRandomElement();
+                    hair.HairStyleName = config.npcHairStyle!.ToArray().GetRandomElement();
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     if (config.mIsVillager)
                     {
@@ -314,7 +314,7 @@ namespace NPC_Generator.NPC_Utilities
                     var hair =tempNPC.AddComponent<HairSetter>();
                     var skincolor = tempNPC.AddComponent<SkinColorHelper>();
                     skincolor.SkinColor = new Color(config.npcSkinColorR, config.npcSkinColorG, config.npcSkinColorB);
-                    hair.HairStyleName = config.npcHairStyle.ToArray().GetRandomElement();
+                    hair.HairStyleName = config.npcHairStyle!.ToArray().GetRandomElement();
                     hair.hairColor = new Color(config.npcHairColorR, config.npcHairColorG, config.npcHairColorB);
                     Character character = tempNPC.GetComponent<Character>();
                     spawnedNPCs.Add(tempNPC);
@@ -410,7 +410,7 @@ namespace NPC_Generator.NPC_Utilities
         internal static List<CharacterDrop.Drop> createCharDrop(NPCYamlConfig config)
         {
             List<CharacterDrop.Drop> m_drops = new List<CharacterDrop.Drop>();
-            foreach (var KP in config.DropItems)
+            foreach (var KP in config.DropItems!)
             {
                 var drop = returnSingleDrop(KP.Key, KP.Value.m_chance, KP.Value.m_onePer,
                     KP.Value.m_ammountMin,

@@ -8,13 +8,15 @@ namespace NPC_Generator.MonoScripts.Villagers;
 
 public class VillageSkillMaster : VillagerBase
 {
-    [SerializeField] internal string itemName;
-    [SerializeField] internal string skillName;
-    [SerializeField] internal int reqstack;
-    [SerializeField] internal int minSkillGain;
-    [SerializeField] internal int maxSkillGain;
+#pragma warning disable CS8618
+    [SerializeField] internal string itemName = "";
+    [SerializeField] internal string skillName = "";
+    [SerializeField] internal int reqstack = 1;
+    [SerializeField] internal int minSkillGain = 1;
+    [SerializeField] internal int maxSkillGain = 2;
+#pragma warning restore CS8618
     
-    internal ItemDrop.ItemData _itemData;
+    internal ItemDrop.ItemData? _itemData;
     internal Skills.SkillType _skillType;
     private bool levelGiven = false;
     
@@ -65,13 +67,13 @@ public class VillageSkillMaster : VillagerBase
     {
         if (!levelGiven)
         {
-            Say("I Require" + reqstack + Localization.instance.Localize(_itemData.m_shared.m_name));
+            Say("I Require" + reqstack + Localization.instance.Localize(_itemData!.m_shared.m_name));
             m_nview.GetZDO().Set("levelQuest", true);
             return true;
         }
         if (m_nview.GetZDO().GetBool("levelQuest"))
         {
-            Say("Please locate me" + reqstack + Localization.instance.Localize(_itemData.m_shared.m_name) + " For a blessing");
+            Say("Please locate me" + reqstack + Localization.instance.Localize(_itemData!.m_shared.m_name) + " For a blessing");
             return true;
         }
         if (m_nview.GetZDO().GetBool("levelQuest") == false)

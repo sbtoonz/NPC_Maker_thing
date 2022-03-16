@@ -38,7 +38,7 @@ public class YMLParser
 public struct NPCYamlConfig
 {
     [YamlMember(Alias = "Sex", ApplyNamingConventions = false)]
-    public string npcSex { get; set; }
+    public string? npcSex { get; set; }
 
     [YamlMember(Alias = "Health", ApplyNamingConventions = false)]
     public int mHealth { get; set; }
@@ -47,13 +47,13 @@ public struct NPCYamlConfig
     public Dictionary<int, SetList> m_setConfigs = new Dictionary<int, SetList>();
 
     [YamlMember(Alias = "Weapon Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcWeapon { get; set; }
+    public List<string>? npcWeapon { get; set; }
 
     [YamlMember(Alias = "Shield Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcShield { get; set; }
+    public List<string>? npcShield { get; set; }
 
     [YamlMember(Alias = "Faction", ApplyNamingConventions = false)]
-    public string npcFaction { get; set; }
+    public string? npcFaction { get; set; }
 
     [YamlMember(Alias = "Scale", ApplyNamingConventions = false)]
     public float npcScale { get; set; }
@@ -62,7 +62,7 @@ public struct NPCYamlConfig
     public bool npcTameable { get; set; }
 
     [YamlMember(Alias = "Hair Style", ApplyNamingConventions = false)]
-    public List<string> npcHairStyle { get; set; }
+    public List<string>? npcHairStyle { get; set; }
 
     [YamlMember(Alias = "Skin Color R", ApplyNamingConventions = false)]
     public float npcSkinColorR { get; set; }
@@ -95,7 +95,7 @@ public struct NPCYamlConfig
     public bool mTolerateTar { get; set; }
 
     [YamlMember(Alias = "NPC In Game Name", ApplyNamingConventions = false)]
-    public string mNPCInGameName { get; set; }
+    public string? mNPCInGameName { get; set; }
 
 
     [YamlMember(Alias = "Is Basic Villager", ApplyNamingConventions = false)]
@@ -126,7 +126,7 @@ public struct NPCYamlConfig
     public MonsterAIConfig monsterAiConfig { get; set; }
     
     [YamlMember(Alias = "DropTable", ApplyNamingConventions = false)]
-    public Dictionary<string, DropItem> DropItems { get; set; }
+    public Dictionary<string, DropItem>? DropItems { get; set; }
 }
 
 public struct SkillMaster

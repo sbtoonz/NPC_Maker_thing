@@ -171,11 +171,11 @@ namespace NPC_Generator.NPC_Utilities
             }
             if (BadgerPlayerMeshMod)
             {
-	            var player = NetworkedNPCMale.GetComponent<Player>();
+	            var player = NetworkedNPCMale!.GetComponent<Player>();
 	            DebugLog(DebugLevel.All,"Got instance");
 	            VisEquipment component = NetworkedNPCMale.GetComponent<VisEquipment>();
 	            DebugLog(DebugLevel.All,"got ve");
-	            maleSmr = playerMale.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
+	            maleSmr = playerMale!.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
 	            DebugLog(DebugLevel.All,"got renderers");
 	            maleSkin = maleSmr.sharedMaterial.GetTexture("_MainTex");
 	            maleSkinBump = maleSmr.sharedMaterial.GetTexture("_BumpMap");
@@ -186,7 +186,7 @@ namespace NPC_Generator.NPC_Utilities
 		            component.m_models[0].m_baseMaterial.SetTexture("_MainTex", maleSkin);
 		            component.m_models[0].m_baseMaterial.SetTexture("_SkinBumpMap", maleSkinBump);
 	            }
-	            UpdateBody.UpdateBodyModel(component);
+	            UpdateBody.UpdateBodyModel(component!);
             }
             Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<PlayerController>());
             Object.DestroyImmediate(NetworkedNPCMale?.GetComponent<Player>());
@@ -260,22 +260,22 @@ namespace NPC_Generator.NPC_Utilities
             }
             if (BadgerPlayerMeshMod)
             {
-	            var player = NetworkedNPCFemale.GetComponent<Player>();
+	            var player = NetworkedNPCFemale!.GetComponent<Player>();
 	            DebugLog(DebugLevel.All,"Got instance");
-	            VisEquipment component = NetworkedNPCFemale.GetComponent<VisEquipment>();
+	            VisEquipment component = NetworkedNPCFemale!.GetComponent<VisEquipment>();
 	            DebugLog(DebugLevel.All,"got ve");
-	            femaleSmr = playerFemale.GetComponentInChildren<SkinnedMeshRenderer>();
+	            femaleSmr = playerFemale!.GetComponentInChildren<SkinnedMeshRenderer>();
 	            DebugLog(DebugLevel.All,"got renderers");
-	            femaleSkin = femaleSmr.sharedMaterial.GetTexture("_MainTex");
-	            femaleSkinBump = femaleSmr.sharedMaterial.GetTexture("_BumpMap");
+	            femaleSkin = femaleSmr!.sharedMaterial.GetTexture("_MainTex");
+	            femaleSkinBump = femaleSmr!.sharedMaterial.GetTexture("_BumpMap");
 	            DebugLog(DebugLevel.All,"Got materials");
 	            if (component != null)
 	            {
-		            component.m_models[1].m_mesh = femaleSmr.sharedMesh;
+		            component.m_models[1].m_mesh = femaleSmr?.sharedMesh;
 		            component.m_models[1].m_baseMaterial.SetTexture("_MainTex", femaleSkin);
 		            component.m_models[1].m_baseMaterial.SetTexture("_SkinBumpMap", femaleSkinBump);
 	            }
-	            UpdateBody.UpdateBodyModel(component);
+	            UpdateBody.UpdateBodyModel(component!);
             }
 			var basicznet =
 				NetworkedNPCFemale!.GetComponent<ZNetView>();
@@ -349,11 +349,11 @@ namespace NPC_Generator.NPC_Utilities
             }
             if (BadgerPlayerMeshMod)
             {
-	            var player = NetworkRaider.GetComponent<Player>();
+	            var player = NetworkRaider!.GetComponent<Player>();
 	            DebugLog(DebugLevel.All,"Got instance");
 	            VisEquipment component = NetworkRaider.GetComponent<VisEquipment>();
 	            DebugLog(DebugLevel.All,"got ve");
-	            maleSmr = playerMale.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
+	            maleSmr = playerMale!.transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
 	            DebugLog(DebugLevel.All,"got renderers");
 	            maleSkin = maleSmr.sharedMaterial.GetTexture("_MainTex");
 	            maleSkinBump = maleSmr.sharedMaterial.GetTexture("_BumpMap");
@@ -364,7 +364,7 @@ namespace NPC_Generator.NPC_Utilities
 		            component.m_models[0].m_baseMaterial.SetTexture("_MainTex", maleSkin);
 		            component.m_models[0].m_baseMaterial.SetTexture("_SkinBumpMap", maleSkinBump);
 	            }
-	            UpdateBody.UpdateBodyModel(component);
+	            UpdateBody.UpdateBodyModel(component!);
             }
             Object.DestroyImmediate(NetworkRaider?.GetComponent<PlayerController>());
             Object.DestroyImmediate(NetworkRaider?.GetComponent<Player>());
@@ -372,8 +372,8 @@ namespace NPC_Generator.NPC_Utilities
             Object.DestroyImmediate(NetworkRaider?.GetComponent<Skills>());
             NetworkRaider!.name = "VillageRaider";
             var basicznet =
-	            NetworkedNPCMale.GetComponent<ZNetView>();
-            basicznet.enabled = true;
+	            NetworkedNPCMale?.GetComponent<ZNetView>();
+            basicznet!.enabled = true;
             NetworkRaider.GetComponent<ZSyncAnimation>().enabled = true;
             NetworkRaider.GetComponent<ZSyncTransform>().enabled = true;
             var HumanoidAI = NetworkRaider.AddComponent<Humanoid>();
@@ -439,7 +439,7 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
             ai.m_pathAgentType = Pathfinding.AgentType.Humanoid;
             ai.m_smoothMovement = true;
-            ai.m_jumpInterval = 20;
+            ai.m_jumpInterval = 20.RollDice();
             ai.m_randomCircleInterval = monsterAIConfig.mCircleInteverval;
             ai.m_circleTargetDistance = monsterAIConfig.mCircleDistance;
             ai.m_circleTargetDuration = monsterAIConfig.mCircleDuration;
