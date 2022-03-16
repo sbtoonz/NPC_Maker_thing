@@ -1,4 +1,6 @@
-﻿using NPC_Generator.NPC_Utilities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NPC_Generator.NPC_Utilities;
 using UnityEngine;
 
 namespace NPC_Generator.MonoScripts
@@ -40,6 +42,23 @@ namespace NPC_Generator.MonoScripts
 			m_vis.SetModel(2.RollDice());
 			m_vis.SetHairColor(new Vector3(hair.r, hair.g, hair.b));
 			m_vis.SetSkinColor(new Vector3(skin, skin, skin));
+			var chest = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Chest, "Armor").ToArray();
+			var helmet = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Helmet, "Helmet").ToArray();
+			var shoulder = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Shoulder, "Cape").ToArray();
+			var legs = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.Legs, "Armor").ToArray();
+			List<GameObject> listofobjects = new List<GameObject>();
+			listofobjects.AddRange(chest.Select(x=>x.gameObject));
+			listofobjects.AddRange(helmet.Select(x=>x.gameObject));
+			listofobjects.AddRange(shoulder.Select(x=>x.gameObject));
+			listofobjects.AddRange(legs.Select(x=>x.gameObject));
+			var set = new Humanoid.ItemSet[1]
+			{
+				new Humanoid.ItemSet
+				{
+					m_items = listofobjects.ToArray()
+				}
+			};
+			_humanoid!.m_randomSets = set;
 			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
 		}
 		protected void SetItem(string slot, string[] items)

@@ -439,7 +439,7 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_idleSound.m_effectPrefabs = new EffectList.EffectData[0];
             ai.m_pathAgentType = Pathfinding.AgentType.Humanoid;
             ai.m_smoothMovement = true;
-            ai.m_jumpInterval = 20.RollDice();
+            ai.m_jumpInterval = RandomJump();
             ai.m_randomCircleInterval = monsterAIConfig.mCircleInteverval;
             ai.m_circleTargetDistance = monsterAIConfig.mCircleDistance;
             ai.m_circleTargetDuration = monsterAIConfig.mCircleDuration;
@@ -464,6 +464,12 @@ namespace NPC_Generator.NPC_Utilities
             ai.m_avoidFire = monsterAIConfig.npcAvoidFire;
         }
 
+		internal static int RandomJump()
+		{
+			Random.InitState((int)((Time.time + ZNet.instance.GetTime().Month) * 1000) + seed);
+			var num = Random.Range(20, 80);
+			return num;
+		}
 		#endregion
     }
 }

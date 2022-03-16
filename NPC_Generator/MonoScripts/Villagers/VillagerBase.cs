@@ -107,18 +107,22 @@ namespace NPC_Generator.MonoScripts.Villagers
             }
             if (character.IsMonsterFaction())
             {
-                _monsterAI!.SetTarget(character);
-                _monsterAI.SetAlerted(true);
-                _monsterAI.DoAttack(character, false);
-                foreach (var vb in NPC_Human.spawnedVillagers)
-                {
-                    var hum = vb.gameObject.GetComponent<Humanoid>();
-                    var monsterAI = vb.gameObject.GetComponent<MonsterAI>();
-                    hum.m_group = Player.m_localPlayer.m_group;
-                    monsterAI.SetTarget(character);
-                    monsterAI.SetAlerted(true);
-                    monsterAI.DoAttack(character, false);
+                try {
+                    foreach (var vb in NPC_Human.spawnedVillagers)
+                    {
+                        var hum = vb.gameObject.GetComponent<Humanoid>();
+                        var monsterAI = vb.gameObject.GetComponent<MonsterAI>();
+                        hum.m_group = "";
+                        monsterAI.SetTarget(character);
+                        monsterAI.SetAlerted(true);
+                    }
+                    
                 }
+                catch (Exception)
+                {
+                    //ignored
+                }
+                
             }
         }
         public virtual void ChangeFaction(Humanoid m_hum)

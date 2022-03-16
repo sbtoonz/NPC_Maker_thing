@@ -7,6 +7,7 @@ using NPC_Generator.MonoScripts.Villagers;
 using NPC_Generator.Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace NPC_Generator.NPC_Utilities
 {
@@ -22,34 +23,6 @@ namespace NPC_Generator.NPC_Utilities
         /// <returns></returns>
         private static Humanoid.ItemSet[] CreateSetList(GameObject[] gameObjects)
         {
-            /*GameObject? helmet = null;
-            GameObject? chest = null;
-            GameObject? shoulder = null;
-            GameObject? leg = null;
-            List<GameObject> gameObjects = new List<GameObject>();
-            if (npcYamlConfig.npcHelmetString.ToArray().GetRandomElement().ToLower() != "none")
-            {
-                helmet = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcHelmetString.ToArray().GetRandomElement());
-                gameObjects.Add(helmet);
-            }
-
-            if (npcYamlConfig.npcChestString.ToArray().GetRandomElement().ToLower() != "none")
-            {
-                chest = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcChestString.ToArray().GetRandomElement());
-                gameObjects.Add(chest);
-            }
-
-            if (npcYamlConfig.npcShoulder.ToArray().GetRandomElement().ToLower() != "none")
-            {
-                shoulder = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcShoulder.ToArray().GetRandomElement());
-                gameObjects.Add(shoulder);
-            }
-
-            if (npcYamlConfig.npcLegString.ToArray().GetRandomElement().ToLower() != "none")
-            {
-                leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString.ToArray().GetRandomElement());
-                gameObjects.Add(leg);
-            }*/
             var set = new Humanoid.ItemSet[1]
             {
                 new Humanoid.ItemSet
@@ -289,7 +262,9 @@ namespace NPC_Generator.NPC_Utilities
                         {
                             Object.Destroy(baseVillagerBase);
                         }
-                        tempNPC.AddComponent<VillageSkillMaster>();
+                        var skill = tempNPC.AddComponent<VillageSkillMaster>();
+                        skill.itemNames = config.SkillMastersskills.mItemName.ToArray();
+                        skill.skillNames = config.SkillMastersskills.mSkillName.ToArray();
                     }
                     spawnedNPCs.Add(tempNPC);
                     return tempNPC;
