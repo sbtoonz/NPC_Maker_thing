@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace NPC_Generator.RPC;
 
-public class RPCs
+public static class RPCs
 {
     internal static Vector3 position = new Vector3(0f, 0f, 0f);
     private static RandomEvent _event = new RandomEvent();
+    public static RandomEvent? randomEvent { get; set; }
     
     [HarmonyPatch(typeof(Game), nameof(Game.Start))]
     public static class AddRPCPatch
@@ -55,14 +56,13 @@ public class RPCs
     {
         if (!ZNet.instance.IsServer()) return;
         ZLog.LogWarning(location.ToString());
-        _event.m_active = true;
+        _event.m_enabled = true;
         _event.m_biome = Heightmap.Biome.Meadows;
-        _event.m_duration = 120;
+        _event.m_duration = 60;
         _event.m_name = "villager";
         _event.m_pos = location;
         _event.m_random = false;
         _event.m_startMessage = "The villagers are being raided!";
-        //_event.m_time = 1200;
         _event.m_spawn = new List<SpawnSystem.SpawnData>
         {
             new SpawnSystem.SpawnData
@@ -151,9 +151,28 @@ public class RPCs
                 m_biomeArea = Heightmap.BiomeArea.Everything,
             },
         };
+        if (RandEventSystem.instance.m_events.Contains(_event))
+        {
+            RandEventSystem.instance.SetRandomEventByName("villager", location);
+            return;
+        }
         RandEventSystem.instance.m_events.Add(_event);
-        RandEventSystem.instance.SetRandomEvent(_event, location);
-        RandEventSystem.instance.StartRandomEvent();
-        ZRoutedRpc.instance.InvokeRoutedRPC("StartRandomEvent");
+        RandEventSystem.instance.SetRandomEventByName("villager", location);
+    }
+
+
+    [HarmonyPatch(typeof(RandEventSystem), nameof(RandEventSystem.FixedUpdate))]
+    private static class RandPatch
+    {
+        public static void Postfix(RandEventSystem __instance)
+        {
+            if (__instance.GetActiveEvent() == null) return;
+            if (!__instance.HaveEvent(_event.m_name)) return;
+            if (__instance.GetActiveEvent().m_name == _event.m_name)
+            {
+                randomEvent = __instance.GetActiveEvent();
+            }
+        }
+        
     }
 }
