@@ -43,17 +43,8 @@ public struct NPCYamlConfig
     [YamlMember(Alias = "Health", ApplyNamingConventions = false)]
     public int mHealth { get; set; }
 
-    [YamlMember(Alias = "Helmet Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcHelmetString { get; set; }
-
-    [YamlMember(Alias = "Chest Armor Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcChestString { get; set; }
-
-    [YamlMember(Alias = "Legs Armor Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcLegString { get; set; }
-
-    [YamlMember(Alias = "Shoulder Armor Prefab Name", ApplyNamingConventions = false)]
-    public List<string> npcShoulder { get; set; }
+    [YamlMember(Alias = "Set Configurations", ApplyNamingConventions = false)]
+    public Dictionary<int, SetList> m_setConfigs = new Dictionary<int, SetList>();
 
     [YamlMember(Alias = "Weapon Prefab Name", ApplyNamingConventions = false)]
     public List<string> npcWeapon { get; set; }
@@ -265,4 +256,19 @@ public struct DropItem
 
     [YamlMember(Alias = "Multiply for multiple Players", ApplyNamingConventions = false)]
     public bool m_Multply { get; set; }
+}
+
+public struct SetList
+{
+    [YamlMember(Alias = "Helmet Prefab Names", ApplyNamingConventions = false)]
+    public List<string> npcHelmetString { get; set; }
+
+    [YamlMember(Alias = "Chest Armor Prefab Names", ApplyNamingConventions = false)]
+    public List<string> npcChestString { get; set; }
+
+    [YamlMember(Alias = "Legs Armor Prefab Names", ApplyNamingConventions = false)]
+    public List<string> npcLegString { get; set; }
+
+    [YamlMember(Alias = "Shoulder Armor Prefab Names", ApplyNamingConventions = false)]
+    public List<string> npcShoulder { get; set; }
 }
