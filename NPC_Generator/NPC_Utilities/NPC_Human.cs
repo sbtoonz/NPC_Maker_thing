@@ -14,16 +14,15 @@ namespace NPC_Generator.NPC_Utilities
     {
         private static List<GameObject> spawnedNPCs = new List<GameObject>();
         internal static List<VillagerBase> spawnedVillagers = new List<VillagerBase>();
-        
+
         /// <summary>
         /// Generates the ItemSet array for the Humanoid component
         /// </summary>
-        /// <param name="npcYamlConfig"></param>
-        /// <param name="netScene"></param>
+        /// <param name="gameObjects"></param>
         /// <returns></returns>
-        private static Humanoid.ItemSet[] CreateSetList(NPCYamlConfig npcYamlConfig, ZNetScene netScene)
+        private static Humanoid.ItemSet[] CreateSetList(GameObject[] gameObjects)
         {
-            GameObject? helmet = null;
+            /*GameObject? helmet = null;
             GameObject? chest = null;
             GameObject? shoulder = null;
             GameObject? leg = null;
@@ -50,17 +49,58 @@ namespace NPC_Generator.NPC_Utilities
             {
                 leg = ObjectDB.instance.GetItemPrefab(npcYamlConfig.npcLegString.ToArray().GetRandomElement());
                 gameObjects.Add(leg);
-            }
+            }*/
             var set = new Humanoid.ItemSet[1]
             {
                 new Humanoid.ItemSet
                 {
-                    m_items = gameObjects.ToArray()
+                    m_items = gameObjects
                 }
             };
             return set;
         }
 
+        private static GameObject[] CreateObjectArray(SetList setList)
+        {
+            List<GameObject> tempObjects = new List<GameObject>();
+            List<GameObject> helmet = new List<GameObject>();
+            List<GameObject> chest = new List<GameObject>();
+            List<GameObject> shoulder = new List<GameObject>();
+            List<GameObject> leg = new List<GameObject>();
+            if (setList.npcShoulder.FirstOrDefault()?.ToLower() != "none")
+            {
+                shoulder.AddRange(setList.npcShoulder.Select(s => ObjectDB.instance.GetItemPrefab(s)));
+            }
+            if (setList.npcChestString.FirstOrDefault()?.ToLower() != "none")
+            {
+                chest.AddRange(setList.npcChestString.Select(s=> ObjectDB.instance.GetItemPrefab(s)));
+            }
+            if (setList.npcHelmetString.FirstOrDefault()?.ToLower() != "none")
+            {
+                helmet.AddRange(setList.npcHelmetString.Select(s => ObjectDB.instance.GetItemPrefab(s)));
+            }
+            if (setList.npcLegString.FirstOrDefault()?.ToLower() != "none")
+            {
+                leg.AddRange(setList.npcLegString.Select(s => ObjectDB.instance.GetItemPrefab(s)));
+            }
+            foreach (var VARIABLE in helmet)
+            {
+                tempObjects.Add(VARIABLE);
+            }
+            foreach (var VARIABLE in chest)
+            {
+                tempObjects.Add(VARIABLE); 
+            }
+            foreach (var VARIABLE in shoulder)
+            {
+                tempObjects.Add(VARIABLE); 
+            }
+            foreach (var VARIABLE in leg)
+            {
+                tempObjects.Add(VARIABLE); 
+            }
+            return tempObjects.ToArray();
+        }
         /// <summary>
         /// Sets up the visual equipment lists for the NPC using the YML
         /// </summary>
@@ -69,7 +109,15 @@ namespace NPC_Generator.NPC_Utilities
         /// <param name="netScene"></param>
         private static void SetupVisuals(Humanoid humanoid, NPCYamlConfig config, ZNetScene netScene)
         {
-            humanoid.m_randomSets = CreateSetList(config, netScene);
+
+            List<Humanoid.ItemSet> setlist = new List<Humanoid.ItemSet>();
+            foreach (var setList in config.m_setConfigs)
+            {
+                var temp = CreateSetList(CreateObjectArray(setList.Value));
+                setlist.AddRange(temp);
+            }
+            humanoid.m_randomSets = setlist.ToArray();
+            
             if (config.npcWeapon.ToArray().GetRandomElement().ToLower() != "none")
             {
                 humanoid.m_randomWeapon = new GameObject[] { };

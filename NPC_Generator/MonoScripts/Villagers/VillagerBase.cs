@@ -108,6 +108,15 @@ namespace NPC_Generator.MonoScripts.Villagers
                 _monsterAI.SetTarget(character);
                 _monsterAI.SetAlerted(true);
                 _monsterAI.DoAttack(character, false);
+                foreach (var vb in NPC_Human.spawnedVillagers)
+                {
+                    var hum = vb.gameObject.GetComponent<Humanoid>();
+                    var monsterAI = vb.gameObject.GetComponent<MonsterAI>();
+                    hum.m_group = Player.m_localPlayer.m_group;
+                    monsterAI.SetTarget(character);
+                    monsterAI.SetAlerted(true);
+                    monsterAI.DoAttack(character, false);
+                }
             }
         }
         public virtual void ChangeFaction(Humanoid m_hum)
