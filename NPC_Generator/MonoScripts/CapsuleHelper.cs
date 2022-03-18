@@ -5,7 +5,7 @@ namespace NPC_Generator.MonoScripts;
 
 public class CapsuleHelper : MonoBehaviour
 {
-    public CapsuleCollider capCollider;
+    public CapsuleCollider? capCollider;
     private void Awake()
     {
         capCollider = GetComponent<CapsuleCollider>();

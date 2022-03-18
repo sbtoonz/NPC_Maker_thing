@@ -8,6 +8,12 @@ namespace NPC_Generator.MonoScripts.Villagers;
 
 public class VillagerRandEvent : VillagerBase
 {
+    public override void Awake()
+    {
+        base.Awake();
+        _monsterAI!.SetPatrolPoint(transform.position);
+    }
+
     public override bool Interact(Humanoid user, bool hold, bool alt)
     {
         if (alt)
@@ -21,7 +27,7 @@ public class VillagerRandEvent : VillagerBase
         if(m_nview.GetZDO().GetBool("RaidStarted") == false)
         {
             Say("The neighboring village is attacking!");
-            ZRoutedRpc.instance.InvokeRoutedRPC("RPC_Villager_Raid", transform.position);
+            ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody,"RPC_Villager_Raid", transform.position);
             m_nview.GetZDO().Set("RaidStarted", true);
             return true;
         }

@@ -17,7 +17,7 @@ public class RandomWeapon: MonoBehaviour
         };
         vis.SetLeftItem(allItems[Random.Range(0, allItems.Count)].gameObject.name, 0);
         vis.SetLeftHandEquiped(allItems[Random.Range(0, allItems.Count)].gameObject.name.GetStableHashCode(), 0);
-        allItems = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.OneHandedWeapon, "Sword");
+        allItems = ObjectDB.instance.GetAllItems(ItemDrop.ItemData.ItemType.OneHandedWeapon, "Axe");
         hum.m_randomWeapon = new[]
         {
             allItems[Random.Range(0, allItems.Count)].gameObject

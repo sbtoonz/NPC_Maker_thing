@@ -37,25 +37,19 @@ public static class RPCs
         {
 
             float dist = Vector3.Distance(loc.m_position, currentPlayerPos);
-            if(dist < 100)
-            {
-                if(loc.m_location.m_prefabName.Contains("House"))
-                {
-                    Vector3 temploc = Vector3.zero;
-                    temploc = loc.m_position;
-                    position = temploc;
-                    NPC_Generator.DebugLog(NPC_Generator.DebugLevel.All,loc.m_position.ToString());
-                    ZRoutedRpc.instance.InvokeRoutedRPC(uid, "RPC_Register_Location", temploc.x, temploc.y, temploc.z);
-                    break;
-                }
-            }
-        };
+            if (!(dist < 100)) continue;
+            if (!loc.m_location.m_prefabName.Contains("House")) continue;
+            Vector3 temploc = Vector3.zero;
+            temploc = loc.m_position;
+            position = temploc;
+            NPC_Generator.DebugLog(NPC_Generator.DebugLevel.All,loc.m_position.ToString());
+            ZRoutedRpc.instance.InvokeRoutedRPC(uid, "RPC_Register_Location", temploc.x, temploc.y, temploc.z);
+            break;
+        }
     }
 
     private static void RegisterRandEvent(long uid, Vector3 location)
     {
-        if (!ZNet.instance.IsServer()) return;
-        ZLog.LogWarning(location.ToString());
         _event.m_enabled = true;
         _event.m_biome = Heightmap.Biome.Meadows;
         _event.m_duration = 60;
@@ -157,8 +151,10 @@ public static class RPCs
             return;
         }
         RandEventSystem.instance.m_events.Add(_event);
-        RandEventSystem.instance.SetRandomEventByName("villager", location);
+        RandEventSystem.instance.SetRandomEventByName("villager", location); 
+        ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody,"SetEvent", _event.m_name, _event.m_duration, location);
     }
+    
 
 
     [HarmonyPatch(typeof(RandEventSystem), nameof(RandEventSystem.FixedUpdate))]

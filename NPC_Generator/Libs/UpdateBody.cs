@@ -13,7 +13,7 @@ namespace NPC_Generator.Libs
 			{
 				if (visE.m_currentModelIndex == 0)
 				{
-					visE.m_bodyModel.sharedMesh = NPC_Generator.maleSmr.sharedMesh;
+					visE.m_bodyModel.sharedMesh = NPC_Generator.maleSmr?.sharedMesh;
 					visE.m_bodyModel.materials[0].shader = Shader.Find("Custom/Player");
 					visE.m_bodyModel.materials[0].SetTexture("_MainTex", NPC_Generator.maleSkin);
 					visE.m_bodyModel.materials[0].SetTexture("_SkinBumpMap", NPC_Generator.maleSkinBump);
@@ -22,7 +22,7 @@ namespace NPC_Generator.Libs
 				}
 				if (visE.m_currentModelIndex == 1)
 				{
-					visE.m_bodyModel.sharedMesh = NPC_Generator.femaleSmr.sharedMesh;
+					visE.m_bodyModel.sharedMesh = NPC_Generator.femaleSmr?.sharedMesh;
 					visE.m_bodyModel.materials[0].shader = Shader.Find("Custom/Player");
 					visE.m_bodyModel.materials[0].SetTexture("_MainTex", NPC_Generator.femaleSkin);
 					visE.m_bodyModel.materials[0].SetTexture("_SkinBumpMap", NPC_Generator.femaleSkinBump);

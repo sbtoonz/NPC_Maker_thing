@@ -6,6 +6,7 @@ namespace NPC_Generator.MonoScripts.Villagers
 {
     public class VillagerBase : MonoBehaviour, Hoverable, Interactable
     {
+#pragma warning disable CS8618
         public string m_name;
         public GameObject m_talker;
         public Animator m_ani;
@@ -13,6 +14,7 @@ namespace NPC_Generator.MonoScripts.Villagers
         public ZNetView m_nview;
         protected readonly float QuestCD = 1800;
         public VillagerFaction villagerFaction;
+#pragma warning restore CS8618
 
         public enum VillagerFaction
         {
@@ -45,7 +47,7 @@ namespace NPC_Generator.MonoScripts.Villagers
             hum.m_onDamaged = (Action<float, Character>)Delegate.Combine(hum.m_onDamaged, (Action<float, Character>)(Damage));
             NPC_Human.spawnedVillagers.Add(this);
         }
-        public MonsterAI _monsterAI { get; set; }
+        public MonsterAI? _monsterAI { get; set; }
 
 
         public virtual string GetHoverText()
@@ -105,18 +107,22 @@ namespace NPC_Generator.MonoScripts.Villagers
             }
             if (character.IsMonsterFaction())
             {
-                _monsterAI.SetTarget(character);
-                _monsterAI.SetAlerted(true);
-                _monsterAI.DoAttack(character, false);
-                foreach (var vb in NPC_Human.spawnedVillagers)
-                {
-                    var hum = vb.gameObject.GetComponent<Humanoid>();
-                    var monsterAI = vb.gameObject.GetComponent<MonsterAI>();
-                    hum.m_group = Player.m_localPlayer.m_group;
-                    monsterAI.SetTarget(character);
-                    monsterAI.SetAlerted(true);
-                    monsterAI.DoAttack(character, false);
+                try {
+                    foreach (var vb in NPC_Human.spawnedVillagers)
+                    {
+                        var hum = vb.gameObject.GetComponent<Humanoid>();
+                        var monsterAI = vb.gameObject.GetComponent<MonsterAI>();
+                        hum.m_group = "";
+                        monsterAI.SetTarget(character);
+                        monsterAI.SetAlerted(true);
+                    }
+                    
                 }
+                catch (Exception)
+                {
+                    //ignored
+                }
+                
             }
         }
         public virtual void ChangeFaction(Humanoid m_hum)

@@ -318,6 +318,7 @@
     <Content Include="Thunderstore_Release\README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Media" />
     <Folder Include="Thunderstore_Release\plugins" />
   </ItemGroup>
   <ItemGroup>
