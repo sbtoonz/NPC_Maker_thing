@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPC_Generator", "NPC_Genera
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSync", "..\ServerSync\ServerSync.csproj", "{E16C3332-50B4-4DA6-9E8A-A590C4E5CD49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPC_Friendlies", "NPC_Friendlies\NPC_Friendlies.csproj", "{9581E86C-0CC9-4AA8-881C-EB7BC948C595}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E16C3332-50B4-4DA6-9E8A-A590C4E5CD49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E16C3332-50B4-4DA6-9E8A-A590C4E5CD49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E16C3332-50B4-4DA6-9E8A-A590C4E5CD49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9581E86C-0CC9-4AA8-881C-EB7BC948C595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9581E86C-0CC9-4AA8-881C-EB7BC948C595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9581E86C-0CC9-4AA8-881C-EB7BC948C595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9581E86C-0CC9-4AA8-881C-EB7BC948C595}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
