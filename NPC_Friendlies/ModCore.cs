@@ -9,6 +9,7 @@ namespace NPC_Friendlies
 
 
     [BepInPlugin(ModGUID, ModName, ModVersion)]
+    [BepInDependency("RagnarsRokare.MobAILib")]
     public class ModCore : BaseUnityPlugin
     {
         internal const string ModName = "NPC_Friendlies";

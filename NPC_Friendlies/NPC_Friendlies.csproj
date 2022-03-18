@@ -289,7 +289,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="MobAIBehaviors\MobAIBehaviorGather.cs" />
+        <Compile Include="MobAIBehaviors\MobAIBehaviorWorker.cs" />
         <Compile Include="ModCore.cs" />
         <Compile Include="Patches.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
