@@ -19,7 +19,6 @@ public static class RPCs
             ZRoutedRpc.instance.Register<Vector3>("RPC_Find_Location", FindLocation);
             ZRoutedRpc.instance.Register<float, float, float>("RPC_Register_Location", RegisterLocation);
             ZRoutedRpc.instance.Register<Vector3>("RPC_Villager_Raid", RegisterRandEvent);
-            ZRoutedRpc.instance.Register<string, bool>("RPC_Set_Raid_Client", SetLocalEvent);
         }
 
        
@@ -55,8 +54,6 @@ public static class RPCs
 
     private static void RegisterRandEvent(long uid, Vector3 location)
     {
-        if (!ZNet.instance.IsServer()) return;
-        ZLog.LogWarning(location.ToString());
         _event.m_enabled = true;
         _event.m_biome = Heightmap.Biome.Meadows;
         _event.m_duration = 60;
@@ -158,15 +155,10 @@ public static class RPCs
             return;
         }
         RandEventSystem.instance.m_events.Add(_event);
-        RandEventSystem.instance.SetRandomEventByName("villager", location);
-        ZRoutedRpc.instance.InvokeRoutedRPC("RPC_Set_Raid_Client", _event.m_name, _event.m_active);
+        RandEventSystem.instance.SetRandomEventByName("villager", location); 
+        ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody,"SetEvent", _event.m_name, _event.m_duration, location);
     }
-
-    private static void SetLocalEvent(long uid, string eventname, bool active)
-    {
-        _event.m_name = eventname;
-        _event.m_active = active;
-    }
+    
 
 
     [HarmonyPatch(typeof(RandEventSystem), nameof(RandEventSystem.FixedUpdate))]
