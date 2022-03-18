@@ -1,2 +1,10 @@
 ﻿{
+  "name": "NPC_Generator",
+  "author": "OdinPlus",
+  "description": "Gives you the ability to generate human NPCs",
+  "version_number": "0.0.1",
+  "website_url": "https://github.com/sbtoonz/NPC_Maker_thing",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.1900"
+  ]
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NPC_Generator.NPC_Utilities;
 using NPC_Generator.Tools;
 using UnityEngine;
-
+using static NPC_Generator.NPC_Utilities.NpcUtilities;
 namespace NPC_Generator.MonoScripts.Villagers;
 
 public class VillageSkillMaster : VillagerBase
@@ -38,6 +38,10 @@ public class VillageSkillMaster : VillagerBase
             m_skill = skillNames.GetRandomElement().ToLower();
             zdo.Set("QSkill",m_skill);
         }
+        else
+        {
+            m_skill = zdo.GetString("QSkill");
+        }
         _itemData = ZNetScene.instance.GetPrefab(m_item).GetComponent<ItemDrop>().m_itemData;
         _skillType = m_skill switch
         {
@@ -71,14 +75,19 @@ public class VillageSkillMaster : VillagerBase
         }
         if(!IsQuestDone())
         {
-            if (!user.m_inventory.HaveItem(item.m_shared.m_name) || user.m_inventory.GetItem(item.m_shared.m_name).m_stack <= reqstack) return false;
-            user.m_inventory.RemoveItem(item, reqstack);
-            Player player = user.gameObject.GetComponent<Player>();
-            player.m_skills.CheatRaiseSkill(_skillType.ToString(), maxSkillGain.RollDice());
-            Say("Thank you for the item, enjoy your blessing kind traveler", "emote_thumbsup");
-            m_nview.GetZDO().Set("levelQuest", false);
-            ResetQuestCD();
-            return true;
+            var inv = Player.m_localPlayer.GetInventory();
+            string iname = GetItemData(m_item).m_shared.m_name;
+            int count = GetItemData(m_item).m_shared.m_maxStackSize.RollDice();
+            if (inv.CountItems(iname) >= count)
+            {
+                inv.RemoveItem(iname, count);
+                Player player = user.gameObject.GetComponent<Player>();
+                player.m_skills.CheatRaiseSkill(_skillType.ToString(), maxSkillGain.RollDice());
+                Say("Thank you for the item, enjoy your blessing kind traveler", "emote_thumbsup");
+                ResetQuestCD();
+                return true;
+            }
+
         }
         return false;
 

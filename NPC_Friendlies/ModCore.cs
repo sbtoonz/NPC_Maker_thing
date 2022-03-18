@@ -19,13 +19,10 @@ namespace NPC_Friendlies
         private static Harmony harmony = null!;
 
         //
-        internal static ConfigEntry<bool>? _serverConfigLocked;
+        internal static ConfigEntry<bool> _serverConfigLocked;
         public static ConfigEntry<int> FeedDuration;
-        public static ConfigEntry<string> BrutePrefabName;
         public static ConfigEntry<string> TamingItemList;
         public static ConfigEntry<string> HungryItemList;
-        public static ConfigEntry<int> PreTameFeedDuration;
-        public static ConfigEntry<int> PostTameFeedDuration;
         public static ConfigEntry<int> TamingTime;
         public static ConfigEntry<int> TimeLimitOnAssignment;
         public static ConfigEntry<string> IncludedContainersList;
@@ -60,15 +57,12 @@ namespace NPC_Friendlies
         internal void SetupConfigs()
         {
             _serverConfigLocked = config("General", "Lock Configuration", false, "Lock Configuration");
-            BrutePrefabName = config("General", "PrefabName", "Jim", "The prefab to use the repair ai with (repair structures)");
             TamingItemList = config("General", "TamingItemList", "Dandelion", "Comma separated list if items used to tame villager");
             HungryItemList = config("General", "PostTameConsumables", "QueensJam,Raspberry,Honey,Blueberries,Resin,Dandelion", "Comma separated list if items Brutes eat when hungry");
-            FeedDuration = config("General", "Greyling_FeedDuration", 500, "Time before getting hungry after consuming one item");
-            PreTameFeedDuration = config("General", "PreTameFeedDuration", 100, "Time before getting hungry after consuming one item during taming");
-            PostTameFeedDuration = config("General", "PostTameFeedDuration", 1000, "Time before getting hungry after consuming one item when tame");
-            TamingTime = config("General", "TamingTime", 1000, "Total time it takes to tame a Brute");
+            FeedDuration = config("General", "FeedDuration", 500, "Time before getting hungry after consuming one item");
+            TamingTime = config("General", "TamingTime", 1000, "Total time it takes to tame a villager");
             TimeLimitOnAssignment = config("General", "TimeLimitOnAssignment", 30, "How long before moving on to next assignment");
-            IncludedContainersList = config("General", "IncludedContainersList", "piece_chest_wood", "Comma separated list of container piece names to be searchable by Greylings");
+            IncludedContainersList = config("General", "IncludedContainersList", "piece_chest_wood", "Comma separated list of container piece names to be searchable by villager");
             PreTameConsumables = TamingItemList.Value.Replace(" ", "").Split(',', ';');
             PostTameConsumables = HungryItemList.Value.Replace(" ", "").Split(',', ';');
             Awareness = config("General", "Awareness", 6, "General awareness, used to calculate search ranges and ability to detect enemies");

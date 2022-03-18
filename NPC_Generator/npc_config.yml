@@ -1,16 +1,18 @@
-Jimmy:
+Frank:
   Sex: Male
   Health: 200
-  Helmet Prefab Name: HelmetYule
-  Chest Armor Prefab Name: ArmorFenringChest
-  Legs Armor Prefab Name: ArmorFenringLegs
-  Shoulder Armor Prefab Name: CapeTrollHide
-  Weapon Prefab Name: FistFenrirClaw
-  Shield Prefab Name: ShieldBoneTower
-  Faction: Plains
+  Set Configurations:
+    1:
+      Helmet Prefab Names: [ "HelmetYule" ]
+      Chest Armor Prefab Names: [ "ArmorFenringChest", "ArmorIronChest" ]
+      Legs Armor Prefab Names: [ "ArmorFenringLegs", "ArmorLeatherLegs" ]
+      Shoulder Armor Prefab Names: [ "CapeTrollHide", "CapeLox" ]
+  Weapon Prefab Name: ["FistFenrirClaw", "BattleaxeCrystal","GoblinSword"]
+  Shield Prefab Name: ["ShieldBoneTower", "ShieldBlackmetal"]
+  Faction: Player
   Scale: 1.0
   Tamable: false
-  Hair Style: Hair2
+  Hair Style: ["Hair2", "Hair4", "Hair1"]
   Skin Color R: 0.847
   Skin Color G: 0.687
   Skin Color B: 0.494
@@ -21,12 +23,17 @@ Jimmy:
   Tolerate Fire: true
   Tolerate Smoke: true
   Tolerate Tar: true
-  NPC In Game Name: Jimmy The Punisher
+  NPC In Game Name: Frank
   #Only one can be true, please choose accordingly
   Is Basic Villager: false
   Villager Builder: false
   Villager Farmer: false
-  Villager Messenger: true
+  Villager Messenger: false
+  Villager RaidMaster: true
+  Villager SkillMaster: false
+  SkillMaster Skills:
+    Skill Names: ["Swords"]
+    Item Names: ["Wood", "Stone"]
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -61,36 +68,27 @@ Jimmy:
     Random Move Interval: 5.0
     Random Move Range: 10.0
   DropTable:
-      Wood:
-        Drop Chance: 1
-        One Per Player: false
-        Amount Max Chance: 4
-        Amount Min Chance: 1
-        Multiply for multiple Players: false
-Jane:
-  Sex: female
+    Wood:
+      Drop Chance: 1
+      One Per Player: false
+      Amount Max Chance: 4
+      Amount Min Chance: 1
+      Multiply for multiple Players: false
+Jim:
+  Sex: Male
   Health: 200
-  Helmet Prefab Name: none
-  Chest Armor Prefab Name:
-    ArmorFenringChest:
-    ArmorIronChest:
-  Legs Armor Prefab Name:
-    ArmorFenringLegs:
-    ArmorLeatherLegs:
-  Shoulder Armor Prefab Name: 
-    CapeTrollHide:
-    CapeLox:
-  Weapon Prefab Name: 
-    FistFenrirClaw:
-    BattleaxeCrystal:
-    GoblinSword:
-  Shield Prefab Name: 
-    ShieldBoneTower:
-    ShieldBlackmetal:
-  Faction: Plains
+  Set Configurations:
+    1:
+      Helmet Prefab Names: [ "HelmetYule" ]
+      Chest Armor Prefab Names: [ "ArmorFenringChest", "ArmorIronChest" ]
+      Legs Armor Prefab Names: [ "ArmorFenringLegs", "ArmorLeatherLegs" ]
+      Shoulder Armor Prefab Names: [ "CapeTrollHide", "CapeLox" ]
+  Weapon Prefab Name: ["FistFenrirClaw", "BattleaxeCrystal","GoblinSword"]
+  Shield Prefab Name: ["ShieldBoneTower", "ShieldBlackmetal"]
+  Faction: Player
   Scale: 1.0
-  Tamable: false
-  Hair Style: Hair2
+  Tamable: true
+  Hair Style: ["Hair2", "Hair4", "Hair1"]
   Skin Color R: 0.847
   Skin Color G: 0.687
   Skin Color B: 0.494
@@ -101,12 +99,17 @@ Jane:
   Tolerate Fire: true
   Tolerate Smoke: true
   Tolerate Tar: true
-  NPC In Game Name: Jessica The Punisher
+  NPC In Game Name: Frank
   #Only one can be true, please choose accordingly
-  Is Basic Villager: false
+  Is Basic Villager: true
   Villager Builder: false
-  Villager Farmer: true
+  Villager Farmer: false
   Villager Messenger: false
+  Villager RaidMaster: false
+  Villager SkillMaster: false
+  SkillMaster Skills:
+    Skill Names: ["Swords"]
+    Item Names: ["Wood", "Stone"]
   Damage Resists:
     Blunt: Very
     Slash: None
@@ -141,9 +144,15 @@ Jane:
     Random Move Interval: 5.0
     Random Move Range: 10.0
   DropTable:
-      Wood:
-        Drop Chance: 1
-        One Per Player: false
-        Amount Max Chance: 4
-        Amount Min Chance: 1
-        Multiply for multiple Players: false
+    Wood:
+      Drop Chance: 1
+      One Per Player: false
+      Amount Max Chance: 4
+      Amount Min Chance: 1
+      Multiply for multiple Players: false
+    Stone:
+      Drop Chance: 1
+      One Per Player: false
+      Amount Max Chance: 1
+      Amount Min Chance: 1
+      Multiply for multiple Players: false

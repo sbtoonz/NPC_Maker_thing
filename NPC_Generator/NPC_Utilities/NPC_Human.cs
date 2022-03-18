@@ -143,7 +143,7 @@ namespace NPC_Generator.NPC_Utilities
                 "Undead" => Character.Faction.Undead,
                 "Demon" => Character.Faction.Demon,
                 "MountainMonsters" => Character.Faction.MountainMonsters,
-                "SeaMonsers" => Character.Faction.SeaMonsters,
+                "SeaMonsters" => Character.Faction.SeaMonsters,
                 "PlainsMonsters" => Character.Faction.PlainsMonsters,
                 _ => humanoid.m_faction
             };
