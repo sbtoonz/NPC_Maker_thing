@@ -8,6 +8,12 @@ namespace NPC_Generator.MonoScripts.Villagers;
 
 public class VillagerRandEvent : VillagerBase
 {
+    public override void Awake()
+    {
+        base.Awake();
+        _monsterAI!.SetPatrolPoint(transform.position);
+    }
+
     public override bool Interact(Humanoid user, bool hold, bool alt)
     {
         if (alt)
