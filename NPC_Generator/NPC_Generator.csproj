@@ -276,8 +276,8 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>$(GamePath)\unstripped_corlib\UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.11.2.1\lib\net45\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=12.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.12.3.1\lib\net47\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -307,22 +307,17 @@
     <Compile Include="Tools\YMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\App.config" />
     <None Include="Properties\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ILRepack.targets" />
     <Content Include="Libs\ServerSync.dll" />
-    <Content Include="npc_config.yml" />
-    <Content Include="Thunderstore_Release\manifest.json" />
-    <Content Include="Thunderstore_Release\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Media" />
-    <Folder Include="Thunderstore_Release\plugins" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ServerSync\ServerSync.csproj">
+    <ProjectReference Include="..\ServerSync\ServerSync.csproj">
       <Project>{e16c3332-50b4-4da6-9e8a-a590c4e5cd49}</Project>
       <Name>ServerSync</Name>
     </ProjectReference>

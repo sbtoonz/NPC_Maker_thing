@@ -46,6 +46,39 @@ public struct NPCYamlConfig
     [YamlMember(Alias = "Set Configurations", ApplyNamingConventions = false)]
     public Dictionary<int, SetList> m_setConfigs = new Dictionary<int, SetList>();
 
+    public NPCYamlConfig()
+    {
+        npcSex = null;
+        mHealth = 0;
+        npcWeapon = null;
+        npcShield = null;
+        npcFaction = null;
+        npcScale = 0;
+        npcTameable = false;
+        npcHairStyle = null;
+        npcSkinColorR = 0;
+        npcSkinColorG = 0;
+        npcSkinColorB = 0;
+        npcHairColorR = 0;
+        npcHairColorG = 0;
+        npcHairColorB = 0;
+        mTolerateWater = false;
+        mTolerateFire = false;
+        mTolerateSmoke = false;
+        mTolerateTar = false;
+        mNPCInGameName = null;
+        mIsVillager = false;
+        mVillagerBuilder = false;
+        mVillagerFarmer = false;
+        mVillagerMessenger = false;
+        mVillagerRaidMaster = false;
+        mVillagerSkillMaster = false;
+        SkillMastersskills = default;
+        DamageResists = default;
+        monsterAiConfig = default;
+        DropItems = null;
+    }
+
     [YamlMember(Alias = "Weapon Prefab Name", ApplyNamingConventions = false)]
     public List<string>? npcWeapon { get; set; }
 

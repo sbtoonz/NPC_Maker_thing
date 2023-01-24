@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NPC_Generator.NPC_Utilities;
+﻿using NPC_Generator.NPC_Utilities;
 using NPC_Generator.Tools;
 using UnityEngine;
 

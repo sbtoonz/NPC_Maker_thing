@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using static NPC_Generator.NPC_Generator;
 using Random = UnityEngine.Random;
 namespace NPC_Generator.MonoScripts;
