@@ -51,7 +51,19 @@ namespace NPC_Generator.MonoScripts.Villagers
             return false;
 
         }
-        
+
+        public override string GetHoverName()
+        {
+            string text = "Press E to interact\n";
+            return text + base.GetHoverText() ;
+        }
+
+        public override string GetHoverText()
+        {
+            string text = "Press E to interact\n";
+            return text + base.GetHoverText() ;
+        }
+
         public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
         {
             if (!QuestReady)

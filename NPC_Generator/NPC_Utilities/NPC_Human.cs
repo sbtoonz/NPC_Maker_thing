@@ -90,7 +90,13 @@ namespace NPC_Generator.NPC_Utilities
                 setlist.AddRange(temp);
             }
             humanoid.m_randomSets = setlist.ToArray();
-            
+            List<GameObject> templist = new List<GameObject>();
+            templist.Add(ZNetScene.instance.GetPrefab("PlayerUnarmed"));
+            humanoid.m_defaultItems = templist.ToArray();
+            /*
+            List<GameObject> templist = setlist.ToArray().SelectMany(VARIABLE => VARIABLE.m_items.ToArray()).ToList();
+            humanoid.m_defaultItems = templist.ToArray();
+            */
             if (config.npcWeapon!.ToArray().GetRandomElement().ToLower() != "none")
             {
                 humanoid.m_randomWeapon = new GameObject[] { };

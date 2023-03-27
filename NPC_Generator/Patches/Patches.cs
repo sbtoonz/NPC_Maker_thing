@@ -13,11 +13,12 @@ namespace NPC_Generator.Patches
         {
             public static void Prefix(ZNetScene __instance)
             {
+                NPC_Generator.Zscene = __instance;
                 if(__instance.m_prefabs.Count <= 0) return;
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCMale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkedNPCFemale);
                 __instance.m_prefabs.Add(NPC_Generator.NetworkRaider);
-                File.SetLastWriteTime(NPC_Generator.Paths + "/npc_config.yml", DateTime.UtcNow);
+                File.SetLastWriteTime(NPC_Generator.Paths + Path.DirectorySeparatorChar + "npc_config.yml", DateTime.UtcNow);
             }
         }
 
@@ -33,7 +34,7 @@ namespace NPC_Generator.Patches
             }
         }
 
-        [HarmonyPatch(typeof(Localize), nameof(Localize.Awake))]
+        [HarmonyPatch(typeof(Localize), nameof(Localize.Start))]
         public static class LocalizationPatch
         {
             public static void Prefix()

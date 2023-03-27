@@ -82,9 +82,9 @@ namespace NPC_Generator
             _serverConfigLocked = config("General", "Lock Configuration", false, "Lock Configuration");
             _DebugLevel = config("General", "Log level", DebugLevel.All, "This is how much debug info the mod gives");
             configSync.AddLockingConfigEntry(_serverConfigLocked);
-            if (!File.Exists(Paths + "/npc_config.yml"))
+            if (!File.Exists(Paths + Path.DirectorySeparatorChar + "npc_config.yml"))
             {
-                File.Create(Paths + "/npc_config.yml").Close();
+                File.Create(Paths + Path.DirectorySeparatorChar + "npc_config.yml").Close();
             }
             ReadYamlConfigFile(null!, null!);
             NpcConfig.ValueChanged += OnValueChangedNPConfig;
@@ -122,13 +122,7 @@ namespace NPC_Generator
 
         internal static void assignZnet()
         {
-            foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
-            {
-                if (gameObject.name == "_GameMain")
-                {
-                    Zscene = gameObject.GetComponent<ZNetScene>();
-                }
-            }
+            Zscene = ZNetScene.instance;
         }
         internal static void DebugLog(DebugLevel level,string debugText)
         {
@@ -171,6 +165,10 @@ namespace NPC_Generator
         }
         private static void OnValueChangedNPConfig()
         {
+            if (NpcConfig.Value.Count <=0)
+            {
+                return;
+            }
             if (ZNetScene.instance == null)
             {
                 if (Zscene == null)
@@ -235,7 +233,7 @@ namespace NPC_Generator
         {
             try
             {
-                var file = File.OpenText(NPC_Generator.Paths + "/npc_config.yml");
+                var file = File.OpenText(NPC_Generator.Paths + Path.DirectorySeparatorChar + "npc_config.yml");
                 entry_ = YMLParser.ReadSerializedData(file.ReadToEnd());
                 file.Close();
                 NpcConfig.AssignLocalValue(entry_);
